@@ -42,22 +42,22 @@ SciQLop is also the right tool for teaching space physics and in situ spacecraft
   readily available.
   Custom user products defined in Python behave exactly the same way and bring infinite possibilities.
 
-  <img src="https://github.com/SciQLop/SciQLopMedia/blob/main/screencasts/SciQLop_DragAndDrop.gif" alt="SciQLop drag and drop" style="width: 80%;"/>
+![[SciQLop_DragAndDrop.gif]]
 
 - **Jupyter notebook integration**: SciQLop can be used as a backend for Jupyter notebooks, allowing users to create and
   manipulate plots from within their notebooks, define new products and much more.
 
-  <img src="pictures/sciqlop_jupyterlab_plot_side_by_side.png" alt="SciQLop Jupyter integration" style="width: 80%;"/>
+![[sciqlop_jupyterlab_plot_side_by_side.png]]
 
 - **Catalogs**: SciQLop provides a catalog system that allows users to easily label events in their data or visualize
   existing catalogs of events.
 
-  <img src="pictures/sciqlop_catalogs.png" alt="SciQLop catalogs" style="width: 80%;"/>
+![[sciqlop_catalogs.png]]
 
 - **Evolving and growing list of examples**: SciQLop comes with a growing list of examples that demonstrate how to
   perform common tasks such as loading data, creating plots, and using the catalog system.
 
-  <img src="pictures/sciqlop_welcome.png" alt="SciQLop examples" style="width: 80%;"/>
+![[sciqlop_welcome.png]]
 
 ## Upcoming features
 
