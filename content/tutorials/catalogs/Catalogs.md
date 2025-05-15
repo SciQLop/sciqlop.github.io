@@ -85,3 +85,20 @@ SciQLOP allows users to "jump" from one event to another. To do that, change the
 In above screenshot, we selected the first event on the list with a zoom factor `0.3`.
 
 Now, selecting events one after the other, either by clicking on it, or with the arrow keys of your keyboard, will jump from one event to the next, letting you review tons of events in no time.
+
+## Catalog explorer
+
+Let us now rename our catalog, and also set some metadata. The catalog tab only offers a limited view of the catalogs and events. To get a more exhaustive view, open the [[catalog explorer]]. This opens the following window.
+
+![[catalog_explorer.png]]
+
+This is the [[catalog explorer]], which basically lists all catalogs on the left panel and all events of a selected catalog, on the right panel. Here our new catalog is selected, and the right panel shows:
+
+- on the top, the list of the three events we created above
+- on the bottom panel, the metadata of the selected catalog
+
+You can here rename the catalog by editing the field "Name". See the page describing the [[catalog explorer]] to get a more detailed description of all other fields.
+
+If you now select one event on the right panel, the bottom right panel will display the event's metadata, as in the example below.
+
+![[catalog_explorer_event_selected.png]]
