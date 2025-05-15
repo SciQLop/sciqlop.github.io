@@ -60,6 +60,7 @@ Choosing between the two options simply consists in where you drop the product o
 
 The main advantage of SciQLOP is that it allows you to browse data by just interacting with the plot. Let's zoom out to see the context of the current interval. Doing so depends on your keyboard, either **Cmd-wheel** or **Ctrl-wheel**.
 
+### Zooming in and out
 The following screenshot shows the result of zooming out. The data previously taking the whole window now only appear in the central zone, surrounded by white empty areas, because data is being downloaded.
 
 ![[zoomingout.png]]
@@ -72,3 +73,34 @@ Ok data should arrive rapidly since in our example we are plotting low resolutio
 We now see we were zoomed in a nice interplanetary coronal mass ejection!
 
 ![[zoomedout.png]]
+
+Zooming in is the exact opposite action
+
+
+### Going forward and backward in time
+
+To see future or past measurements relative to the currently displayed interval, simply press the left mouse button in an empty area of the plot panel and move your mouse in the horizontal direction left/right to move into the future/past respectively.
+
+As for the zoom-out, data in the past and future times may not be in [[cache]] and it can take time to be displayed.
+
+
+## Plot properties
+
+Sometimes we want to change the way the data is plotted. Open the **properties** tab.
+
+![[properties1.png]]
+
+This will show a hierarchical tree of all SciQLOP objects currently displayed, from plot panels down to curves. Each level in the hierarchy has its own properties. For instance above we have selected the **plot 5** in **panel 2** which is visually represented by a dashed surrounding rectangle on the plot panel. At this level we can:
+
+- change the vertical scale from [[auto scale]] mode to manual.
+- hide/show the legend
+
+At the level of the components Bx, By, Bz you will be able to change curve colors and styles.
+
+
+>[!info] panel and plot numbering
+>you may wonder why in the **properties** the only panel is **panel 2** and the two plots are numbered 4 and 5. This is because panel and plots are numbered with increasing indexes regardless of previous ones possibly deleted. The screenshot above has been made after panel 1 was deleted, and after plots 1, 2, 3 were deleted on panel 2.
+
+>[!info] deleting a panel / plot
+>Deleting a panel or a plot from the currently displayed view is done by pressing `Suppr` key on the selected item.
+
