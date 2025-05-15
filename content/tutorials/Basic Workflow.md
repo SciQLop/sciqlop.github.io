@@ -12,7 +12,7 @@ The screenshot below shows you an empty SciQLOP interface from which you can plo
 
 - the **Products** tab, where you can find all [[SciQLOP data tree|data accessible to SciQLOP]].
 - the **start/stop** fields, which as you can guess will be the time interval for which data will be plotted
-- the **add new plot panel** button, which allows you to add a new plotting area.
+- the **add new [[plot panel]]** button, which allows you to add a new plotting area.
 
 ![[empty.png]]
 
@@ -43,8 +43,32 @@ If all goes well you should see your data in the plot panel. In the above exampl
 >Check the "Network" activity in the status bar, if SciQLOP is downloading you should see it.
   
  
+Let's plot another product into the plot panel. We have two options:
 
+- plot **onto the previous plot**: this is typically what you want to do if you have the same units, like plotting burst and non-burst particle density, or perpendicular and parallel temperatures
+- plot in the same [[plot panel]] above or bellow another plot
 
+Choosing between the two options simply consists in where you drop the product once selected from the [[SciQLOP data tree]]. In the following, we have chosen to plot the magnetic field vector components in the GSM coordinate system, underneath the magnetic amplitude.
 
+![[plot_2plots.png]]
 
+>[!tip] Hidding curves
+>Sometimes it is useful to hide some of the curves displayed on a plot. Let's say here we don't want to see the Bz component. Just **double click on the legend** and it will hide the associated curve on the plot. Double click again, and the curve will reappear.
+>![[hide.png]]
 
+## Browse data
+
+The main advantage of SciQLOP is that it allows you to browse data by just interacting with the plot. Let's zoom out to see the context of the current interval. Doing so depends on your keyboard, either **Cmd-wheel** or **Ctrl-wheel**.
+
+The following screenshot shows the result of zooming out. The data previously taking the whole window now only appear in the central zone, surrounded by white empty areas, because data is being downloaded.
+
+![[zoomingout.png]]
+
+>[!tip] Download in progress
+>Have you noticed the network activity is showing download is in progress?
+
+Ok data should arrive rapidly since in our example we are plotting low resolution vectors. It should even be almost instantaneous if you have data in [[cache]] Once the download is finished data should appear
+
+We now see we were zoomed in a nice interplanetary coronal mass ejection!
+
+![[zoomedout.png]]
