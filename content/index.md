@@ -31,33 +31,32 @@ SciQLop is also the right tool for teaching space physics and in situ spacecraft
 
 # Main Features
 
-- **Interactive and responsive**: SciQLop can handle millions of data points without compromising on interactivity.
-  Users can scroll, zoom, move, and export plots with ease.
+## Interactive and responsive 
+
+- SciQLop can handle millions of data points without compromising on interactivity.
+- Users can scroll, zoom, move, and export plots with ease.
 
 
 ![[SciQLop_MMS.gif]]
 
-
-- **User-friendly**: Accessing data in SciQLop is as simple as a drag and drop from the tens of thousands of products
-  readily available.
-  Custom user products defined in Python behave exactly the same way and bring infinite possibilities.
+## User Friendly
+- Accessing data in SciQLop is as simple as a drag and drop from the tens of thousands of products readily available.
+- Custom user products defined in Python behave exactly the same way and bring infinite possibilities.
 
 ![[SciQLop_DragAndDrop.gif]]
 
-- **Jupyter notebook integration**: SciQLop can be used as a backend for Jupyter notebooks, allowing users to create and
-  manipulate plots from within their notebooks, define new products and much more.
+## Jupyter notebook integration
+
+ SciQLop can be used as a backend for Jupyter notebooks, allowing users to create and manipulate plots from within their notebooks, define new products and much more.
 
 ![[sciqlop_jupyterlab_plot_side_by_side.png]]
 
-- **Catalogs**: SciQLop provides a catalog system that allows users to easily label events in their data or visualize
-  existing catalogs of events.
+## Creating and interacting with catalogs
+
+SciQLop provides a catalog system that allows users to easily label events in their data or visualize existing catalogs of events.
 
 ![[sciqlop_catalogs.png]]
 
-- **Evolving and growing list of examples**: SciQLop comes with a growing list of examples that demonstrate how to
-  perform common tasks such as loading data, creating plots, and using the catalog system.
-
-![[sciqlop_welcome.png]]
 
 ## Upcoming features
 
