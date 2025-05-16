@@ -104,10 +104,7 @@ Then comes our virtual product definition already given above:
 
 ```python
   
-	mirror_mode_threshold_vp = create_virtual_product("/mms_vprods/mms2/mirror", 
-													  mirror_mode_threshold, 
-													  VirtualProductType.Scalar,
-                                                      labels=["Mirror mode threshold"])
+mirror_mode_threshold_vp = create_virtual_product("/mms_vprods/mms2/mirror", mirror_mode_threshold, VirtualProductType.Scalar,labels=["Mirror mode threshold"])
 ```
 
 
