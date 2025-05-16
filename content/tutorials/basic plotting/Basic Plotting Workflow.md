@@ -101,6 +101,6 @@ At the level of the components Bx, By, Bz you will be able to change curve color
 >[!tip] panel and plot numbering
 >you may wonder why in the **properties** the only panel is **panel 2** and the two plots are numbered 4 and 5. This is because panel and plots are numbered with increasing indexes regardless of previous ones possibly deleted. The screenshot above has been made after panel 1 was deleted, and after plots 1, 2, 3 were deleted on panel 2.
 
->[!tip] deleting a panel / plot
+>[!ti] deleting a panel / plot
 >Deleting a panel or a plot from the currently displayed view is done by pressing `Suppr` key on the selected item.
 

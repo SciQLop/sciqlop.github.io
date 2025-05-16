@@ -82,19 +82,17 @@ here comes our mirror mode threshold function:
   
 def mirror_mode_threshold(start_time: float, stop_time: float) -> SpeasyVariable or None:
     mms1_products = spz.inventories.data_tree.cda.MMS.MMS1
-	products = [mms1_products.DIS.MMS1_FPI_FAST_L2_DIS_MOMS.mms1_dis_temppara_fast,
-                mms1_products.DIS.MMS1_FPI_FAST_L2_DIS_MOMS.mms1_dis_tempperp_fast,
-                mms1_products.FGM.MMS1_FGM_SRVY_L2.mms1_fgm_b_gse_srvy_l2,
-                mms1_products.DIS.MMS1_FPI_FAST_L2_DIS_MOMS.mms1_dis_numberdensity_fast]
+	products = [mms1_products.DIS.MMS1_FPI_FAST_L2_DIS_MOMS.mms1_dis_temppara_fast, mms1_products.DIS.MMS1_FPI_FAST_L2_DIS_MOMS.mms1_dis_tempperp_fast,
+mms1_products.FGM.MMS1_FGM_SRVY_L2.mms1_fgm_b_gse_srvy_l2, mms1_products.DIS.MMS1_FPI_FAST_L2_DIS_MOMS.mms1_dis_numberdensity_fast] 
 
- tpara, tperp, b, n = spz.get_data(products, start_time, stop_time)
+	tpara, tperp, b, n = spz.get_data(products, start_time, stop_time)
 
-anisotropy = tperp / tpara
-Pperp = tperp * n * 1e6
-b = interpolate(tperp, b)
-betaperp = Pperp * cst.mu_0 * cst.e * 2 / (b["Bt"] * 1e-9) ** 2
-mirror = betaperp * (anisotropy - 1)
-return mirror
+	anisotropy = tperp / tpara
+	Pperp = tperp * n * 1e6
+	b = interpolate(tperp, b)
+	betaperp = Pperp * cst.mu_0 * cst.e * 2 / (b["Bt"] * 1e-9) ** 2
+	mirror = betaperp * (anisotropy - 1)
+	return mirror
 ```
 
 in this function we simply:
