@@ -4,6 +4,10 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    ignore:
+      # Quartz 4.5.0 imports js-yaml's default export, removed in js-yaml 5
+      - dependency-name: "js-yaml"
+        update-types: ["version-update:semver-major"]
     groups:
       production-dependencies:
         applies-to: "version-updates"
