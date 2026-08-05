@@ -144,16 +144,13 @@ the right architecture for your Mac (ARM64 for Apple M1/2/3/4 chips and x86_64 f
 Download the AppImage from the
 [latest release](https://github.com/SciQLop/SciQLop/releases/latest) and run it (after making it executable).
 
-## From PyPI or Sources (recommended: uv)
+## From Sources (for developers)
 
-The easiest way is with [uv](https://github.com/astral-sh/uv), which handles the virtualenv and dependencies
-automatically:
+The installers and AppImages above are the recommended way to use SciQLop. If you want to work on SciQLop
+itself, clone the repository and run it with [uv](https://github.com/astral-sh/uv), which handles the
+virtualenv and dependencies automatically:
 
 ```bash
-# run the latest PyPI release without installing anything
-uvx sciqlop
-
-# or from a clone of the repository
 git clone https://github.com/SciQLop/SciQLop
 cd SciQLop
 uv run sciqlop
