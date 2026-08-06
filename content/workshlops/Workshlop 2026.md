@@ -24,7 +24,9 @@ Attendance is limited to 50 participants. Contributions are welcome from SciQLop
 
 **Registration is open!**
 
-→ To register, submit a contribution, or ask any question, contact the organizers:
+→ **[Register here](https://docs.google.com/forms/d/e/1FAIpQLSeclSrxchyKL9TNgYQ2ASCrVfBGxnpHmeVpc168k_yMGoQawA/viewform)**
+
+For any question, contact the organizers:
 [alexis.jeandet@lpp.polytechnique.fr](mailto:alexis.jeandet@lpp.polytechnique.fr),
 [nicolas.aunai@lpp.polytechnique.fr](mailto:nicolas.aunai@lpp.polytechnique.fr)
 
