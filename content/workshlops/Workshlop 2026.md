@@ -16,15 +16,17 @@ A **conference dinner** will be held on Wednesday evening.
 
 ## Venue
 
-Jussieu campus, Paris. Room and access plan: [link TBC]
+Jussieu campus, Paris. The room and access plan will be sent to registered participants.
 
 ## Registration & abstract submission
 
 Attendance is limited to 50 participants. Contributions are welcome from SciQLop users and non-users alike.
 
-**Abstract submission deadline: July 31, 2026**
+**Registration is open!**
 
-→ [Registration form](FORM_LINK)
+→ To register, submit a contribution, or ask any question, contact the organizers:
+[alexis.jeandet@lpp.polytechnique.fr](mailto:alexis.jeandet@lpp.polytechnique.fr),
+[nicolas.aunai@lpp.polytechnique.fr](mailto:nicolas.aunai@lpp.polytechnique.fr)
 
 ## Organizers
 

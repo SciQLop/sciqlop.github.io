@@ -1,12 +1,12 @@
 ---
 title: Using catalogs of events
 ---
-In this tutorial we are going to use SciQLOP to create a [[catalog]] of [[events]] and use it to browse data.
+In this tutorial we are going to use SciQLop to create a catalog of events and use it to browse data.
 # Creating a catalog of events
 
-"Events" are at center of in situ measurement analysis. Their simplest form represents a couple of times `(begin, end)`. The concept of [[event]] in SciQLOP, however, is far reacher as it can also contains lots of meta-data that are very useful. The best definition of a [[catalog]] could simply be "a collection of events".
+"Events" are at the center of in situ measurement analysis. Their simplest form represents a couple of times `(begin, end)`. The concept of event in SciQLop, however, is far richer as it can also contain lots of metadata that are very useful. The best definition of a catalog could simply be "a collection of events".
 
-After [[Basic Plotting Workflow|plotting data]], here centered on a nice crossing of the Earth magnetopause by MMS, we start by opening the **catalog view tab** as indicated on the following screenshot. On this image you can also see the icon for the [[catalog explorer]].
+After [[Basic Plotting Workflow|plotting data]], here centered on a nice crossing of the Earth magnetopause by MMS, we start by opening the **catalog view tab** as indicated on the following screenshot. On this image you can also see the icon for the catalog explorer.
 
 ![[catalog_noview_with_data.png]]
 
@@ -57,7 +57,7 @@ We want the event to define the first boundary layer encounter from the magnetos
 
 You can also press the left mouse button in the colored zone representing the event and slide the whole zone left/right to adjust the location of the event.
 
-One great advantage of SciQLOP is that zooming in and out is super efficient therefore precisely defining the start and stop times of the events is super easy. Here is the event selected precisely on a zoom around it.
+One great advantage of SciQLop is that zooming in and out is super efficient therefore precisely defining the start and stop times of the events is super easy. Here is the event selected precisely on a zoom around it.
 
 ![[one_event_zoomed.png]]
 
@@ -71,11 +71,11 @@ Let's continue to add more events, the following screenshot shows two additional
 
 ## Reviewing events
 
-Now we have multiple events in our new catalog. Say we want to review them one by one, that is, inspecting some data for the time intervals of each of the events. In the case of the above dummy catalog, all three events are from each other so what you would probably do is scrolling in time and zooming around each of them.
+Now we have multiple events in our new catalog. Say we want to review them one by one, that is, inspecting some data for the time intervals of each of the events. In the case of the above dummy catalog, all three events are close to each other so what you would probably do is scrolling in time and zooming around each of them.
 
-However, most of the times, your events will be far in time from one another, possibly months or event years appart. Scrolling in time would not be a smart option as it would trigger lots of useless downloads.
+However, most of the times, your events will be far in time from one another, possibly months or even years apart. Scrolling in time would not be a smart option as it would trigger lots of useless downloads.
 
-SciQLOP allows users to "jump" from one event to another. To do that, change the `interaction mode` to `Jump`. In this new mode, you will not be authorized to edit the event position and boundaries as we did above. However, selecting an event from the event list will automatically set the time of the selected panel (here Panel 2) around the selected event.
+SciQLop allows users to "jump" from one event to another. To do that, change the `interaction mode` to `Jump`. In this new mode, you will not be authorized to edit the event position and boundaries as we did above. However, selecting an event from the event list will automatically set the time of the selected panel (here Panel 2) around the selected event.
 
 >[!tip] Zoom factor
 >The zoom factor indicates how much of the total window time interval the event will occupy. The default value of `0.60` means the event you jump onto will take 60% of the total window.
@@ -88,16 +88,16 @@ Now, selecting events one after the other, either by clicking on it, or with the
 
 ## Catalog explorer
 
-Let us now rename our catalog, and also set some metadata. The catalog tab only offers a limited view of the catalogs and events. To get a more exhaustive view, open the [[catalog explorer]]. This opens the following window.
+Let us now rename our catalog, and also set some metadata. The catalog tab only offers a limited view of the catalogs and events. To get a more exhaustive view, open the catalog explorer. This opens the following window.
 
 ![[catalog_explorer.png]]
 
-This is the [[catalog explorer]], which basically lists all catalogs on the left panel and all events of a selected catalog, on the right panel. Here our new catalog is selected, and the right panel shows:
+This is the catalog explorer, which basically lists all catalogs on the left panel and all events of a selected catalog, on the right panel. Here our new catalog is selected, and the right panel shows:
 
 - on the top, the list of the three events we created above
 - on the bottom panel, the metadata of the selected catalog
 
-You can here rename the catalog by editing the field "Name". See the page describing the [[catalog explorer]] to get a more detailed description of all other fields.
+You can here rename the catalog by editing the field "Name". See the page describing the catalog explorer to get a more detailed description of all other fields.
 
 If you now select one event on the right panel, the bottom right panel will display the event's metadata, as in the example below.
 
