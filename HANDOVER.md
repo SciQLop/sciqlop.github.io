@@ -56,8 +56,6 @@ that heading when 0.13 ships.
 
 Shots worth redoing when convenient, neither blocks anything:
 - `07`: Y-axis ticks are clipped by the Properties dock. Reshoot with a wider window.
-- `11`: the chat shows the agent's mid-job monologue rather than the plotting request.
-  A capture taken right after the first natural message would read better.
 - `12-guided-tour-coach-mark.png` is in the folder but unused; `12b` is on the page.
 
 Screenshots come from a Mac and land in `~/Downloads/sciqlop-website-shots/` here;
