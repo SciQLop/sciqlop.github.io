@@ -41,9 +41,9 @@ in the toolbox and vanishes on container recreation), then `npx quartz build --s
 | `4f5aaa6`, `012a5e0` | `GALLERY-SHOOT-PROMPT.md`: agent scripts for the round-2/3 shoots |
 | (2026-09-14) | Gallery page, 5 new shots, 07 reshoot, landing-page pictures refreshed |
 
-Versions the site currently describes: **SciQLop v0.12.1** (binaries),
+Versions the site currently describes: **SciQLop v0.12.2** (binaries, bumped 2026-09-14),
 SciQLopPlots 0.33.x, Speasy 1.7.1. Anything on SciQLop `main` but not in the
-v0.12.1 binaries is labelled *"coming in v0.13"* on the site (AI assistant, smart
+v0.12.2 binaries is labelled *"coming in v0.13"* on the site (AI assistant, smart
 search, guided tours, `%job`). Remove those labels when 0.13 ships.
 
 ## Gallery page: done (2026-09-14)

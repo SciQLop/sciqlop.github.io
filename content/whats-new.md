@@ -23,6 +23,9 @@ Highlights of recent SciQLop releases. Full details in the
 - **ISTP-aware plots** — axis labels, units and log scales picked up automatically from product metadata.
 - Graphic primitives (text, ellipses, arrows, images on plots), per-panel crosshair, Perfetto-based profiling,
   much faster startup.
+- **v0.12.2 (2026-08-06)** — bugfix release: code execution in the embedded JupyterLab and console
+  silently hung in the 0.12.1 installers (IPython 9.16 change); and JupyterLab no longer breaks after package
+  updates. If you installed 0.12.1, update.
 
 ## v0.11 — April 2026: the platform release
 
