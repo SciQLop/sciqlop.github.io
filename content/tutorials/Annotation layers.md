@@ -117,4 +117,4 @@ You should get a short list of `Span`, `Marker` and one `HLine`. If it raises, f
 >- Colours must be hex: `#RRGGBB`, or Qt's `#AARRGGBB` for alpha. A CSS `rgba(...)` string is silently invalid and the annotation just does not appear. Spans are always drawn semi-transparent, so `#RRGGBB` is enough for them.
 >- `Marker.color`, `Marker.label` and `HLine.label` are accepted but not drawn yet; a `Span.label` shows as a tooltip.
 >- `Knob(widget="hline")` on a float knob also draws it as a draggable horizontal line on the plot. Try it on `threshold`: dragging the line retunes the detector, and the `HLine` in the return value becomes redundant.
->- Coming in v0.13: `rgba()` colour strings are accepted, and the object returned by `add_layer` exposes `last_error` and a `callback_failed` signal, so a broken callback is no longer silent.
+>- Since v0.13: `rgba()` colour strings are accepted, and the object returned by `add_layer` exposes `last_error` and a `callback_failed` signal, so a broken callback is no longer silent.

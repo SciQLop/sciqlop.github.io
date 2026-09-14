@@ -49,7 +49,7 @@ Using SciQLop will let you:
 - collaborate on catalog editing in real time with other users,
 - analyze your data in Jupyter notebooks side by side with interactive plots,
 - extend SciQLop with community plugins from the built-in App Store,
-- get help from an AI assistant that can plot products, fetch data, and inspect your workspace *(coming in v0.13)*.
+- get help from an AI assistant that can plot products, fetch data, and inspect your workspace.
 
 ![[01-hero-mms-magnetopause-crossing.png]]
 
@@ -91,7 +91,7 @@ Users can scroll, zoom, move, and export plots with ease.
 ## Data Access Made Easy
 
 Accessing data in SciQLop is as simple as a drag and drop from the tens of thousands of products readily available.
-Coming in v0.13: new empty panels show a built-in search overlay where you can type to find any product instantly,
+New empty panels show a built-in search overlay where you can type to find any product instantly,
 and the sidebar smart search combines full-text and semantic ranking to find the right products even when your
 words don't match the catalog naming exactly.
 
@@ -120,12 +120,11 @@ Multiple users can co-edit catalogs in real time via [cocat](https://github.com/
 synchronization over WebSocket). Create, edit and delete events simultaneously — all changes are merged
 conflict-free across all connected clients.
 
-## AI Assistant *(coming in v0.13)*
+## AI Assistant
 
 SciQLop ships an agent chat dock with pluggable AI backends — Claude Code, GitHub Copilot, OpenCode, and
 Albert — installable from the App Store. The assistant has access to dedicated tools: it can plot products,
 fetch and describe data, run notebook cells, and inspect your workspace, all under your control.
-Already available today when running SciQLop from sources.
 
 ## Command Palette
 

@@ -69,9 +69,10 @@ static_hist.set_data(x, y * 2)
 
 ## Bins, scales and gradient
 
-- `x_bins` / `y_bins` are integer bin counts, spread linearly over the data range. In v0.12 there is no log-binning
-  option, which is why the example takes `log10` inside the callback: linear bins in log space *are* log bins.
-  A `BinStrategy.Log` argument is coming in v0.13.
+- `x_bins` / `y_bins` are integer bin counts, spread linearly over the data range. The example takes `log10`
+  inside the callback so that linear bins in log space *are* log bins; that works on every version. Since v0.13
+  you can keep the raw values and pass `x_bin_strategy=BinStrategy.Log` / `y_bin_strategy=BinStrategy.Log`
+  instead (`from SciQLop.user_api.plot.enums import BinStrategy`; `SymLog` also exists).
 - `z_log_scale=True` (or `hist.z_log_scale = True` later) puts the colour scale on a log axis. Use it whenever counts
   span several decades — otherwise the dense magnetosheath cluster saturates and the boundary track disappears.
 - `gradient` takes a `SciQLopPlots.ColorGradient` value: `Candy`, `Cold`, `Hot` or `Polar`. A gradient name as a

@@ -21,7 +21,7 @@ The list shows from left to right:
 - a checkbox, that "activates" the associated catalog
 - the name of the catalog
 - a button **Add event**
-- and, from v0.13, a colour swatch (v0.12 assigns each catalog a colour automatically)
+- and a colour swatch to pick the catalog's colour (since v0.13; v0.12 assigns colours automatically)
 
 As we build our catalog, we will review all buttons above that list. Let's begin by creating our first catalog. Click on the "+" button and a new catalog called "New Catalog" will appear in the list. We will see how to rename it later. For the moment, activate it by clicking on the checkbox on the left of its name. A panel should appear in the panel below the catalog list with several columns:
 
@@ -140,10 +140,10 @@ Catalog paths are `//`-separated like product paths, and the first segment is th
 
 The new catalog shows up in the catalog tab immediately: activate it there to see its zones on the panel. And as with events drawn by hand, hit the **Save** button to write it to disk.
 
-> [!info] Coming in v0.13
-> The next release lets the notebook attach the overlay itself, with `PlotPanel.add_catalog_overlay`:
+> [!info] Since v0.13
+> The notebook can attach the overlay itself, with `PlotPanel.add_catalog_overlay`:
 > ```python
 > overlay = panel.add_catalog_overlay("My Catalogs//magnetosheath", override_color="#50FF8800")
 > overlay.remove()  # or panel.remove_catalog_overlay(overlay)
 > ```
-> `override_color` takes a Qt colour string. A colour name or `#RRGGBB` is opaque and the zones hide the data underneath, so give it an alpha with Qt's `#AARRGGBB` form; `#50` (80/255) is the palette's default transparency. The same release adds a colour swatch next to each catalog in the list, to pick a catalog's colour by hand.
+> `override_color` takes a Qt colour string. A colour name or `#RRGGBB` is opaque and the zones hide the data underneath, so give it an alpha with Qt's `#AARRGGBB` form; `#50` (80/255) is the palette's default transparency. v0.13 also adds a colour swatch next to each catalog in the list, to pick a catalog's colour by hand.

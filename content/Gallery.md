@@ -26,7 +26,7 @@ time marker at the 13:05:42 crossing, shown on all three projections at once.
 ![[03-dsp-background-subtract-type-ii-burst.png]]
 
 The type II burst from the X9.3 flare of 2017-09-06, e-CALLISTO station HUMAIN. Left: raw spectrum,
-dominated by instrumental gain bands. Right: the same data after `dsp.background_subtract(q=10)` (coming in v0.13; see the [[DSP toolbox]] tutorial for the v0.12 way).
+dominated by instrumental gain bands. Right: the same data after `dsp.background_subtract(q=10)` (see the [[DSP toolbox]] tutorial).
 
 ## Waterfall: the drift is the lag
 
@@ -86,7 +86,7 @@ Curved arrows, text and vertical lines from the graphic-primitives API, on the s
 The same panel under the light, dark, neutral and space themes, switched at runtime with
 `themes.apply_theme`.
 
-## Coming in v0.13
+## New in v0.13
 
 ### AI assistant
 

@@ -13,7 +13,8 @@
     const r = await fetch(API, { headers: { Accept: "application/vnd.github+json" } });
     if (!r.ok) throw new Error(`GitHub API ${r.status}`);
     const all = await r.json();
-    release = all.find((x) => SCIQLOP_TAG.test(x.tag_name) && !x.draft && !x.prerelease);
+    // a release whose installer build has not published yet has no assets: skip it
+    release = all.find((x) => SCIQLOP_TAG.test(x.tag_name) && !x.draft && !x.prerelease && x.assets.length > 0);
     if (!release) throw new Error("no SciQLop release found");
     return release;
   }

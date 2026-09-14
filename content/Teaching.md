@@ -23,7 +23,7 @@ session fighting installations.
 - **Bundled tutorial notebooks** — a progressive suite (GUI discovery, plotting, virtual products, magics,
   catalogs, DSP, annotation layers, …) browsable directly from the welcome page and copied into the student's
   workspace on first use.
-- **Guided tours** *(coming in v0.13)* — in-app coach-mark tours (Getting Started, Catalogs, Settings) that
+- **Guided tours** — in-app coach-mark tours (Getting Started, Catalogs, Settings) that
   auto-start on first launch.
 - **[Website tutorials](/tutorials/)** — step-by-step guides with screenshots for the core workflows.
 

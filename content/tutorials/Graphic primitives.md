@@ -46,9 +46,9 @@ Every primitive but `HorizontalLine` takes a `coordinate_system` keyword
 
 # Marking the crossing
 
-Keep a handle on every primitive you create: assign it to a name, or append it to a list. In v0.12 the
-plot owns the item, so a bare `CurvedLine(...)` statement happens to work; from v0.13 on the item is owned by
-Python and a bare statement is garbage-collected at once and draws nothing.
+Keep a handle on every primitive you create: assign it to a name, or append it to a list. Since v0.13 the
+item is owned by Python, so a bare `CurvedLine(...)` statement is garbage-collected at once and draws nothing
+(in v0.12 the plot owned it and a bare statement happened to work).
 
 ```python
 from SciQLop.user_api.plot import Text, CurvedLine, LineTermination
@@ -110,8 +110,7 @@ sheath.value = 12.0
 edr.fill_color = None     # back to transparent
 ```
 
-Removing is the flip side of the ownership rule: from v0.13 on, drop the last reference and the drawing goes
-away.
+Removing is the flip side of the ownership rule: drop the last reference and the drawing goes away.
 `HorizontalLine` also has an explicit `remove()`.
 
 ```python
@@ -119,6 +118,6 @@ del arrow
 sheath.remove()
 ```
 
-Coming in v0.13: `remove()` on every primitive, plus `VerticalLine`, `StraightLine`, `HorizontalSpan` and
+Since v0.13: `remove()` on every primitive, plus `VerticalLine`, `StraightLine`, `HorizontalSpan` and
 `RectangularSpan`. The bundled notebook `10-SciQLopGraphicPrimitives.ipynb` (welcome page) covers the same
 primitives on another event.

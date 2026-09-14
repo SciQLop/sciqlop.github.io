@@ -97,7 +97,7 @@ If you already hold plain numpy arrays, `dsp.arrays` exposes the same functions 
 
 Radio dynamic spectra are dominated by the receiver's frequency response: each channel has its own baseline, and a burst is a small excursion on top of it. Removing a per-channel background is what makes a type II burst pop out. A good example event is the e-CALLISTO type II burst of 2017-09-06, 11:58 to 12:16 UT, seen from the HUMAIN station. e-CALLISTO is not a built-in Speasy provider, so the snippets below take a generic spectrogram `SpeasyVariable` named `spec` (time x frequency), whatever its origin: a radio plugin, a file you loaded yourself, or the output of `dsp.spectrogram` above.
 
-`dsp.background_subtract` is **coming in v0.13** (it is on `main`, not in v0.12.2). Its call will be:
+`dsp.background_subtract` (new in v0.13) does it in one call:
 
 ```python
 from datetime import timedelta
@@ -107,7 +107,7 @@ clean = dsp.background_subtract(spec, q=50.0, window=timedelta(minutes=5), mode=
 
 `q` is the percentile used as the background estimate per channel (50 = median; use 5 to 10 when bursts fill most of the window), `window` is `None` for one constant background, an `int` for a sample count or a `timedelta` for a duration, and `mode` is `"diff"`, `"ratio"` or `"db"`.
 
-Until then, the same idea fits in a `Spectrogram` virtual product with plain numpy:
+On v0.12, the same idea fits in a `Spectrogram` virtual product with plain numpy:
 
 ```python
 import numpy as np

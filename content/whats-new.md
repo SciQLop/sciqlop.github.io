@@ -6,6 +6,33 @@ Highlights of recent SciQLop releases. Full details in the
 [changelog](https://github.com/SciQLop/SciQLop/blob/main/CHANGELOG.md) and
 [GitHub releases](https://github.com/SciQLop/SciQLop/releases).
 
+## v0.13 — September 2026: the assistant release
+
+Released 2026-09-14. Binaries for each platform appear on the [download cards](/#download-sciqlop) as soon as
+the release build publishes them.
+
+- **AI assistant** — an agent chat dock with pluggable backends (Claude Code, GitHub Copilot, OpenCode, Albert)
+  that can plot products, fetch and describe data, run notebook cells and inspect your workspace. The transcript
+  shows the model's thinking, live and when resuming a session.
+- **Smart product search** — hybrid full-text + semantic ranking in the sidebar, and a search overlay on every
+  new empty panel.
+- **Guided tours** — in-app coach-mark onboarding (Getting Started, Catalogs, Settings); replay from Tools.
+- **Background jobs** — the `%job` magic runs long computations off the kernel.
+- **DSP: `background_subtract`** — per-channel background removal for dynamic spectra (percentile, sliding
+  window, diff/ratio/dB). See the [[DSP toolbox]] tutorial.
+- **Catalogs from Python** — `panel.add_catalog_overlay(path, override_color=...)`, plus a colour swatch per
+  catalog in the list. See [[Catalogs]].
+- **Graphic primitives** — `VerticalLine`, `StraightLine`, `HorizontalSpan`, `RectangularSpan`, `remove()` and
+  `visible` on every item. See [[Graphic primitives]].
+- **2D histograms** — `BinStrategy.Log` / `SymLog` bins. See [[2D histograms]].
+- **Windows**: per-user install, no administrator rights needed. **HTTP proxy** support for every download
+  path (uv, Speasy, Jupyter, Qt WebEngine), with a proxy page in the online installer.
+- **User API hardening** — a fuzzing campaign turned dozens of silent failures into clear `ValueError` /
+  `TypeError` messages: unknown product paths, garbage time ranges (`TimeRange` now parses strings and
+  timezone-aware datetimes correctly), invalid virtual-product arguments, failing `panel.save`.
+- Fixes for the embedded JupyterLab (recovery after Shut Down / Log Out, package-update breakage) and for
+  cross-thread widget access from notebook cells and agent tools.
+
 ## v0.12 — May–August 2026: the analysis release
 
 - **Parameterized virtual products (knobs)** — keyword arguments on your callback become interactive sliders,
@@ -37,10 +64,3 @@ Highlights of recent SciQLop releases. Full details in the
 - **`%%vp` cell magic** — define virtual products from a notebook cell with typed annotations and hot reload.
 - **Fluent plot API**, Speasy `plot()` backend, settings system, dark mode and theming.
 
-## Coming in v0.13
-
-- **AI assistant** — an agent chat dock with pluggable backends (Claude Code, GitHub Copilot, OpenCode, Albert)
-  that can plot products, fetch and describe data, run notebook cells and inspect your workspace.
-- **Smart product search** — hybrid full-text + semantic ranking in the sidebar and the empty-panel search overlay.
-- **Guided tours** — in-app onboarding for first-time users.
-- **Background jobs** (`%job` magic), Windows per-user install without admin rights, HTTP proxy support.

@@ -15,7 +15,7 @@ content/            all site pages (Obsidian-flavoured Markdown, [[wikilinks]] o
   index.md          landing page: hero downloads, features, install, cite
   Ecosystem.md      the stack under SciQLop (Speasy, SciQLopPlots, CDFpp, cocat …)
   Teaching.md       students / instructors entry point
-  whats-new.md      release highlights (0.11, 0.12, "coming in 0.13")
+  whats-new.md      release highlights (0.11, 0.12, 0.13)
   Contact.md
   tutorials/        GUI + Python tutorials, screenshots in sibling folders
 scripts/bump-release.sh   refresh the fallback release links and check the URLs
@@ -43,18 +43,19 @@ in the toolbox and vanishes on container recreation), then `npx quartz build --s
 | `4f5aaa6`, `012a5e0` | `GALLERY-SHOOT-PROMPT.md`: agent scripts for the round-2/3 shoots |
 | (2026-09-14) | Gallery page, 5 new shots, 07 reshoot, landing-page pictures refreshed |
 
-Versions the site currently describes: **SciQLop v0.12.2** (binaries, bumped 2026-09-14),
-SciQLopPlots 0.33.x, Speasy 1.7.1. Anything on SciQLop `main` but not in the
-v0.12.2 binaries is labelled *"coming in v0.13"* on the site (AI assistant, smart
-search, guided tours, `%job`). Remove those labels when 0.13 ships.
+Versions the site currently describes: **SciQLop v0.13.0** (released 2026-09-14, on PyPI;
+SciQLopPlots 0.36.1), Speasy 1.7.1.
+The download cards resolve binaries at page load; the hardcoded fallback is still
+**v0.12.2** because the v0.13.0 installer build had published no assets when this was
+written. Run `scripts/bump-release.sh v0.13.0` once they exist. All "coming in v0.13"
+labels were removed on 2026-09-14.
 
 ## Gallery page: done (2026-09-14)
 
 `content/Gallery.md` exists and is linked from the landing page's "Learn SciQLop" list;
 shot 01 is the landing-page hero. The four `10-theme-*.png` are a CSS 2×2 grid
-(`.theme-grid` in `custom.scss`), not a composed image. The v0.13 teasers (AI dock,
-tours, smart search, empty-panel overlay) sit under a "Coming in v0.13" heading; drop
-that heading when 0.13 ships.
+(`.theme-grid` in `custom.scss`), not a composed image. The AI dock, tours, smart
+search and empty-panel shots sit under a "New in v0.13" heading.
 
 Notes:
 - `07`: the Properties dock is an auto-hiding pane that overlays the plot while open,
@@ -98,9 +99,9 @@ Screenshots come from a Mac and land in `~/Downloads/sciqlop-website-shots/` her
   the `.html` suffix.
 - New tutorials (2026-09-14: Annotation layers, DSP toolbox, 2D histograms, Graphic
   primitives, catalog overlays section) were verified against the v0.12.2 tag by
-  reading the API, not by running SciQLop. Anything only on `main` is marked
-  "coming in v0.13": `dsp.background_subtract`, `add_catalog_overlay`, `BinStrategy`,
-  `VerticalLine`, per-catalog colour swatch. Remove those marks when 0.13 ships.
+  reading the API, not by running SciQLop. APIs added after 0.12.2 (`dsp.background_subtract`,
+  `add_catalog_overlay`, `BinStrategy`, `VerticalLine`, colour swatch) are labelled
+  "since v0.13"; all were confirmed present at the v0.13.0 tag.
 
 ## Where the deeper notes live
 
