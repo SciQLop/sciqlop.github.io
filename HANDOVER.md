@@ -54,8 +54,9 @@ shot 01 is the landing-page hero. The four `10-theme-*.png` are a CSS 2×2 grid
 tours, smart search, empty-panel overlay) sit under a "Coming in v0.13" heading; drop
 that heading when 0.13 ships.
 
-Shots worth redoing when convenient, neither blocks anything:
-- `07`: Y-axis ticks are clipped by the Properties dock. Reshoot with a wider window.
+Notes:
+- `07`: the Properties dock is an auto-hiding pane that overlays the plot while open,
+  so it covers the Y axis on purpose. Not a defect, don't reshoot for that.
 - `12-guided-tour-coach-mark.png` is in the folder but unused; `12b` is on the page.
 
 Screenshots come from a Mac and land in `~/Downloads/sciqlop-website-shots/` here;
