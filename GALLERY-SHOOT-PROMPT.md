@@ -102,3 +102,76 @@ Capture 07-knobs-parameterized-virtual-product.png now with capture_window, then
   from Tools → Plugin Store), `sciqlop_jupyterlab_plot_side_by_side.png`, and the sidebar
   smart search with a typed query. One keypress each; not worth an agent round-trip, and a
   palette left open by a failed toggle would poison every later capture.
+
+---
+
+# Round 3, 2026-09-14 — shot 07 only
+
+Round 2 delivered 11, 12, 13 but not the 07 reshoot. This is a standalone session for
+07 alone. Checked against SciQLop `main` (`e2462c619`, after the `bfb6cf6a2` Inspector
+fix) on 2026-09-14: `create_virtual_product` accepts `Annotated[..., Knob(...)]`
+parameters, a `widget="hline"` knob is drawn on the plot by SciQLop itself
+(`knob_inspector/plot_items.py::_MovableHLine`), and `panel.plot()` takes the
+`VirtualProduct` object directly, so the agent never needs the tree path of the
+virtual product.
+
+## Operator, by hand, before message 1
+
+- SciQLop 0.13.0.dev0, fresh start, no panels open, theme `dark`, window 1600×1000.
+- Products dock open on the left. Agents dock open.
+- **Float the Agents dock** (drag its title bar out of the main window) before you ask
+  for the capture in message 2. `capture_window` grabs the main window only, so a
+  floating dock stays out of the picture. The August 07 had no chat dock in it.
+- `mkdir -p ~/sciqlop-website-shots`
+
+## Message 1
+
+```
+Screenshot job, one shot. Rules first.
+
+Rules
+1. Never fake a shot. If it cannot be produced from inside the app, say why and stop.
+2. Prefer SciQLop.user_api. Nothing private.
+3. Product paths for panel.plot come from sciqlop_products_tree (//-joined). Inside a virtual-product callback, spz.get_data needs the speasy id instead, take it from sciqlop_speasy_inventory. The two forms are not interchangeable.
+4. After every plot, sciqlop_wait_for_plot_data on that panel, then check with sciqlop_screenshot_panel. Empty or half-loaded is a failed shot: retry once, then stop and tell me.
+5. Leave no trace beyond what I ask for: one virtual product under demo/, one panel.
+
+Staging, in one sciqlop_exec_python cell or a few:
+
+a. Create a virtual product demo/Bmag_smoothed with
+     from SciQLop.user_api.virtual_products import create_virtual_product, VirtualProductType
+     from SciQLop.user_api.knobs import Knob
+     from typing import Annotated
+     import numpy as np, speasy as spz
+   The callback signature is exactly:
+     def bmag_smoothed(start: float, stop: float,
+         smooth_window: Annotated[int, Knob(min=1, max=200, step=1, label="Smooth window", unit="samples")] = 16,
+         threshold: Annotated[float, Knob(widget="hline", min=0.0, max=80.0, step=1.0, label="Threshold", unit="nT", color="#e74c3c")] = 25.0):
+   It fetches MMS1 FGM burst L2 B GSM (mms1_fgm_b_gsm_brst_l2) with spz.get_data, returns None if the fetch is None, takes the magnitude of the first three components, smooths it with a boxcar of smooth_window samples (np.convolve, mode="same", skip when smooth_window == 1), and returns (t, bmag) with t as float seconds. Do not use the threshold in the maths: the hline knob is drawn by SciQLop. Register it with
+     vp = create_virtual_product("demo/Bmag_smoothed", bmag_smoothed, VirtualProductType.Scalar, labels=["|B| smoothed"])
+
+b. New panel, time range 2015-10-16 13:05:25 to 13:07:35 UTC (Burch et al. 2016 EDR event). Top plot: FGM burst L2 B GSM from the products tree. Second plot below it: panel.plot(vp). Wait for data on both, check the panel: the bottom plot must show a smooth |B| trace with a red horizontal line at 25 nT.
+
+c. from SciQLop.user_api.gui import show_inspector; show_inspector()
+
+Then stop and tell me it is staged. I will click the smoothed graph so the Inspector shows its Parameters section, and ask you to capture. Do not capture yet.
+```
+
+## Operator, between messages
+
+Click the **line** of the smoothed graph (bottom plot), not the empty plot area. The
+Inspector should show a Parameters section with "Smooth window" and "Threshold" as
+labelled controls. If it still shows bare spinboxes the build is older than `bfb6cf6a2`;
+stop and rebuild. Float the Agents dock now if you have not yet.
+
+## Message 2
+
+```
+Capture now: from SciQLop.user_api.screenshot import capture_window; capture_window("~/sciqlop-website-shots/07-knobs-parameterized-virtual-product.png") with the path expanded. Then report one SOURCES.md row: file, event/data, interval, products (exact tree paths), feature shown. Add which virtual product and panel you left open.
+```
+
+## Operator, afterwards
+
+- Copy the PNG over `content/gallery/07-knobs-parameterized-virtual-product.png`.
+- In `content/gallery/SOURCES.md`, replace the 07 row with the agent's, and delete the
+  "Shot 07: the Inspector renders knobs as bare, unlabelled spinboxes" caveat.
