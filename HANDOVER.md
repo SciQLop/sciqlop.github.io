@@ -88,13 +88,18 @@ Screenshots come from a Mac and land in `~/Downloads/sciqlop-website-shots/` her
   to SciQLop's own palette.
 - Workshlop 2026 page: room/access plan still "sent to registered participants";
   add it when known. Registration form: Google Form linked on the page.
+- From the August review, still not done: tutorials for annotation layers, DSP,
+  2-D histograms, catalog overlays and graphic primitives (the Gallery shows them, the
+  tutorials don't); a release-post workflow for What's New.
 - Local `playwright` CLI shim is broken (ModuleNotFoundError); for visual checks
   use the browser MCP tools or a fresh `pip install playwright`.
 
 ## Where the deeper notes live
 
-- Claude project memory for this repo:
+- Claude project memory for this repo lives in two folders, depending on whether the
+  session was started from `/var/home` or `/home`:
   `~/.claude/projects/-var-home-jeandet-Documents-prog-sciqlop-github-io/memory/`
+  (`gallery-shoot-workflow.md` is in the `-home-` twin)
   (`site-review-2026-08.md` = review + what was implemented,
   `gallery-2026-08-19.md` = shoot notes and the SciQLop API bugs found while
   shooting — most already fixed in SciQLop/SciQLopPlots, see that file).
