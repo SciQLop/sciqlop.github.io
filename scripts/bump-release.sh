@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Point the landing page at a new SciQLop release and check that every binary exists.
+# Refresh the fallback release links on the landing page (the page resolves the latest
+# release itself at load time via static/latest-release.js) and check every binary exists.
 # Usage: scripts/bump-release.sh v0.12.3
 set -euo pipefail
 new="${1:?usage: $0 vX.Y.Z}"

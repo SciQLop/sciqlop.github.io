@@ -18,7 +18,8 @@ content/            all site pages (Obsidian-flavoured Markdown, [[wikilinks]] o
   whats-new.md      release highlights (0.11, 0.12, "coming in 0.13")
   Contact.md
   tutorials/        GUI + Python tutorials, screenshots in sibling folders
-scripts/bump-release.sh   point the download cards at a new release and check the URLs
+scripts/bump-release.sh   refresh the fallback release links and check the URLs
+quartz/static/latest-release.js   resolves the download cards to the latest GitHub release
   workshlops/       Workshlop 2025 / 2026 pages
   Gallery.md        the gallery page (one section per shot, captions from SOURCES.md)
   gallery/          18 PNGs + SOURCES.md provenance manifest
@@ -66,9 +67,13 @@ Screenshots come from a Mac and land in `~/Downloads/sciqlop-website-shots/` her
 ## Recurring maintenance
 
 **On every SciQLop release**
-- Run `scripts/bump-release.sh vX.Y.Z`: rewrites the version in the download cards
-  of `content/index.md` (GitHub asset names are versioned, so
-  `releases/latest/download/...` can't be used) and checks every binary URL.
+- The download cards resolve the latest release themselves at page load
+  (`quartz/static/latest-release.js` queries the GitHub API and matches each link's
+  `data-asset` regex against the asset names; GitHub asset names are versioned, so
+  `releases/latest/download/...` can't be used). Nothing to do for the links
+  themselves. Still run `scripts/bump-release.sh vX.Y.Z` so the hardcoded fallback
+  (used when the API is unreachable or rate-limited) stays current; it also checks
+  every binary URL. If an installer is renamed, update its `data-asset` regex.
 - `content/whats-new.md`: add a section; move "coming in 0.13" items into it.
 - Check tutorials still match the released `user_api` (verify against the
   **tag**, not `main`: `git -C ../SciQLop show vX.Y.Z:SciQLop/user_api/...`).
