@@ -1,7 +1,7 @@
 # Handover — sciqlop.github.io
 
-_Last updated 2026-08-29. Written after the August 2026 site refresh; read this first
-when picking the site up again._
+_Last updated 2026-09-14. Written after the August 2026 site refresh and the September
+gallery work; read this first when picking the site up again._
 
 ## What this repo is
 
@@ -19,13 +19,15 @@ content/            all site pages (Obsidian-flavoured Markdown, [[wikilinks]] o
   Contact.md
   tutorials/        GUI + Python tutorials, screenshots in sibling folders
   workshlops/       Workshlop 2025 / 2026 pages
-  gallery/          13 PNGs + SOURCES.md — assets only, NO PAGE YET (see below)
+  Gallery.md        the gallery page (one section per shot, captions from SOURCES.md)
+  gallery/          18 PNGs + SOURCES.md provenance manifest
 quartz.config.ts    site config (baseUrl, fonts, colours, plugins)
 quartz.layout.ts    sidebar / footer components
 quartz/styles/custom.scss   our CSS (download buttons live here)
 ```
 
-Local preview: `npx quartz build --serve` (or plain `npx quartz build` and open
+Local preview: `npm ci` once if `node_modules/` is missing (it lives outside `$HOME`
+in the toolbox and vanishes on container recreation), then `npx quartz build --serve` (or plain `npx quartz build` and open
 `public/index.html`). Builds take ~2 s.
 
 ## State of play (commits on `v4` — check `git status -sb`; as of writing they were NOT yet pushed)
@@ -36,33 +38,30 @@ Local preview: `npx quartz build --serve` (or plain `npx quartz build` and open
 | `716b004` | Workshlop 2026 registration form link |
 | `a5423d5` | Workshlop 2026 venue address + pitch |
 | `4be3ed6` | Gallery: 13 screenshots + `SOURCES.md` provenance manifest |
+| `4f5aaa6`, `012a5e0` | `GALLERY-SHOOT-PROMPT.md`: agent scripts for the round-2/3 shoots |
+| (2026-09-14) | Gallery page, 5 new shots, 07 reshoot, landing-page pictures refreshed |
 
 Versions the site currently describes: **SciQLop v0.12.1** (binaries),
 SciQLopPlots 0.33.x, Speasy 1.7.1. Anything on SciQLop `main` but not in the
 v0.12.1 binaries is labelled *"coming in v0.13"* on the site (AI assistant, smart
 search, guided tours, `%job`). Remove those labels when 0.13 ships.
 
-## Next step: build the gallery page
+## Gallery page: done (2026-09-14)
 
-Assets are in `content/gallery/`; the page itself is not written. Everything a
-caption needs — event, interval, products, feature shown, caveats — is in
-`content/gallery/SOURCES.md`. Plan that was agreed:
+`content/Gallery.md` exists and is linked from the landing page's "Learn SciQLop" list;
+shot 01 is the landing-page hero. The four `10-theme-*.png` are a CSS 2×2 grid
+(`.theme-grid` in `custom.scss`), not a composed image. The v0.13 teasers (AI dock,
+tours, smart search, empty-panel overlay) sit under a "Coming in v0.13" heading; drop
+that heading when 0.13 ships.
 
-1. Create `content/Gallery.md` (title "Gallery"), one section per shot in the
-   `01`…`10` order, 1–2 sentence captions taken from `SOURCES.md` (the science
-   framing is the selling point — "Burch et al. 2016 EDR event", "type II drift
-   *is* the lag in the waterfall").
-2. Compose the four `10-theme-*.png` into a single 2×2 image (ImageMagick
-   `montage`) rather than four separate embeds.
-3. Add a light grid/figure style in `custom.scss` (images `max-width:100%`, caption
-   in `var(--darkgray)`), and link the page from the landing-page "Learn SciQLop"
-   list and/or make shot 01 the new landing-page hero screenshot.
-4. Two teasers were never shot (AI dock, guided-tour coach-mark) — skip them, or
-   add later under a clearly labelled "coming in v0.13" heading.
+Shots worth redoing when convenient, neither blocks anything:
+- `07`: Y-axis ticks are clipped by the Properties dock. Reshoot with a wider window.
+- `11`: the chat shows the agent's mid-job monologue rather than the plotting request.
+  A capture taken right after the first natural message would read better.
+- `12-guided-tour-coach-mark.png` is in the folder but unused; `12b` is on the page.
 
-Caveat from the shoot: shot 07's Inspector showed unlabelled spinboxes — since
-fixed in SciQLop (`bfb6cf6a2`, 2026-08-20) but the PNG predates the fix; either
-reshoot 07 or keep the caption generic ("parameters exposed in the Inspector").
+Screenshots come from a Mac and land in `~/Downloads/sciqlop-website-shots/` here;
+`GALLERY-SHOOT-PROMPT.md` has the agent messages that produced 11, 12, 13 and 07.
 
 ## Recurring maintenance
 
@@ -86,13 +85,10 @@ reshoot 07 or keep the caption generic ("parameters exposed in the Inspector").
 
 ## Known gaps / ideas not done
 
-- Gallery page (above).
 - Theme accent colours in `quartz.config.ts` still Quartz defaults; could be tuned
   to SciQLop's own palette.
 - Workshlop 2026 page: room/access plan still "sent to registered participants";
   add it when known. Registration form: Google Form linked on the page.
-- Landing-page screenshot (`sciqlop_screenshot.png`) is older than the gallery
-  hero — consider swapping in `gallery/01-...png`.
 - Local `playwright` CLI shim is broken (ModuleNotFoundError); for visual checks
   use the browser MCP tools or a fresh `pip install playwright`.
 

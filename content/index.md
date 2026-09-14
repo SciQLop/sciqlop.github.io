@@ -46,7 +46,7 @@ Using SciQLop will let you:
 - extend SciQLop with community plugins from the built-in App Store,
 - get help from an AI assistant that can plot products, fetch data, and inspect your workspace *(coming in v0.13)*.
 
-![[sciqlop_screenshot.png]]
+![[01-hero-mms-magnetopause-crossing.png]]
 
 Heliophysicists now benefit from decades of space exploration through many spacecraft missions.
 Exploring this massive amount of data to find events of interest, build catalogs, and conduct statistical multi-mission
@@ -60,6 +60,7 @@ effortlessly — a built-in guided tour walks new users through their first plot
 
 # Learn SciQLop
 
+- **Gallery**: see what SciQLop looks like on real events in the [[Gallery]].
 - **Tutorials**: step-by-step [tutorials](/tutorials/) covering basic plotting, catalogs, virtual products, plot
   templates, and the Python user API.
 - **Bundled examples**: Jupyter notebooks demonstrating common tasks, browsable from the welcome page inside SciQLop.

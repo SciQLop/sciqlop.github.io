@@ -55,3 +55,32 @@
   color: var(--darkgray);
   font-size: 0.9rem;
 }
+
+// Gallery page (Gallery.md)
+body[data-slug="Gallery"] article {
+  img {
+    max-width: 100%;
+    border: 1px solid var(--lightgray);
+    border-radius: 6px;
+  }
+
+  p:has(> img) + p {
+    color: var(--darkgray);
+    font-size: 0.95rem;
+    margin-top: 0.4rem;
+  }
+}
+
+.theme-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+
+  p {
+    margin: 0;
+  }
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
+}
