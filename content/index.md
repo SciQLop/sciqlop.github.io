@@ -66,7 +66,8 @@ effortlessly — a built-in guided tour walks new users through their first plot
 
 - **Gallery**: see what SciQLop looks like on real events in the [[Gallery]].
 - **Tutorials**: step-by-step [tutorials](/tutorials/) covering basic plotting, catalogs, virtual products, plot
-  templates, and the Python user API.
+  templates, the Python user API, and the v0.12 analysis tools: [[Annotation layers]], the [[DSP toolbox]],
+  [[2D histograms]] and [[Graphic primitives]].
 - **Bundled examples**: Jupyter notebooks demonstrating common tasks, browsable from the welcome page inside SciQLop.
 - **Teaching**: using SciQLop in the classroom? See [[Teaching|Teaching with SciQLop]].
 - **Workshlop**: our annual hands-on training workshop — join the

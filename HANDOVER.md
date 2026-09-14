@@ -18,10 +18,11 @@ content/            all site pages (Obsidian-flavoured Markdown, [[wikilinks]] o
   whats-new.md      release highlights (0.11, 0.12, "coming in 0.13")
   Contact.md
   tutorials/        GUI + Python tutorials, screenshots in sibling folders
+scripts/bump-release.sh   point the download cards at a new release and check the URLs
   workshlops/       Workshlop 2025 / 2026 pages
   Gallery.md        the gallery page (one section per shot, captions from SOURCES.md)
   gallery/          18 PNGs + SOURCES.md provenance manifest
-quartz.config.ts    site config (baseUrl, fonts, colours, plugins)
+quartz.config.ts    site config (baseUrl, fonts, plugins; colours = SciQLop's space/light palettes)
 quartz.layout.ts    sidebar / footer components
 quartz/styles/custom.scss   our CSS (download buttons live here)
 ```
@@ -65,10 +66,9 @@ Screenshots come from a Mac and land in `~/Downloads/sciqlop-website-shots/` her
 ## Recurring maintenance
 
 **On every SciQLop release**
-- `content/index.md`: bump the version in the **6 asset URLs** of the download
-  buttons and the "Latest release" badge (GitHub asset names are versioned, so
-  `releases/latest/download/...` can't be used). There is an HTML comment at the
-  spot.
+- Run `scripts/bump-release.sh vX.Y.Z`: rewrites the version in the download cards
+  of `content/index.md` (GitHub asset names are versioned, so
+  `releases/latest/download/...` can't be used) and checks every binary URL.
 - `content/whats-new.md`: add a section; move "coming in 0.13" items into it.
 - Check tutorials still match the released `user_api` (verify against the
   **tag**, not `main`: `git -C ../SciQLop show vX.Y.Z:SciQLop/user_api/...`).
@@ -84,15 +84,18 @@ Screenshots come from a Mac and land in `~/Downloads/sciqlop-website-shots/` her
 
 ## Known gaps / ideas not done
 
-- Theme accent colours in `quartz.config.ts` still Quartz defaults; could be tuned
-  to SciQLop's own palette.
 - Workshlop 2026 page: room/access plan still "sent to registered participants";
   add it when known. Registration form: Google Form linked on the page.
-- From the August review, still not done: tutorials for annotation layers, DSP,
-  2-D histograms, catalog overlays and graphic primitives (the Gallery shows them, the
-  tutorials don't); a release-post workflow for What's New.
-- Local `playwright` CLI shim is broken (ModuleNotFoundError); for visual checks
-  use the browser MCP tools or a fresh `pip install playwright`.
+- Visual checks: no browser in the toolbox and the playwright MCP wants Chrome. What
+  works: `python3 -m venv <dir> && <dir>/bin/pip install playwright && <dir>/bin/playwright
+  install chromium` (Chromium lands in `~/.cache/ms-playwright`, survives), then
+  `python3 -m http.server` in `public/` and a short Playwright script. Local URLs need
+  the `.html` suffix.
+- New tutorials (2026-09-14: Annotation layers, DSP toolbox, 2D histograms, Graphic
+  primitives, catalog overlays section) were verified against the v0.12.2 tag by
+  reading the API, not by running SciQLop. Anything only on `main` is marked
+  "coming in v0.13": `dsp.background_subtract`, `add_catalog_overlay`, `BinStrategy`,
+  `VerticalLine`, per-catalog colour swatch. Remove those marks when 0.13 ships.
 
 ## Where the deeper notes live
 
