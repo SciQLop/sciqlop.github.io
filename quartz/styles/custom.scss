@@ -2,51 +2,64 @@
 
 // put your custom CSS here!
 
-// Landing-page download buttons (index.md)
-.download-buttons {
-  display: flex;
-  flex-wrap: wrap;
+// Landing-page download cards (index.md): one card per OS, one link per installer
+.download-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
   margin: 1.5rem 0 0.5rem;
 
-  .dl-btn {
+  @media (max-width: 700px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.os-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.2rem 1rem 1rem;
+  border: 1px solid var(--lightgray);
+  border-radius: 8px;
+  background-color: var(--light);
+
+  svg {
+    width: 2.6rem;
+    height: 2.6rem;
+    fill: var(--secondary);
+  }
+
+  h3 {
+    margin: 0 0 0.3rem;
+    font-size: 1.15rem;
+  }
+
+  .dl-link {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 0.9rem;
-    flex: 1 1 12rem;
-    padding: 1rem 1.4rem;
+    width: 100%;
+    padding: 0.5rem 0.6rem;
     border: 1px solid var(--lightgray);
-    border-radius: 8px;
+    border-radius: 6px;
     background-color: var(--light);
     text-decoration: none;
-    transition: border-color 0.2s ease, transform 0.2s ease;
+    line-height: 1.25;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
 
     &:hover {
       border-color: var(--secondary);
-      transform: translateY(-2px);
       background-color: var(--highlight);
     }
 
-    svg {
-      width: 2.2rem;
-      height: 2.2rem;
-      flex-shrink: 0;
-      fill: var(--secondary);
+    strong {
+      color: var(--dark);
     }
 
-    span {
-      display: flex;
-      flex-direction: column;
-      line-height: 1.3;
-
-      strong {
-        color: var(--dark);
-        font-size: 1.1rem;
-      }
-
-      small {
-        color: var(--darkgray);
-      }
+    small {
+      color: var(--darkgray);
+      font-size: 0.8rem;
     }
   }
 }
@@ -83,4 +96,9 @@ body[data-slug="Gallery"] article {
   @media (max-width: 600px) {
     grid-template-columns: 1fr;
   }
+}
+
+// The download links are obviously external; Quartz's arrow icon only wraps under the label.
+.os-card .dl-link .external-icon {
+  display: none;
 }
