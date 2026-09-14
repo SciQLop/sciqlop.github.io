@@ -175,3 +175,27 @@ Capture now: from SciQLop.user_api.screenshot import capture_window; capture_win
 - Copy the PNG over `content/gallery/07-knobs-parameterized-virtual-product.png`.
 - In `content/gallery/SOURCES.md`, replace the 07 row with the agent's, and delete the
   "Shot 07: the Inspector renders knobs as bare, unlabelled spinboxes" caveat.
+
+---
+
+# Round 4 — 11 reshoot, by hand
+
+The round-2 capture of 11 shows the agent's mid-job monologue ("rule 5 says…") because
+the capture request itself was part of the conversation. Fix: make the conversation a
+science exchange and take the screenshot with the OS (Cmd+Shift+4 on the Mac), no
+message 2. Setup as in round 2: fresh start, dark theme, 1600×1000, Products dock
+open on the left, Agents dock docked on the right, chat empty ("New session").
+
+## The one message
+
+```
+Plot the Burch et al. 2016 MMS1 EDR event, 2015-10-16 13:05:25 to 13:07:35, in one new panel: FGM burst B GSM, FPI-DIS burst ion density, ion bulk velocity GSE, and the omni ion energy spectrogram, stacked in that order. Once it's loaded, tell me in three sentences what the crossing looks like in these four plots and where you would put the magnetopause.
+```
+
+## Operator, afterwards
+
+- Wait for the final answer. Scroll the chat so the request and the three-sentence
+  answer are both visible; collapse any "N steps" tool group that is expanded.
+- OS screenshot of the whole window → `11-ai-assistant-dock.png`.
+- If the answer is wrong or long-winded, ask once in a natural way ("shorter, and
+  which plot decides it?") and shoot that exchange instead; a follow-up reads fine.
