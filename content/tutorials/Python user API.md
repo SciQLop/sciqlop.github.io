@@ -65,6 +65,8 @@ from SciQLop.user_api import dsp
 > [!note] Where the enums live
 > `GraphType`, `GraphLineStyle`, `BinStrategy`, `AxisType`, `CoordinateSystem` and `Orientation` are not
 > re-exported by `SciQLop.user_api.plot`. Import them from `SciQLop.user_api.plot.enums`.
+>
+> **Next release:** they can be imported from `SciQLop.user_api.plot` too.
 
 ## A first panel
 
@@ -153,6 +155,10 @@ p = plot_panel(names[0])
 ```
 
 Panels are named `Panel0`, `Panel1`, … in creation order. `create_plot_panel()` takes no name.
+
+> [!note] Next release
+> - `create_plot_panel(name="Flux")` names the panel. If the name is taken, it is made unique.
+> - `list_plot_panels()` returns the panel names. Pass one to `plot_panel(name)` to get the panel.
 
 ## Time, navigation and export
 
@@ -343,6 +349,10 @@ If the function raises, the error shows as a red message over the plot. It goes 
 On an `XY` or `Projection` plot, `plot_product`, `plot_data` and `plot_function` always draw a `Curve`. The
 `graph_type` you pass is replaced. For markers on an XY plot, use `plot.scatter(x, y)`.
 
+> [!note] Next release
+> The `graph_type` you pass is honoured: `p.plot_data(x, y, plot_type=PlotType.XY, graph_type=GraphType.Scatter)`
+> draws markers. Without `graph_type`, XY and projection plots still draw a curve.
+
 ## Display options
 
 These options are accepted by `plot_data`, `plot_function` and the `plot()` method of a plot. Always pass them by
@@ -498,7 +508,8 @@ proj.set_y_range(-500, 500)
 | `proj.set_axis_type(axis, axis_type)` | `axis` is `"x"` or `"y"`. |
 | `proj.plot_time_colored_curve(x, y, t, *, z=None, name=None, colormap="viridis")` | A curve coloured by time (experimental). Needs one array per projection: pass `z` on a 3-projection plot. |
 
-A projection plot has no `overlay`, no axis labels and no `y2` axis.
+A projection plot has no `overlay`, no axis labels and no `y2` axis. That is by design: it is a different widget
+from the other plots, a grid of 2-D projections, so those features don't exist there.
 
 ## Messages over a plot
 
@@ -544,6 +555,11 @@ for plots, panels and items.
 
 - Colours of primitives, waterfalls and overlays are Qt colour strings: a name like `"red"`, `"#RRGGBB"`, or
   `"#AARRGGBB"` for transparency. CSS `rgba(...)` is not understood.
+
+> [!note] Next release
+> Every plot item accepts CSS `rgb(...)` and `rgba(...)`: lines, spans, text, ellipses, curves, waterfall and
+> timeline colours. A colour string SciQLop can't read raises `ValueError` instead of silently drawing nothing.
+
 - `colors=` on plot calls takes one colour per component. `QColor` objects are the safe choice there.
 - Gradients are `SciQLopPlots.ColorGradient` values, like `ColorGradient.Jet` or `ColorGradient.Thermal`.
   `hist.gradient = ColorGradient.Hot` sets one.
@@ -632,7 +648,7 @@ vp = create_virtual_product(path, callback, product_type, labels=None,
 | `debug` | `True` prints the callback's stack traces. Handy while writing it. |
 | `cachable` | `True` tells SciQLop the function always returns the same data for the same range, so results can be cached. |
 | `knobs_model` | A Pydantic model whose fields become knobs. The instance is passed as `knobs_kwarg_name`. |
-| `display_name` | Name shown in the tree and on the plot. Used by spectrograms only in v0.13.1. |
+| `display_name` | Name shown in the tree and on the plot. Used by spectrograms only in v0.13.1; by every type in the next release. |
 
 | `VirtualProductType` | `labels` | Callback returns |
 |---|---|---|
@@ -640,6 +656,11 @@ vp = create_virtual_product(path, callback, product_type, labels=None,
 | `Vector` | exactly 3 | `(t, y)` with `y` of shape `(N, 3)`, or a `SpeasyVariable` |
 | `MultiComponent` | any number, at least 1 | `(t, y)` with `y` of shape `(N, n)`, or a `SpeasyVariable` |
 | `Spectrogram` | ignored | `(t, y, z)` or a 2-D `SpeasyVariable` |
+
+> [!note] Next release
+> `labels` can come from the callback's return annotation. With `def f(start, stop) -> Scalar["|B|^2"]`,
+> `create_virtual_product(path, f, VirtualProductType.Scalar)` needs no `labels=`. An explicit `labels=` still
+> wins.
 
 The result is a `VirtualProduct`. Pass it anywhere a product path is accepted: `p.plot(vp)`. Its `path` and
 `product_type` are readable. Registering the same path again replaces the old product.
@@ -795,6 +816,9 @@ Knob(min=None, max=None, step=None, label="", unit="", description="",
 A time-span knob given a default between 0 and 1, like `SciQLopPlotRange(0.3, 0.7)`, starts as that fraction of
 the visible range. Import `SciQLopPlotRange` from `SciQLop.user_api.knobs`.
 
+`DatetimeKnob` and `StringListKnob` are exported too, but only catalog attribute editing uses them. A callback's
+keyword arguments never produce them.
+
 > [!note] Next release
 > - `Annotated[float, Knob(widget="vline")] = 0.5` is a **time cursor**: a draggable vertical line. The callback
 >   gets its time in epoch seconds. A default between 0 and 1 is a fraction of the visible range.
@@ -887,7 +911,7 @@ Static marks on one plot: text, arrows, lines, spans, ellipses, images. They fol
 |---|---|
 | `Text` | `Text(plot, text, x, y, *, color=None, font_size=None, font_family=None, coordinate_system=Data)` |
 | `CurvedLine` | `CurvedLine(plot, start=(x, y), stop=(x, y), *, color=None, line_width=None, line_style=None, start_termination=NoneTermination, stop_termination=Arrow, start_direction=None, stop_direction=None, coordinate_system=Data)` |
-| `HorizontalLine` | `HorizontalLine(plot, value, *, color=None, movable=False)` |
+| `HorizontalLine` | `HorizontalLine(plot, value, *, color=None, movable=False)`. Black by default; next release: the theme's text colour, plus `visible` and `remove()` |
 | `VerticalLine` | `VerticalLine(plot, value, *, color=None, line_width=None, line_style=None, coordinate_system=Data, movable=False)` |
 | `StraightLine` | `StraightLine(plot, x1, y1, x2, y2, *, color=None, line_width=None, line_style=None, coordinate_system=Data, movable=False)` |
 | `RectangularSpan` | `RectangularSpan(plot, x1, y1, x2, y2, *, color=None, borders_color=None, line_width=None, line_style=None, read_only=False, visible=True, tool_tip="")` |
@@ -1081,6 +1105,12 @@ Everything marked "Next release" on this page, in one list:
 - Time cursors (`Knob(widget="vline")`, `CursorKnob`) and `Knob(scope=...)`.
 - `add_catalog_overlay(..., show_spans=False)` and `CatalogOverlay.show_spans`.
 - `_impl` proxied outside the GUI thread.
+- `create_plot_panel(name=...)` and `list_plot_panels()`.
+- Enums importable from `SciQLop.user_api.plot`.
+- `graph_type` honoured on XY and projection plots.
+- CSS `rgb()`/`rgba()` colours everywhere; unreadable colours raise `ValueError`.
+- Virtual product `labels` read from the return annotation; `display_name` for every type.
+- `HorizontalLine` follows the theme and gets `visible` and `remove()`.
 
 More examples live in the tutorial notebooks bundled with SciQLop (open them from the welcome page) and in the
 [examples folder](https://github.com/SciQLop/SciQLop/tree/main/SciQLop/examples) of the repository.

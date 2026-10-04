@@ -77,7 +77,11 @@ straight; move `start_direction` or `stop_direction` off that segment to bend it
 
 Colours are hex strings, `#RRGGBB` or `#AARRGGBB`, or Qt colour names like `"red"`. CSS `rgba(...)` strings
 are not parsed and fail silently. Without a colour, `Text`, `CurvedLine`, `VerticalLine`, `StraightLine` and
-`Ellipse` take the plot's text colour, legible on both themes.
+`Ellipse` take the plot's text colour, legible on both themes. `HorizontalLine` is black by default.
+
+> [!note] Next release
+> CSS `rgb(...)` and `rgba(...)` work on every primitive, and a colour string SciQLop can't read raises
+> `ValueError`. `HorizontalLine` takes the theme's text colour, like the others.
 
 `StraightLine(plot, x1, y1, x2, y2)` draws an infinite line, but only a horizontal or a vertical one. Give it
 two points with the same `x` for a vertical line, or the same `y` for a horizontal one.
@@ -127,7 +131,7 @@ edr.fill_color = None     # back to transparent
 
 Removing is the flip side of the ownership rule: drop the last reference and the drawing goes away. Every
 primitive also has an explicit `remove()`. All but `HorizontalLine` have a `visible` property, to hide one
-without removing it.
+without removing it. In the next release, `HorizontalLine` has both.
 
 ```python
 del arrow
