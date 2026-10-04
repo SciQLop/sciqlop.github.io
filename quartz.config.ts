@@ -67,7 +67,9 @@ const config: QuartzConfig = {
         },
         keepBackground : false,
       }),
-      Plugin.ObsidianFlavoredMarkdown({enableInHtmlEmbed : false}),
+      // comments off: Obsidian's %%comment%% syntax ate the text between two IPython cell
+      // magics (`%%vp` … `%%layer`), even inside code spans.
+      Plugin.ObsidianFlavoredMarkdown({enableInHtmlEmbed : false, comments : false}),
       Plugin.GitHubFlavoredMarkdown(),
       Plugin.TableOfContents(),
       Plugin.CrawlLinks({markdownLinkResolution : "shortest"}),
