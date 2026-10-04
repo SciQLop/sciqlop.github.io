@@ -82,6 +82,47 @@ Most space physics data arrives as CDF files. SciQLop reads them with
 [full story](https://pycdfpp.readthedocs.io/en/latest/optimizations.html), with every counter and diagram, is in
 the pycdfpp docs.
 
+<figure class="uh-diagram">
+<svg viewBox="0 0 770 210" role="img" aria-label="How pycdfpp reads a file">
+<rect class="panel" x="10" y="20" width="128" height="70" rx="8"/>
+<text class="tb c" x="74" y="48">CDF file</text>
+<text class="ts c" x="74" y="68">178 MB on disk</text>
+<path class="arrow" d="M138 55 H162"/>
+<rect class="blue" x="166" y="20" width="128" height="70" rx="8"/>
+<text class="text-blue c" x="230" y="44">Open</text>
+<text class="ts c" x="230" y="62">maps the file,</text>
+<text class="ts c" x="230" y="77">headers only: 0.6 ms</text>
+<path class="arrow" d="M294 55 H318"/>
+<rect class="orange" x="322" y="20" width="128" height="70" rx="8"/>
+<text class="text-orange c" x="386" y="44">Decompress</text>
+<text class="ts c" x="386" y="62">on first access,</text>
+<text class="ts c" x="386" y="77">all cores at once</text>
+<path class="arrow" d="M450 55 H474"/>
+<rect class="violet" x="478" y="20" width="128" height="70" rx="8"/>
+<text class="text-violet c" x="542" y="44">Convert time</text>
+<text class="ts c" x="542" y="62">SIMD, picked</text>
+<text class="ts c" x="542" y="77">for your CPU</text>
+<path class="arrow" d="M606 55 H630"/>
+<rect class="green" x="634" y="20" width="128" height="70" rx="8"/>
+<text class="text-green c" x="698" y="44">numpy arrays</text>
+<text class="ts c" x="698" y="62">buffer protocol,</text>
+<text class="ts c" x="698" y="77">no copy</text>
+<path class="line dash" d="M386 90 V116"/>
+<rect class="panel" x="166" y="118" width="440" height="84" rx="8"/>
+<text class="tb" x="180" y="136">One variable, 640 compressed blocks</text>
+<text class="ts" x="180" y="155">core 1</text>
+<text class="ts" x="180" y="168">core 2</text>
+<text class="ts" x="180" y="181">core 3</text>
+<text class="ts" x="180" y="194">core 4</text>
+<rect class="orange" x="230" y="147" width="36" height="10" rx="2"/><rect class="orange" x="272" y="147" width="36" height="10" rx="2"/><rect class="orange" x="314" y="147" width="36" height="10" rx="2"/><rect class="orange" x="356" y="147" width="36" height="10" rx="2"/><rect class="orange" x="398" y="147" width="36" height="10" rx="2"/><rect class="orange" x="440" y="147" width="36" height="10" rx="2"/><rect class="orange" x="482" y="147" width="36" height="10" rx="2"/><rect class="orange" x="524" y="147" width="36" height="10" rx="2"/>
+<rect class="orange" x="230" y="160" width="36" height="10" rx="2"/><rect class="orange" x="272" y="160" width="36" height="10" rx="2"/><rect class="orange" x="314" y="160" width="36" height="10" rx="2"/><rect class="orange" x="356" y="160" width="36" height="10" rx="2"/><rect class="orange" x="398" y="160" width="36" height="10" rx="2"/><rect class="orange" x="440" y="160" width="36" height="10" rx="2"/><rect class="orange" x="482" y="160" width="36" height="10" rx="2"/><rect class="orange" x="524" y="160" width="36" height="10" rx="2"/>
+<rect class="orange" x="230" y="173" width="36" height="10" rx="2"/><rect class="orange" x="272" y="173" width="36" height="10" rx="2"/><rect class="orange" x="314" y="173" width="36" height="10" rx="2"/><rect class="orange" x="356" y="173" width="36" height="10" rx="2"/><rect class="orange" x="398" y="173" width="36" height="10" rx="2"/><rect class="orange" x="440" y="173" width="36" height="10" rx="2"/><rect class="orange" x="482" y="173" width="36" height="10" rx="2"/><rect class="orange" x="524" y="173" width="36" height="10" rx="2"/>
+<rect class="orange" x="230" y="186" width="36" height="10" rx="2"/><rect class="orange" x="272" y="186" width="36" height="10" rx="2"/><rect class="orange" x="314" y="186" width="36" height="10" rx="2"/><rect class="orange" x="356" y="186" width="36" height="10" rx="2"/><rect class="orange" x="398" y="186" width="36" height="10" rx="2"/><rect class="orange" x="440" y="186" width="36" height="10" rx="2"/><rect class="orange" x="482" y="186" width="36" height="10" rx="2"/><rect class="orange" x="524" y="186" width="36" height="10" rx="2"/>
+<text class="ts" x="568" y="175">…</text>
+</svg>
+<figcaption>Opening costs almost nothing. The real work happens on first access, spread over every core.</figcaption>
+</figure>
+
 ### Opening a file reads only its headers
 
 pycdfpp maps the file into memory. It reads only the headers: variable names, attributes, and where the values are.
@@ -89,6 +130,7 @@ Values are read the first time you touch them.
 
 Opening a 178 MB MMS FPI file takes 0.6 ms. NASA's library, used by spacepy, takes 264 ms on the same file. It
 hashes the whole file before you can read anything.
+[More in the pycdfpp docs](https://pycdfpp.readthedocs.io/en/latest/optimizations.html#opening-reads-only-the-headers).
 
 ### Values reach numpy without a copy
 
@@ -111,11 +153,16 @@ One fix there is a good example of how small details matter:
 4. Now one thread touches every page first, before the other threads start.
 5. Loading 100 MB went from 82 ms to 27 ms.
 
+More in the pycdfpp docs:
+[decompressing blocks in parallel](https://pycdfpp.readthedocs.io/en/latest/optimizations.html#decompressing-blocks-in-parallel)
+and [huge pages](https://pycdfpp.readthedocs.io/en/latest/optimizations.html#huge-pages-touched-by-one-thread-first).
+
 ### Time conversion at billions of values per second
 
 CDF times (TT2000, CDF_EPOCH) must become `datetime64` before anything can be plotted. TT2000 also has to account
 for leap seconds. pycdfpp converts 1.3 to 2.9 billion values per second on one core, exact to the nanosecond. It
 picks SSE2, AVX2, AVX-512 or ARM NEON instructions at run time, so one wheel gets the best out of every CPU.
+[How the leap seconds stay exact](https://pycdfpp.readthedocs.io/en/latest/optimizations.html#converting-time).
 
 ### How it compares
 
@@ -191,6 +238,44 @@ Two changes made it fit SciQLop:
 - **A lower memory peak.** A cached read used to keep every piece alive while building the result, margins included.
   It peaked at 2.5× the result's size. Pieces are now trimmed as they load and freed once copied. The peak is 1.5×.
 
+<figure class="uh-diagram">
+<svg viewBox="0 0 760 232" role="img" aria-label="Storing arrays inside or beside the pickle">
+<text class="tb" x="10" y="22">Before</text>
+<rect class="blue" x="10" y="34" width="150" height="50" rx="6"/>
+<text class="t c" x="85" y="56">cached variable</text>
+<text class="ts c" x="85" y="73">time + values</text>
+<path class="arrow" d="M160 59 H186"/>
+<rect class="red" x="190" y="34" width="250" height="50" rx="6"/>
+<text class="t c" x="315" y="56">one pickle stream</text>
+<text class="ts c" x="315" y="73">arrays inside, hundreds of MB</text>
+<path class="arrow" d="M440 59 H466"/>
+<rect class="red" x="470" y="34" width="280" height="50" rx="6"/>
+<text class="t c" x="610" y="56">Python copies every byte</text>
+<text class="ts c" x="610" y="73">holding the GIL: other threads wait</text>
+<text class="tb" x="10" y="128">After</text>
+<rect class="blue" x="10" y="140" width="150" height="50" rx="6"/>
+<text class="t c" x="85" y="162">cached variable</text>
+<text class="ts c" x="85" y="179">time + values</text>
+<path class="arrow" d="M160 158 L186 151"/>
+<path class="arrow" d="M160 172 L186 179"/>
+<rect class="green" x="190" y="140" width="250" height="22" rx="4"/>
+<text class="ts c" x="315" y="155">small pickle: shapes and metadata</text>
+<rect class="orange" x="190" y="168" width="250" height="22" rx="4"/>
+<text class="ts c" x="315" y="183">arrays stored aside, time axes compressed</text>
+<path class="arrow" d="M440 165 H466"/>
+<rect class="green" x="470" y="140" width="280" height="50" rx="6"/>
+<text class="t c" x="610" y="162">C++ copies the arrays</text>
+<text class="ts c" x="610" y="179">GIL released: other threads keep going</text>
+<text class="ts c" x="380" y="220">Many threads reading at once: 4.8 GB/s before, 9.6 GB/s after.</text>
+</svg>
+<figcaption>Out-of-band pickling: Python only handles the small part. C++ moves the big part.</figcaption>
+</figure>
+
+More in the sciqlop-cache docs:
+[the serializer](https://sciqlop-cache.readthedocs.io/en/latest/serializers.html#big-numpy-arrays-pickleoobserializer),
+[how values are stored](https://sciqlop-cache.readthedocs.io/en/latest/internals.html#how-values-are-stored) and
+[benchmarks against diskcache](https://sciqlop-cache.readthedocs.io/en/latest/performance.html#numpy-arrays).
+
 When two plots, or two SciQLop windows, ask for the same missing piece, only one fetches it. The first claims the
 piece in the cache. The others wait for it to land.
 
@@ -214,12 +299,46 @@ By default Speasy asks our [Speasy proxy](https://sciqlop.lpp.polytechnique.fr/c
 server, with one large cache shared by every user. If someone already fetched that day of MMS data, you get it
 from there, not from the archive.
 
+<figure class="uh-diagram">
+<svg viewBox="0 0 760 200" role="img" aria-label="The Speasy proxy between users and archives">
+<rect class="panel" x="10" y="20" width="150" height="40" rx="6"/>
+<text class="t c" x="85" y="45">You</text>
+<rect class="panel" x="10" y="80" width="150" height="40" rx="6"/>
+<text class="t c" x="85" y="105">A colleague</text>
+<rect class="panel" x="10" y="140" width="150" height="40" rx="6"/>
+<text class="t c" x="85" y="165">A class of students</text>
+<path class="arrow" d="M160 40 L296 84"/>
+<path class="arrow" d="M160 100 H296"/>
+<path class="arrow" d="M160 160 L296 116"/>
+<text class="ts c" x="228" y="192">compressed arrays</text>
+<rect class="violet" x="300" y="45" width="200" height="110" rx="8"/>
+<text class="text-violet c" x="400" y="80">Speasy proxy</text>
+<text class="ts c" x="400" y="100">one shared cache</text>
+<text class="ts c" x="400" y="115">for everyone</text>
+<text class="ts c" x="400" y="135">product inventories, ready-made</text>
+<path class="arrow dash" d="M500 90 L596 48"/>
+<path class="arrow dash" d="M500 100 H596"/>
+<path class="arrow dash" d="M500 110 L596 152"/>
+<text class="ts c" x="548" y="192">only on a miss</text>
+<rect class="orange" x="600" y="30" width="150" height="36" rx="6"/>
+<text class="t c" x="675" y="53">AMDA</text>
+<rect class="orange" x="600" y="82" width="150" height="36" rx="6"/>
+<text class="t c" x="675" y="105">CDAWeb</text>
+<rect class="orange" x="600" y="134" width="150" height="36" rx="6"/>
+<text class="t c" x="675" y="157">CSA, SSC, …</text>
+</svg>
+<figcaption>The first person to ask for a day of data pays for the archive. Everyone after gets it from the proxy.</figcaption>
+</figure>
+
 - **Arrays travel compressed.** Each array is byte-shuffled and compressed with zstd (blosc). An MMS FGM answer went
   from 13.4 MB to 8.0 MB. Decoding it on your side went from 28 ms to 4 ms.
 - **Inventories come ready-made.** The list of tens of thousands of products comes from the proxy in one piece. It is
   kept for two days, then re-checked. If nothing changed, the proxy answers "not modified" and nothing is sent.
 - **Most answers are fast.** On the production proxy, half the requests take under 14 ms. The slow ones are those the
   proxy itself has to fetch from an archive.
+
+To use Speasy outside SciQLop, or to tune its cache and proxy settings, see the
+[Speasy documentation](https://speasy.readthedocs.io/en/latest/).
 
 ## Inside SciQLop
 
@@ -230,6 +349,26 @@ not running Python where C++ can answer.
 
 Speasy products, and virtual products declared `cachable=True`, fetch half a view extra on each side. Panning or
 zooming inside that range fetches nothing and re-bins nothing.
+
+<figure class="uh-diagram">
+<svg viewBox="0 0 760 150" role="img" aria-label="Fetching half a view extra on each side">
+<path class="line dash" d="M130 12 V128"/>
+<path class="line dash" d="M730 12 V128"/>
+<text class="tb" x="10" y="42">Fetched</text>
+<rect class="blue" x="130" y="22" width="150" height="30" rx="4"/>
+<text class="ts c" x="205" y="41">½ view extra</text>
+<rect class="green" x="280" y="22" width="300" height="30" rx="4"/>
+<text class="t c" x="430" y="42">what you see</text>
+<rect class="blue" x="580" y="22" width="150" height="30" rx="4"/>
+<text class="ts c" x="655" y="41">½ view extra</text>
+<text class="tb" x="10" y="102">You pan</text>
+<rect class="green" x="370" y="82" width="300" height="30" rx="4"/>
+<text class="t c" x="520" y="102">still inside the fetched range</text>
+<path class="arrow" d="M300 97 H366"/>
+<text class="ts c" x="430" y="142">No request. No re-binning. The plot only moves.</text>
+</svg>
+<figcaption>Small pans and zooms stay inside the margin, so they cost nothing.</figcaption>
+</figure>
 
 Other virtual products keep exact fetches. They may return a fixed number of points for any range, so a wider fetch
 would mean coarser data.
@@ -257,6 +396,34 @@ thread has to wait for them.
 4. The panel stuttered exactly when data was loading.
 5. Now the plot asks for the menu itself, in C++. Python runs only on an actual right-click.
 
+<figure class="uh-diagram">
+<svg viewBox="0 0 760 214" role="img" aria-label="The window thread waiting for Python, before and after">
+<text class="tb" x="10" y="20">Before</text>
+<text class="ts" x="10" y="48">data thread</text>
+<rect class="violet" x="130" y="35" width="620" height="20" rx="3"/>
+<text class="ts c" x="440" y="49">Python: decoding and converting data</text>
+<text class="ts" x="10" y="78">window thread</text>
+<rect class="green" x="130" y="65" width="26" height="20" rx="3"/>
+<rect class="red" x="158" y="65" width="96" height="20" rx="3"/><text class="ts c" x="206" y="79">waits for Python</text>
+<rect class="green" x="256" y="65" width="26" height="20" rx="3"/>
+<rect class="red" x="284" y="65" width="96" height="20" rx="3"/><text class="ts c" x="332" y="79">waits for Python</text>
+<rect class="green" x="382" y="65" width="26" height="20" rx="3"/>
+<rect class="red" x="410" y="65" width="96" height="20" rx="3"/><text class="ts c" x="458" y="79">waits for Python</text>
+<rect class="green" x="508" y="65" width="26" height="20" rx="3"/>
+<rect class="red" x="536" y="65" width="96" height="20" rx="3"/><text class="ts c" x="584" y="79">waits for Python</text>
+<rect class="green" x="634" y="65" width="26" height="20" rx="3"/>
+<rect class="red" x="662" y="65" width="88" height="20" rx="3"/>
+<text class="tb" x="10" y="120">After</text>
+<text class="ts" x="10" y="148">data thread</text>
+<rect class="violet" x="130" y="135" width="620" height="20" rx="3"/>
+<text class="ts c" x="440" y="149">Python: decoding and converting data</text>
+<text class="ts" x="10" y="178">window thread</text>
+<rect class="green" x="130" y="165" width="26" height="20" rx="3"/><rect class="green" x="162" y="165" width="26" height="20" rx="3"/><rect class="green" x="194" y="165" width="26" height="20" rx="3"/><rect class="green" x="226" y="165" width="26" height="20" rx="3"/><rect class="green" x="258" y="165" width="26" height="20" rx="3"/><rect class="green" x="290" y="165" width="26" height="20" rx="3"/><rect class="green" x="322" y="165" width="26" height="20" rx="3"/><rect class="green" x="354" y="165" width="26" height="20" rx="3"/><rect class="green" x="386" y="165" width="26" height="20" rx="3"/><rect class="green" x="418" y="165" width="26" height="20" rx="3"/><rect class="green" x="450" y="165" width="26" height="20" rx="3"/><rect class="green" x="482" y="165" width="26" height="20" rx="3"/><rect class="green" x="514" y="165" width="26" height="20" rx="3"/><rect class="green" x="546" y="165" width="26" height="20" rx="3"/><rect class="green" x="578" y="165" width="26" height="20" rx="3"/><rect class="green" x="610" y="165" width="26" height="20" rx="3"/><rect class="green" x="642" y="165" width="26" height="20" rx="3"/><rect class="green" x="674" y="165" width="26" height="20" rx="3"/><rect class="green" x="706" y="165" width="26" height="20" rx="3"/>
+<text class="ts c" x="440" y="206">Green: a repaint or a mouse move. They run in C++ and never wait for Python.</text>
+</svg>
+<figcaption>Python runs one thread at a time. Any Python on the window's thread queues behind the data threads.</figcaption>
+</figure>
+
 The same idea applies elsewhere:
 
 - The time-range bar updates at most ten times a second while you drag, not on every frame. It shows the final
@@ -275,7 +442,15 @@ The same idea applies elsewhere:
 ## Plotting: SciQLopPlots and NeoQCP
 
 [SciQLopPlots](https://github.com/SciQLop/SciQLopPlots) is the plotting library behind every panel. Its engine is
-NeoQCP, our fork of QCustomPlot rebuilt around the GPU.
+[NeoQCP](https://github.com/SciQLop/NeoQCP), our fork of QCustomPlot rebuilt around the GPU.
+
+To use SciQLopPlots on its own, outside SciQLop, read its
+[user guide](https://github.com/SciQLop/SciQLopPlots/blob/main/docs/user-guide.md). NeoQCP's design notes are in its
+[architecture docs](https://github.com/SciQLop/NeoQCP/tree/main/docs/architecture): the
+[GPU rendering pipeline](https://github.com/SciQLop/NeoQCP/blob/main/docs/architecture/qrhi-rendering-pipeline.md),
+the [async pipelines](https://github.com/SciQLop/NeoQCP/blob/main/docs/architecture/async-pipeline.md),
+[spectrogram resampling](https://github.com/SciQLop/NeoQCP/blob/main/docs/architecture/colormap-resampling.md) and
+[gap detection](https://github.com/SciQLop/NeoQCP/blob/main/docs/architecture/gap-detection.md).
 
 ### Drawn on the GPU
 
@@ -349,6 +524,36 @@ Bursty data taught us to choose level 2's source carefully:
 
 While you pan, the data does not change. Only its position does. So NeoQCP does not redraw a layer on a pan. It
 shifts the last picture on the GPU, and only the lines' offsets are updated.
+
+<figure class="uh-diagram">
+<svg viewBox="0 0 760 180" role="img" aria-label="A pan step, before and after">
+<text class="tb" x="10" y="22">Before: each pan step</text>
+<rect class="panel" x="10" y="34" width="130" height="44" rx="6"/>
+<text class="t c" x="75" y="61">pan step</text>
+<path class="arrow" d="M140 56 H166"/>
+<rect class="red" x="170" y="34" width="200" height="44" rx="6"/>
+<text class="t c" x="270" y="53">repaint every layer</text>
+<text class="ts c" x="270" y="69">on the CPU</text>
+<path class="arrow" d="M370 56 H396"/>
+<rect class="red" x="400" y="34" width="160" height="44" rx="6"/>
+<text class="t c" x="480" y="53">upload images</text>
+<text class="ts c" x="480" y="69">to the GPU</text>
+<path class="arrow" d="M560 56 H586"/>
+<rect class="green" x="590" y="34" width="160" height="44" rx="6"/>
+<text class="t c" x="670" y="61">draw</text>
+<text class="tb" x="10" y="112">After</text>
+<rect class="panel" x="10" y="124" width="130" height="44" rx="6"/>
+<text class="t c" x="75" y="151">pan step</text>
+<path class="arrow" d="M140 146 H166"/>
+<rect class="green" x="170" y="124" width="390" height="44" rx="6"/>
+<text class="t c" x="365" y="143">move the last picture by an offset</text>
+<text class="ts c" x="365" y="159">a few bytes sent to the GPU</text>
+<path class="arrow" d="M560 146 H586"/>
+<rect class="green" x="590" y="124" width="160" height="44" rx="6"/>
+<text class="t c" x="670" y="151">draw</text>
+</svg>
+<figcaption>New data or a zoom still redraws. A plain pan only moves what is already there.</figcaption>
+</figure>
 
 A pan step on 10 million points × 8 columns went from 3.8 ms to 0.8 ms.
 
@@ -464,6 +669,7 @@ live environment and loads right away, as before: there is no old file to replac
 
 uv keeps one copy of each package in its cache. Environments get hard links to those files (clones on macOS), not
 copies. So the second environment costs almost nothing. On btrfs, each slot holds 2.44 MiB of its own.
+[How uv's cache works](https://docs.astral.sh/uv/concepts/cache/).
 
 ### Safe by construction
 
