@@ -102,3 +102,74 @@ body[data-slug="Gallery"] article {
 .os-card .dl-link .external-icon {
   display: none;
 }
+
+// Inline SVG diagrams of the "Under the hood" page. Same palette as CDFpp's docs. Quartz sets
+// saved-theme on <html> from the OS preference too, so one dark rule is enough.
+.uh-diagram {
+  --d-fg: var(--dark);
+  --d-muted: var(--darkgray);
+  --d-line: var(--lightgray);
+  --d-panel: var(--light);
+  --d-blue: #2563eb;
+  --d-blue-soft: #dbeafe;
+  --d-orange: #d97706;
+  --d-orange-soft: #fef3c7;
+  --d-green: #059669;
+  --d-green-soft: #d1fae5;
+  --d-red: #dc2626;
+  --d-red-soft: #fee2e2;
+  --d-violet: #7c3aed;
+  --d-violet-soft: #ede9fe;
+  margin: 1.5rem 0;
+  padding: 1rem 1rem 0.5rem;
+  border: 1px solid var(--d-line);
+  border-radius: 8px;
+
+  svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    font-size: 13px;
+  }
+
+  figcaption {
+    margin-top: 0.5rem;
+    color: var(--d-muted);
+    font-size: 0.85em;
+    text-align: center;
+  }
+
+  .t { fill: var(--d-fg); }
+  .tb { fill: var(--d-fg); font-weight: 600; }
+  .ts { fill: var(--d-muted); font-size: 11px; }
+  .c { text-anchor: middle; }
+
+  .panel { fill: var(--d-panel); stroke: var(--d-line); }
+  .line { stroke: var(--d-muted); stroke-width: 1.5; fill: none; }
+  .dash { stroke-dasharray: 4 3; }
+  .arrow { stroke: var(--d-muted); stroke-width: 1.5; fill: none; marker-end: url(#uh-arrow); }
+  .arrowhead { fill: var(--d-muted); }
+
+  .blue { fill: var(--d-blue-soft); stroke: var(--d-blue); }
+  .orange { fill: var(--d-orange-soft); stroke: var(--d-orange); }
+  .green { fill: var(--d-green-soft); stroke: var(--d-green); }
+  .red { fill: var(--d-red-soft); stroke: var(--d-red); }
+  .violet { fill: var(--d-violet-soft); stroke: var(--d-violet); }
+  .text-blue { fill: var(--d-blue); font-weight: 600; }
+  .text-orange { fill: var(--d-orange); font-weight: 600; }
+  .text-green { fill: var(--d-green); font-weight: 600; }
+  .text-violet { fill: var(--d-violet); font-weight: 600; }
+}
+
+:root[saved-theme="dark"] .uh-diagram {
+  --d-blue: #60a5fa;
+  --d-blue-soft: #1e3a5f;
+  --d-orange: #fbbf24;
+  --d-orange-soft: #4a3510;
+  --d-green: #34d399;
+  --d-green-soft: #0f3d30;
+  --d-red: #f87171;
+  --d-red-soft: #4c1d1d;
+  --d-violet: #a78bfa;
+  --d-violet-soft: #2e2457;
+}

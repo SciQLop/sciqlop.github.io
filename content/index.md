@@ -77,7 +77,8 @@ effortlessly — a built-in guided tour walks new users through their first plot
 - **Questions?** See the [[Contact]] page.
 
 SciQLop is also the tip of a whole open-source stack — Speasy for data access, SciQLopPlots for GPU plotting,
-CDFpp, cocat and more. See the [[Ecosystem|Ecosystem]] page.
+CDFpp, cocat and more. See the [[Ecosystem|Ecosystem]] page. Curious how it all stays fast, and how SciQLop updates
+itself without breaking? See [[under-the-hood|Under the hood]].
 
 # Main Features
 
