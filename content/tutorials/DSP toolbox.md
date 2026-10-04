@@ -4,11 +4,11 @@ title: DSP toolbox
 >[!info] Info to beginners:
 >This tutorial builds on [[virtual products]]. Read that one first if you have never written a virtual product.
 
-`SciQLop.user_api.dsp` is a small signal-processing layer that works directly on Speasy variables. Give it a `SpeasyVariable`, get a `SpeasyVariable` back, with the time axis, units and column names preserved. Every helper detects gaps and processes each continuous segment on its own, so a data hole never bleeds into the filtered signal.
+`SciQLop.user_api.dsp` is a small signal-processing layer that works directly on Speasy variables. Give it a `SpeasyVariable`, get a `SpeasyVariable` back, with the units and column names preserved. Every helper detects gaps and processes each continuous segment on its own, so a data hole never bleeds into the filtered signal. The gap-aware helpers mark each gap with one NaN row, so their output can be a few samples longer than the input.
 
 The main lesson of this page is a pattern: **put the DSP call inside a virtual product**. SciQLop then recomputes it for whatever time window you look at, next to the raw product.
 
-> **_NOTE:_** The module is marked experimental in v0.12. Names are stable enough to use, but expect small changes.
+> **_NOTE:_** The module is marked experimental. Names are stable enough to use, but expect small changes.
 
 # Low-pass filtering MMS burst data
 
@@ -55,11 +55,11 @@ p.plot("speasy//cda//MMS//MMS1//FGM//MMS1_FGM_BRST_L2//mms1_fgm_b_gsm_brst_l2")
 p.plot(b_gsm_lowpass_vp)
 ```
 
-Pan or zoom the panel: the filter is recomputed on the new window. Product paths use `//` as separator; a single `/` raises in v0.12. `time_range` takes a `TimeRange`, not a tuple.
+Pan or zoom the panel: the filter is recomputed on the new window. SciQLop product paths use `//` as separator, because a product name can itself contain a `/`. `time_range` takes a `TimeRange` or a `(start, stop)` pair.
 
 # The other helpers
 
-All of them follow the same shape: a `SpeasyVariable` in, a `SpeasyVariable` out, plus a `gap_factor` keyword (a jump larger than `gap_factor` times the median sample spacing counts as a gap; default 3).
+All of them follow the same shape: a `SpeasyVariable` in, a `SpeasyVariable` out. Most also take a `gap_factor` keyword. A jump larger than `gap_factor` times the median sample spacing counts as a gap; the default is 3.
 
 ```python
 b = spz.get_data("cda/MMS1_FGM_BRST_L2/mms1_fgm_b_gsm_brst_l2",
@@ -73,25 +73,31 @@ magnitude = dsp.reduce(b, "norm")         # collapse the columns to one
 segments = dsp.split_segments(b)          # list of SpeasyVariable, one per continuous run
 ```
 
-`dsp.filtfilt(b, coeffs)` is the FIR twin of `sosfiltfilt`; `dsp.fir_filter` and `dsp.iir_sos` are the single-pass (non zero-phase) versions. `dsp.fft` and `dsp.spectrogram` change the axes, so they return lists, one entry per detected segment. A spectrogram segment is a 2D `SpeasyVariable` (time x frequency) that a `Spectrogram` virtual product returns as a 3-tuple:
+`dsp.filtfilt(b, coeffs)` is the FIR twin of `sosfiltfilt`; `dsp.fir_filter` and `dsp.iir_sos` are the single-pass (non zero-phase) versions. `dsp.fft` and `dsp.spectrogram` change the axes, so they return lists, one entry per detected segment. `dsp.fft` gives `(freqs, magnitude)` tuples. A spectrogram segment is a 2D `SpeasyVariable` (time x frequency). A `Spectrogram` virtual product returns it as a 3-tuple `(time, freqs, values)`.
+
+All segments share the same frequency bins. So the callback below concatenates them to cover the whole window. Keeping only `segs[0]` would drop everything after the first data gap. A segment shorter than one FFT window comes back empty, so we skip it.
 
 ```python
+import numpy as np
+
 def bx_spectrogram(start: float, stop: float):
     b = spz.get_data("cda/MMS1_FGM_BRST_L2/mms1_fgm_b_gsm_brst_l2", start, stop)
     if b is None:
         return None
-    segs = dsp.spectrogram(b, col=0, window_size=256, overlap=128, window="hann")
+    segs = [s for s in dsp.spectrogram(b, col=0, window_size=256, overlap=128, window="hann")
+            if len(s.time)]
     if not segs:
         return None
-    s = segs[0]
-    return s.time, s.axes[1].values, s.values
+    return (np.concatenate([s.time for s in segs]),
+            segs[0].axes[1].values,
+            np.concatenate([s.values for s in segs]))
 
 bx_spectrogram_vp = create_virtual_product("dsp_examples/mms1_bx_spectrogram", bx_spectrogram,
                                            VirtualProductType.Spectrogram)
 p.plot(bx_spectrogram_vp)
 ```
 
-If you already hold plain numpy arrays, `dsp.arrays` exposes the same functions with `(t, y, ...)` arguments and returns `(t_out, y_out)` tuples.
+If you already hold plain numpy arrays, `dsp.arrays` exposes the same functions with `(t, y, ...)` arguments. Most return `(t_out, y_out)` tuples; `interpolate_nan` keeps the time axis and returns only `y`.
 
 # Background subtraction on dynamic spectra
 
@@ -105,19 +111,21 @@ from datetime import timedelta
 clean = dsp.background_subtract(spec, q=50.0, window=timedelta(minutes=5), mode="db")
 ```
 
-`q` is the percentile used as the background estimate per channel (50 = median; use 5 to 10 when bursts fill most of the window), `window` is `None` for one constant background, an `int` for a sample count or a `timedelta` for a duration, and `mode` is `"diff"`, `"ratio"` or `"db"`.
+The three settings:
 
-On v0.12, the same idea fits in a `Spectrogram` virtual product with plain numpy:
+- `q` is the percentile used as the background estimate per channel. 50 is the median. Use 5 to 10 when bursts fill most of the window.
+- `window` is `None` for one constant background, an `int` for a sample count, or a `timedelta` for a duration.
+- `mode` is `"diff"`, `"ratio"` or `"db"`. The output units follow the mode.
+
+As always, it fits in a `Spectrogram` virtual product:
 
 ```python
-import numpy as np
-
 def radio_bgsub(start: float, stop: float):
     spec = ...  # fetch your dynamic spectrum for [start, stop] as a SpeasyVariable
     if spec is None:
         return None
-    background = np.nanpercentile(spec.values, 50.0, axis=0)
-    return spec.time, spec.axes[1].values, spec.values - background
+    clean = dsp.background_subtract(spec, mode="db")
+    return clean.time, clean.axes[1].values, clean.values
 ```
 
 >[!tip] Going further

@@ -41,7 +41,7 @@ don't worry we will explain this in more details below. Essentially this will ad
 
 # Open a Jupyter notebook
 
-Jupyter notebooks are embedded in SciQLop to let you interact with the software. Click on "python 3" under "Notebook" to open a new notebook.
+Jupyter notebooks are embedded in SciQLop to let you interact with the software. Open JupyterLab from **Tools › Open JupyterLab**, then click on "Python 3 (jupyqt)" under "Notebook" to open a new notebook. This notebook runs inside SciQLop, so it can drive it.
 
 ![[jupyterlab.png]]
 
@@ -109,15 +109,46 @@ From now on, SciQLop knows about our virtual product. It is registered in the pr
 
 - `"mms_vprods/mms1/mirror"` : the path in the product tree where the virtual product will be accessible
 - `mirror_mode_threshold` : the Python function SciQLop needs to call to compute this virtual product
-- `VirtualProductType.Scalar` : the type of virtual product, here it is a scalar but you can also compute vectors (`VirtualProductType.Vector`) or spectrograms (`VirtualProductType.Spectrogram`)
-- `labels=["Mirror mode threshold"]` : the legend SciQLop will show on the plot
+- `VirtualProductType.Scalar` : the type of virtual product, here it is a scalar but you can also compute vectors (`VirtualProductType.Vector`), any number of components (`VirtualProductType.MultiComponent`) or spectrograms (`VirtualProductType.Spectrogram`)
+- `labels=["Mirror mode threshold"]` : the legend SciQLop will show on the plot. A scalar needs one label, a vector three, a multi-component product one per component. A spectrogram takes none.
 
 
 The screenshot below shows, on the left in the product tree, the virtual product we have created. It has been drag-and-dropped in the second plot from the top in the current plot panel in the following screenshot.
 
 ![[vp_mirror_plot.png]]
 
+## Let SciQLop fetch the inputs
+
+Our function fetches its own data with `spz.get_data`. You can instead declare the inputs in its signature. Annotate a parameter with `Depends("<product path>")`. SciQLop then fetches that product over the requested interval and passes it in.
+
+```python
+from typing import Annotated
+from SciQLop.user_api.virtual_products import Depends
+
+MOMS = "speasy//cda//MMS//MMS1//DIS//MMS1_FPI_FAST_L2_DIS_MOMS"
+FGM = "speasy//cda//MMS//MMS1//FGM//MMS1_FGM_SRVY_L2"
+
+def mirror_dep(start: float, stop: float,
+               tpara: Annotated[SpeasyVariable, Depends(MOMS + "//mms1_dis_temppara_fast")],
+               tperp: Annotated[SpeasyVariable, Depends(MOMS + "//mms1_dis_tempperp_fast")],
+               n: Annotated[SpeasyVariable, Depends(MOMS + "//mms1_dis_numberdensity_fast")],
+               b: Annotated[SpeasyVariable, Depends(FGM + "//mms1_fgm_b_gse_srvy_l2", pad=30.0)],
+               ) -> SpeasyVariable | None:
+    b = interpolate(tperp, b)
+    betaperp = tperp * n * 1e6 * cst.mu_0 * cst.e * 2 / (b["Bt"] * 1e-9) ** 2
+    return betaperp * (tperp / tpara - 1)
+
+create_virtual_product("mms_vprods/mms1/mirror_dep", mirror_dep,
+                       VirtualProductType.Scalar, labels=["Mirror mode threshold"])
+```
+
+A few details:
+
+- The paths are product-tree paths, with `//` between levels, like the ones you drag from the tree.
+- `pad=30.0` widens the fetch by 30 s on each side. Here it keeps the interpolation backed by data at both edges of the window. It also takes a `timedelta`.
+- When an input has no data, SciQLop skips the call and the product shows nothing.
+
 >[!tip] Going further
->- The `%%vp` cell magic lets you define a virtual product directly from a notebook cell, with hot reload when you re-run the cell.
->- Since v0.12, keyword arguments with default values on your callback become interactive **knobs** (sliders, spinboxes, choices) shown in the plot inspector — perfect for thresholds and tunable parameters.
+>- The `%%vp` cell magic lets you define a virtual product directly from a notebook cell, with hot reload when you re-run the cell. A return annotation such as `-> Scalar["Mirror mode threshold"]` or `-> Vector["Bx", "By", "Bz"]` sets the type and the labels.
+>- Since v0.12, keyword arguments with default values on your callback become interactive **knobs** (sliders, spinboxes, choices). They show in the **Adjustable inputs** section of the Properties panel — perfect for thresholds and tunable parameters.
 >- Both are demonstrated in the tutorial notebooks bundled with SciQLop (see the welcome page).

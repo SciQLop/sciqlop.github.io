@@ -5,12 +5,13 @@ title: Graphic primitives
 
 A figure for a paper or a talk usually needs a few marks on top of the data: a line at the event, a label, an
 arrow pointing at the feature you discuss. `SciQLop.user_api.plot` exports static primitives for that: `Text`,
-`CurvedLine` (with `LineTermination` arrow heads), `HorizontalLine`, `Ellipse` and `Pixmap`. Each is drawn on
-one plot and follows it when you pan or zoom.
+`CurvedLine` (with `LineTermination` arrow heads), `VerticalLine`, `HorizontalLine`, `StraightLine`,
+`HorizontalSpan`, `RectangularSpan`, `Ellipse` and `Pixmap`. Each is drawn on one plot and follows it when you
+pan or zoom.
 
 For marks that must recompute when the data changes, use annotation layers (`SciQLop.user_api.layers`) instead.
 
-> **_NOTE:_** Product paths are `//`-separated strings. A single `/` raises in v0.12.
+> **_NOTE:_** Product paths are `//`-separated strings.
 
 # The panel
 
@@ -24,7 +25,6 @@ from SciQLop.user_api import TimeRange
 from SciQLop.user_api.plot import create_plot_panel
 
 p = create_plot_panel()
-# time_range wants a TimeRange, a (start, stop) tuple is rejected
 p.time_range = TimeRange(datetime(2015, 10, 16, 13, 5, 25), datetime(2015, 10, 16, 13, 7, 35))
 b_plot, _ = p.plot("speasy//cda//MMS//MMS1//FGM//MMS1_FGM_BRST_L2//mms1_fgm_b_gsm_brst_l2")
 n_plot, _ = p.plot("speasy//cda//MMS//MMS1//DIS//MMS1_FPI_BRST_L2_DIS_MOMS//mms1_dis_numberdensity_brst")
@@ -35,8 +35,8 @@ reachable as `p.plots[i]`.
 
 # Coordinates
 
-Every primitive but `HorizontalLine` takes a `coordinate_system` keyword
-(`SciQLop.user_api.plot.enums.CoordinateSystem`):
+`Text`, `CurvedLine`, `VerticalLine`, `StraightLine`, `Ellipse` and `Pixmap` take a `coordinate_system` keyword
+(`SciQLop.user_api.plot.enums.CoordinateSystem`). `HorizontalLine` and the two spans always use data coordinates.
 
 - `Data` (default): X and Y are data values. On a time-series plot X is a Unix timestamp in seconds, so build
   it from a tz-aware `datetime(...).timestamp()`. The mark moves with the data.
@@ -46,20 +46,17 @@ Every primitive but `HorizontalLine` takes a `coordinate_system` keyword
 
 # Marking the crossing
 
-Keep a handle on every primitive you create: assign it to a name, or append it to a list. Since v0.13 the
-item is owned by Python, so a bare `CurvedLine(...)` statement is garbage-collected at once and draws nothing
-(in v0.12 the plot owned it and a bare statement happened to work).
+Keep a handle on every primitive you create: assign it to a name, or append it to a list. The item is owned
+by Python, so a bare `CurvedLine(...)` statement is garbage-collected at once and draws nothing.
 
 ```python
-from SciQLop.user_api.plot import Text, CurvedLine, LineTermination
+from SciQLop.user_api.plot import Text, CurvedLine, VerticalLine, LineTermination
 from SciQLop.user_api.plot.enums import CoordinateSystem
 
 t_cross = datetime(2015, 10, 16, 13, 5, 45, tzinfo=timezone.utc).timestamp()
 
-# vertical line at the crossing: a straight CurvedLine spanning the B plot, no arrow head
-crossing = CurvedLine(b_plot, start=(t_cross, -40), stop=(t_cross, 40),
-                      color="#e74c3c", line_width=1.5,
-                      stop_termination=LineTermination.NoneTermination)
+# vertical line at the crossing, across the whole height of the B plot
+crossing = VerticalLine(b_plot, t_cross, color="#e74c3c", line_width=1.5)
 label = Text(b_plot, "magnetopause", x=t_cross + 2, y=35, color="#e74c3c", font_size=11)
 panel_letter = Text(b_plot, "(a)", x=70, y=30, coordinate_system=CoordinateSystem.Pixel)
 
@@ -78,14 +75,32 @@ straight; move `start_direction` or `stop_direction` off that segment to bend it
 `LineTermination.NoneTermination`, `Arrow`, `LineArrow`, `SPikeArrow`, `Bar`, `HalfBar`, `SkewedBar`,
 `Circle`, `Diamond`, `Square`.
 
-Colours are hex strings, `#RRGGBB` or `#AARRGGBB`. CSS `rgba(...)` strings are not parsed and fail silently.
-Without a colour, `Text`, `CurvedLine` and `Ellipse` take the plot's text colour, legible on both themes.
+Colours are hex strings, `#RRGGBB` or `#AARRGGBB`, or Qt colour names like `"red"`. CSS `rgba(...)` strings
+are not parsed and fail silently. Without a colour, `Text`, `CurvedLine`, `VerticalLine`, `StraightLine` and
+`Ellipse` take the plot's text colour, legible on both themes.
+
+`StraightLine(plot, x1, y1, x2, y2)` draws an infinite line, but only a horizontal or a vertical one. Give it
+two points with the same `x` for a vertical line, or the same `y` for a horizontal one.
+
+# Shaded bands
+
+`HorizontalSpan(plot, y1, y2)` shades a band of Y values across the whole plot. `RectangularSpan(plot, x1, y1,
+x2, y2)` shades a box. Without a `color`, they take a semi-transparent version of the plot's text colour. Pass
+`#AARRGGBB` to choose your own transparency. They are editable with the mouse unless you pass `read_only=True`.
+
+```python
+from SciQLop.user_api.plot import HorizontalSpan, RectangularSpan
+
+sheath_band = HorizontalSpan(n_plot, 8.0, 14.0, color="#403498db", read_only=True)
+jump_box = RectangularSpan(n_plot, t_cross - 5, 0.0, t_cross + 5, 12.0,
+                           color="#40e74c3c", read_only=True)
+```
 
 # Ellipses and images
 
 `Ellipse(plot, x, y, width, height)` takes a bounding box in the chosen coordinate system, so on a
 time-series plot `width` is a duration in seconds. `Pixmap(plot, x, y, width, height, image)` takes a file
-path, raw bytes or a `QPixmap`; in v0.12 place it in data coordinates.
+path, raw bytes or a `QPixmap`.
 
 ```python
 from SciQLop.user_api.plot import Ellipse, Pixmap
@@ -110,14 +125,15 @@ sheath.value = 12.0
 edr.fill_color = None     # back to transparent
 ```
 
-Removing is the flip side of the ownership rule: drop the last reference and the drawing goes away.
-`HorizontalLine` also has an explicit `remove()`.
+Removing is the flip side of the ownership rule: drop the last reference and the drawing goes away. Every
+primitive also has an explicit `remove()`. All but `HorizontalLine` have a `visible` property, to hide one
+without removing it.
 
 ```python
 del arrow
 sheath.remove()
+edr.visible = False
 ```
 
-Since v0.13: `remove()` on every primitive, plus `VerticalLine`, `StraightLine`, `HorizontalSpan` and
-`RectangularSpan`. The bundled notebook `10-SciQLopGraphicPrimitives.ipynb` (welcome page) covers the same
-primitives on another event.
+The bundled notebook `10-SciQLopGraphicPrimitives.ipynb` (welcome page) covers the same primitives on another
+event.

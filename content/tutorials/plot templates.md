@@ -17,15 +17,17 @@ SciQLop offers two complementary answers:
 
 # Panel templates
 
-Once you have built a panel you like — by drag-and-drop, scripting, or both — save it as a template:
+Once you have built a panel you like — by drag-and-drop, scripting, or both — save it as a template. With the mouse, right-click the panel and choose **Panel templates › Save as template…**. From Python:
 
 ```python
 p.save_template("my_mms_overview")
 ```
 
-Templates store the full panel layout (products, plot order, scales) as a shareable YAML file. Saved templates
-appear on the **welcome page**, from which you can instantiate them in one click, and you can share the YAML file
-with colleagues.
+A template stores the products of each plot, in order, with their adjustable inputs. It also keeps the axis scales and ranges, and the time range. Curve colours and styles are not kept. Only products from the product tree are saved: data you plotted from arrays or a function is skipped.
+
+Saved templates appear in the **Templates** section of the **welcome page**. Click a card to open the template in a new panel. Right-click it to rename or delete it.
+
+Templates are plain JSON files. To share one, right-click the panel and choose **Panel templates › Export template…**, which also writes YAML. Your colleague imports it with the **Import…** card of the welcome page. A panel opened from a template gets an **Update template** entry in the same menu, to save your changes back.
 
 # Scripting a routine plot
 

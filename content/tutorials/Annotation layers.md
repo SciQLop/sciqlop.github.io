@@ -2,7 +2,7 @@
 title: Annotation layers
 ---
 >[!info] Info to beginners:
->This tutorial builds on [[Python user API]] and [[virtual products]]. Layers are an experimental API in v0.12: signatures may still move.
+>This tutorial builds on [[Python user API]] and [[virtual products]]. Layers are an experimental API: signatures may still move.
 
 A plot shows data. Very often what you actually want to see is *your reading* of that data: where the spacecraft was in the magnetosheath, where the density crossed a threshold, what threshold you used. An **annotation layer** is a Python function that returns those readings as `Marker`, `Span` or `HLine` objects, and SciQLop draws them on top of an existing plot. The function is re-run whenever its input changes, so the overlay follows you as you pan and zoom.
 
@@ -23,7 +23,7 @@ Span(start=1.0e9, stop=1.0e9 + 60, label="sheath", color="#e67e22")  # a shaded 
 HLine(value=5.0, color="#e74c3c")                             # a horizontal reference line
 ```
 
-Extra keyword arguments with a default become **knobs** in the plot inspector, exactly as for virtual products. Wrap the type in `Annotated[..., Knob(...)]` to set bounds, step, unit or label.
+Extra keyword arguments with a default become **knobs** in the Properties panel, exactly as for virtual products. Wrap the type in `Annotated[..., Knob(...)]` to set bounds, step, unit or label.
 
 # The example: a magnetosheath detector
 
@@ -44,7 +44,7 @@ p.plot(DENSITY)
 p.plot(B_GSM)
 ```
 
-> **_NOTE:_** Product paths are `//`-separated. `time_range` wants a `TimeRange`, not a tuple.
+> **_NOTE:_** Product paths are `//`-separated. `time_range` takes a `TimeRange` or a `(start, stop)` pair.
 
 Now the layer. It reads the density (a `Scalar`), shades every interval above the threshold, puts a marker on each crossing and draws the threshold itself as a line:
 
@@ -75,10 +75,10 @@ def magnetosheath(
 `@register_layer` puts the function in the product tree under **Layers/mms/magnetosheath**, so you can drag it onto the density plot like any product. It is optional when you attach from Python:
 
 ```python
-p.add_layer(magnetosheath, plot_index=0, scope="panel", threshold=8.0)
+layer = p.add_layer(magnetosheath, plot_index=0, scope="panel", threshold=8.0)
 ```
 
-`plot_index` selects the subplot that provides the data and receives the markers and line. Extra keyword arguments set the initial knob values. Move the `threshold` knob in the inspector and the spans, markers and line update live.
+`plot_index` selects the subplot that provides the data and receives the markers and line. Extra keyword arguments set the initial knob values. The knobs show in the Properties panel, in a section named after the function: under the panel for a panel-scoped layer, under the plot otherwise. Move the `threshold` knob there and the spans, markers and line update live.
 
 About `scope`. By default a data-aware layer is *plot*-scoped: its spans stay on the plot it reads from. `scope="panel"` draws the spans across every plot of the panel, which is what we want here: the sheath intervals shade the B-field plot too. Note that `add_layer` has its own `scope` argument; the one given to `@register_layer` only applies to drag-and-drop. `HLine` and `Marker` always stay on the target plot, whatever the scope.
 
@@ -98,7 +98,14 @@ def magnetosheath(data: Scalar, threshold: Annotated[float, Knob(min=0.0, max=50
 
 # Test the function in a cell first
 
-In v0.12.2 an exception raised inside a layer callback is logged and the layer renders nothing, which looks exactly like "no crossing found". So call the function yourself before attaching it. Fetch the same data with Speasy and wrap it in a `Scalar`:
+When a layer callback raises, the layer renders nothing. On the plot, that looks exactly like "no crossing found". The error is logged, and the `layer` object returned by `add_layer` keeps it:
+
+```python
+print(layer.last_error)   # None when the last call went fine
+layer.callback_failed.connect(print)   # a Qt signal, emitted with "<function>: <error>"
+```
+
+Still, the quickest fix loop is to call the function yourself before attaching it. Fetch the same data with Speasy and wrap it in a `Scalar`:
 
 ```python
 import numpy as np
@@ -113,8 +120,7 @@ magnetosheath(Scalar(seconds, v.values), threshold=5.0)
 
 You should get a short list of `Span`, `Marker` and one `HLine`. If it raises, fix it here, not on the plot.
 
->[!tip] Pitfalls in v0.12.2
->- Colours must be hex: `#RRGGBB`, or Qt's `#AARRGGBB` for alpha. A CSS `rgba(...)` string is silently invalid and the annotation just does not appear. Spans are always drawn semi-transparent, so `#RRGGBB` is enough for them.
+>[!tip] Good to know
+>- Colours can be a Qt name (`"orange"`), `#RRGGBB`, Qt's `#AARRGGBB`, or CSS `rgb(...)` / `rgba(...)`. An unknown colour falls back to the default and logs a warning. Spans are drawn semi-transparent unless your colour carries its own alpha.
 >- `Marker.color`, `Marker.label` and `HLine.label` are accepted but not drawn yet; a `Span.label` shows as a tooltip.
 >- `Knob(widget="hline")` on a float knob also draws it as a draggable horizontal line on the plot. Try it on `threshold`: dragging the line retunes the detector, and the `HLine` in the return value becomes redundant.
->- Since v0.13: `rgba()` colour strings are accepted, and the object returned by `add_layer` exposes `last_error` and a `callback_failed` signal, so a broken callback is no longer silent.

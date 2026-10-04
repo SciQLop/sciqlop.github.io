@@ -69,23 +69,27 @@ static_hist.set_data(x, y * 2)
 
 ## Bins, scales and gradient
 
-- `x_bins` / `y_bins` are integer bin counts, spread linearly over the data range. The example takes `log10`
-  inside the callback so that linear bins in log space *are* log bins; that works on every version. Since v0.13
-  you can keep the raw values and pass `x_bin_strategy=BinStrategy.Log` / `y_bin_strategy=BinStrategy.Log`
-  instead (`from SciQLop.user_api.plot.enums import BinStrategy`; `SymLog` also exists).
+- `x_bins` / `y_bins` are integer bin counts, spread linearly over the data range by default. The example takes
+  `log10` inside the callback so that linear bins in log space *are* log bins. You can also keep the raw values and
+  pass `x_bin_strategy=BinStrategy.Log` / `y_bin_strategy=BinStrategy.Log` instead
+  (`from SciQLop.user_api.plot.enums import BinStrategy`). Log bins need strictly positive data. `BinStrategy.SymLog`
+  exists but is not supported by the histogram yet, and explicit bin edges are not either.
 - `z_log_scale=True` (or `hist.z_log_scale = True` later) puts the colour scale on a log axis. Use it whenever counts
   span several decades — otherwise the dense magnetosheath cluster saturates and the boundary track disappears.
-- `gradient` takes a `SciQLopPlots.ColorGradient` value: `Candy`, `Cold`, `Hot` or `Polar`. A gradient name as a
-  string is not accepted in v0.12. `hist.gradient = ColorGradient.Cold` changes it afterwards.
+- `gradient` takes a `SciQLopPlots.ColorGradient` value, such as `Hot`, `Cold`, `Jet`, `Thermal` or `Polar`.
+  `hist.gradient = ColorGradient.Cold` changes it afterwards. A name as a string, like `"hot"`, works too, but in
+  v0.13 only for `Candy`, `Cold`, `Hot` and `Polar`.
 - The returned `XYPlot` owns the axes: `set_axis_label`, `set_x_range`, `set_y_range`, and `x_scale_type` /
   `y_scale_type` (`ScaleType.Linear` or `ScaleType.Logarithmic`). Keep the axes linear when the data is already
   `log10`-transformed.
 
-Pin the axes if the histogram jumps around while you pan:
+Pin the axes if the histogram jumps around while you pan. In v0.13, do it before you set the panel's time range
+(see the warning below):
 
 ```python
 xy_plot.set_x_range(-2, 2)   # 0.01 to 100 cm^-3
 xy_plot.set_y_range(0, 4)    # 1 eV to 10 keV
+p.time_range = TimeRange("2015-10-16T00:00:00", "2015-10-19T00:00:00")
 ```
 
 ## How the callback follows the time range
@@ -94,9 +98,18 @@ The callback signature is `f(start, stop) -> (x, y)` with `start` and `stop` as 
 virtual products, so `spz.get_data` takes them directly. SciQLop calls it on every time range change: the time-range
 bar, a zoom, a pan, or `p.time_range = TimeRange(...)`. Return two empty arrays when there is nothing in the interval.
 
-`PlotPanel.time_range` wants a `TimeRange` (ISO strings or `datetime` objects), not a tuple. Set it after the plots
-exist, and keep at least one time-series plot in the panel — the histogram is an XY plot and has no time axis of its
-own to move.
+`PlotPanel.time_range` takes a `TimeRange` (ISO strings or `datetime` objects) or a `(start, stop)` pair. Set it after
+the plots exist, and keep at least one time-series plot in the panel — the histogram is an XY plot and has no time
+axis of its own to move.
+
+>[!warning] Two v0.13 quirks
+>- A callback histogram stays empty until the panel's time range changes. That is why the example sets `p.time_range` last.
+>- Panning or zooming the histogram's own plot calls the callback with that plot's x values as the time range. `set_x_range` does it too. Those "times" fall in 1970, so the histogram empties. Navigate with the time-series plot or the time-range bar instead. Setting `p.time_range` again restores it.
+
+> [!note] Next release
+> Both quirks are fixed on SciQLop's main branch. A callback histogram loads as soon as it is created, and it follows only the panel's time range.
 
 Each `histogram2d` call creates its own plot: a plot holds a single colour scale, so adding a second colormap-style
 plottable to an existing plot raises `RuntimeError`. Use `plot_index` to choose where the new plot goes in the panel.
+
+The histogram API is marked experimental: expect small changes.

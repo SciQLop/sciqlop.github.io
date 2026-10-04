@@ -15,7 +15,8 @@ content/            all site pages (Obsidian-flavoured Markdown, [[wikilinks]] o
   index.md          landing page: hero downloads, features, install, cite
   Ecosystem.md      the stack under SciQLop (Speasy, SciQLopPlots, CDFpp, cocat …)
   Teaching.md       students / instructors entry point
-  whats-new.md      release highlights (0.11, 0.12, 0.13)
+  whats-new.md      release highlights (0.11 → 0.13.1) + a "Coming next" section (CHANGELOG Unreleased)
+  under-the-hood.md perf path CDF → cache → SciQLop → GPU, and the A/B environment updates
   Contact.md
   tutorials/        GUI + Python tutorials, screenshots in sibling folders
 scripts/bump-release.sh   refresh the fallback release links and check the URLs
@@ -43,12 +44,14 @@ in the toolbox and vanishes on container recreation), then `npx quartz build --s
 | `4f5aaa6`, `012a5e0` | `GALLERY-SHOOT-PROMPT.md`: agent scripts for the round-2/3 shoots |
 | (2026-09-14) | Gallery page, 5 new shots, 07 reshoot, landing-page pictures refreshed |
 
-Versions the site currently describes: **SciQLop v0.13.0** (released 2026-09-14, on PyPI;
-SciQLopPlots 0.36.1), Speasy 1.7.1.
-The download cards resolve binaries at page load; the hardcoded fallback is still
-**v0.12.2** because the v0.13.0 installer build had published no assets when this was
-written. Run `scripts/bump-release.sh v0.13.0` once they exist. All "coming in v0.13"
-labels were removed on 2026-09-14.
+Versions the site currently describes (2026-10-04): **SciQLop v0.13.1** (2026-10-01), Speasy 1.9.0,
+SciQLopPlots 0.47, pycdfpp 0.17.0, pysciqlop-cache 0.3.3. The download fallback is v0.13.1 (all
+installer URLs checked).
+
+Features that are only on SciQLop `main` carry a `> [!note] Next release` box (Under the hood's A/B
+section, several items in the Python user API page and tutorials) and What's New has a "Coming next"
+section. **On the next release**: move "Coming next" into a release section and drop those boxes
+(`grep -rn "Next release" content`).
 
 ## Gallery page: done (2026-09-14)
 
@@ -83,6 +86,12 @@ Screenshots come from a Mac and land in `~/Downloads/sciqlop-website-shots/` her
 - Product paths in code samples are `//`-separated (`speasy//cda//MMS//...`).
   Single `/` is broken — v0.12 raises `ValueError`.
 - Spelling is **SciQLop** everywhere (the old "SciQLOP" was normalised out).
+- `%%vp` / `%%layer` are safe: Obsidian `%%comments%%` are disabled in `quartz.config.ts` because
+  they silently deleted the text between two cell magics (What's New lost ~20 lines).
+- Python user API page and tutorials were checked against the v0.13.1 tag on 2026-10-04 by
+  reading the code, not by running SciQLop.
+- `npx quartz build --serve` crashes when an editor saves through a temp file (ENOENT on
+  `*.md.tmp.*`); restart it, or wrap it in a `while true` loop.
 - Don't add wikilinks to pages that don't exist; Quartz renders them as broken
   links (ten of those were removed in August).
 - OS icons in the hero are inline Font Awesome Free brand SVGs (CC BY 4.0 —
@@ -90,8 +99,10 @@ Screenshots come from a Mac and land in `~/Downloads/sciqlop-website-shots/` her
 
 ## Known gaps / ideas not done
 
-- Workshlop 2026 page: room/access plan still "sent to registered participants";
-  add it when known. Registration form: Google Form linked on the page.
+- Screenshots to retake (the UI changed; each page carries a note saying so):
+  every image of **Basic Plotting Workflow** (old global From/To toolbar, old status bar) and of
+  **Catalogs** (old checkbox list, Interaction mode / Zoom factor, removed explorer window).
+  `vp_mirror_plot.png` and `simple_mms_template.png` are probably dated too.
 - Visual checks: no browser in the toolbox and the playwright MCP wants Chrome. What
   works: `python3 -m venv <dir> && <dir>/bin/pip install playwright && <dir>/bin/playwright
   install chromium` (Chromium lands in `~/.cache/ms-playwright`, survives), then
