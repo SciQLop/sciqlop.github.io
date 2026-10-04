@@ -23,8 +23,8 @@ session fighting installations.
 - **Bundled tutorial notebooks** — a progressive suite (GUI discovery, plotting, virtual products, magics,
   catalogs, DSP, annotation layers, …) browsable directly from the welcome page and copied into the student's
   workspace on first use.
-- **Guided tours** — in-app coach-mark tours (Getting Started, Catalogs, Settings) that
-  auto-start on first launch.
+- **Guided tours** — in-app coach-mark tours (Getting Started, Catalogs, Settings). Getting Started runs by
+  itself on first launch.
 - **[Website tutorials](/tutorials/)** — step-by-step guides with screenshots for the core workflows.
 
 ## Zero-install options
@@ -37,7 +37,7 @@ fetch and plot spacecraft data from any machine with a web browser.
 ## Hands-on training: the Workshlop
 
 We run an annual hands-on workshop — the **Workshlop** — mixing science talks and guided tutorials.
-The [3rd edition takes place Sept 15–17, 2026 in Paris](/workshlops/Workshlop-2026), and registration is open!
+The [3rd edition](/workshlops/Workshlop-2026) took place in Paris, Sept 15–17 2026.
 
 ## Using SciQLop in your course?
 

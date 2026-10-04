@@ -1,18 +1,21 @@
-# Quartz v4
+# sciqlop.github.io
 
-> “[One] who works with the door open gets all kinds of interruptions, but [they] also occasionally gets clues as to what the world is and what might be important.” — Richard Hamming
+The source of the SciQLop website, https://sciqlop.github.io.
 
-Quartz is a set of tools that helps you publish your [digital garden](https://jzhao.xyz/posts/networked-thought) and notes as a website for free.
-Quartz v4 features a from-the-ground rewrite focusing on end-user extensibility and ease-of-use.
+It is built with [Quartz 4](https://quartz.jzhao.xyz/).
+The pages are Markdown files in `content/`.
+Every push to the `v4` branch rebuilds and publishes the site.
 
-🔗 Read the documentation and get started: https://quartz.jzhao.xyz/
+## Preview locally
 
-[Join the Discord Community](https://discord.gg/cRFFHYye7t)
+```bash
+npm ci
+npx quartz build --serve
+```
 
-## Sponsors
+Then open http://localhost:8080.
 
-<p align="center">
-  <a href="https://github.com/sponsors/jackyzha0">
-    <img src="https://cdn.jsdelivr.net/gh/jackyzha0/jackyzha0/sponsorkit/sponsors.svg" />
-  </a>
-</p>
+## More
+
+Read [HANDOVER.md](HANDOVER.md) before changing the site.
+It lists the page layout, the release routine and the known gaps.
