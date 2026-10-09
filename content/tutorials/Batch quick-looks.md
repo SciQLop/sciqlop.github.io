@@ -7,7 +7,7 @@ You have a panel you like. Now you want the same panel for every day of a month,
 Batch mode does that. You write a short Python script, and SciQLop runs it with no window:
 
 ```bash
-sciqlop --batch quicklook.py 2015-10-16
+uvx sciqlop --batch quicklook.py 2015-10-16
 ```
 
 SciQLop starts, runs the script, and exits. There is no display to open, so it also runs over SSH, in a
@@ -19,21 +19,32 @@ container or from a cron job.
 The script uses the same [[Python user API]] as the notebooks. If you can make the plot in a notebook, you can
 make it in batch.
 
-# Getting the `sciqlop` command
+# Running SciQLop with uv
 
-Batch mode needs the `sciqlop` command in a terminal. You get it from the Python package:
+You don't need to install anything but [uv](https://docs.astral.sh/uv/). `uvx` fetches SciQLop from PyPI,
+keeps it in its cache, and runs it:
 
 ```bash
-uv tool install sciqlop        # or: pip install sciqlop
+uvx sciqlop --batch quicklook.py 2015-10-16
 ```
 
-From a source checkout, `uv run sciqlop --batch ...` works too.
+The first run downloads SciQLop. Later runs start straight from the cache. To pin a version, which is wise
+for a cron job, write `uvx sciqlop@0.15.0 --batch ...`.
+
+`uv run --with=sciqlop sciqlop --batch quicklook.py` works too. But inside a Python project folder, `uv run`
+also sets up that project's environment. `uvx` always uses its own, so it behaves the same everywhere.
+
+On Windows, run `uvx --from sciqlop sciqlop-console --batch ...` instead. It keeps the console, so you see the
+script's output.
 
 > [!warning] Not from the installers
 > The Windows installer, the macOS app and the AppImage don't pass `--batch` on yet. They open the normal
-> window instead. Use the Python package for batch runs.
+> window instead. Use uv for batch runs.
 
-On Windows, use `sciqlop-console` instead of `sciqlop`. It keeps the console, so you see the script's output.
+> [!info] Extra packages go in the workspace
+> uv only starts SciQLop. Your script then runs in the Python environment of a SciQLop workspace. So
+> `uvx --with scipy ...` won't make `scipy` available to the script. Install it in the workspace instead:
+> open that workspace once, and run `%install scipy` in a notebook. Then pass the workspace with `-w`.
 
 # A first quick-look
 
@@ -59,7 +70,7 @@ panel.save(f"mms1_{day}.png")
 Run it:
 
 ```bash
-sciqlop --batch quicklook.py 2015-10-16
+uvx sciqlop --batch quicklook.py 2015-10-16
 ```
 
 You get `mms1_2015-10-16.png` in the folder you ran the command from.
@@ -106,7 +117,7 @@ for i in range(n_days):
 ```
 
 ```bash
-sciqlop --batch quicklooks.py 2015-10-01 31
+uvx sciqlop --batch quicklooks.py 2015-10-01 31
 ```
 
 That is one image per day for October 2015.
@@ -122,7 +133,7 @@ Tip: try the panel in a notebook first. Once it looks right, copy the cells into
 # The command line
 
 ```bash
-sciqlop [-w WORKSPACE] [--webengine] --batch SCRIPT [ARGS...]
+uvx sciqlop [-w WORKSPACE] [--webengine] --batch SCRIPT [ARGS...]
 ```
 
 - **Everything after the script name goes to the script**, in `sys.argv`. So SciQLop's own options, like
@@ -150,8 +161,11 @@ Batch mode draws offscreen. It needs no X server, no Wayland, no `DISPLAY`. So i
 A nightly quick-look of yesterday, from cron:
 
 ```bash
-0 6 * * * cd /data/quicklooks && sciqlop -w quicklooks --batch quicklook.py $(date -d yesterday +\%F) >> ql.log 2>&1
+0 6 * * * cd /data/quicklooks && uvx sciqlop@0.15.0 -w quicklooks --batch quicklook.py $(date -d yesterday +\%F) >> ql.log 2>&1
 ```
+
+Cron runs with a short `PATH`, which often misses `~/.local/bin`, where uv installs `uvx`. If the job can't
+find `uvx`, write its full path (`which uvx` tells you).
 
 To use a real display anyway, set `QT_QPA_PLATFORM` yourself. SciQLop respects it.
 

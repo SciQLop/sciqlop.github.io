@@ -10,7 +10,7 @@ Highlights of recent SciQLop releases. Full details in the
 
 These changes are on `main`. They will ship in the next release.
 
-- **Batch mode** — `sciqlop --batch script.py` runs a script with no window and exits. Handy for quick-look
+- **Batch mode** — `uvx sciqlop --batch script.py` runs a script with no window and exits. Handy for quick-look
   plots: one run, one PNG per day. It needs no display, so it runs over SSH or from cron.
   See [[Batch quick-looks]].
 
