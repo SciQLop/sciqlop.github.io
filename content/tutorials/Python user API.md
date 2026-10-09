@@ -188,6 +188,12 @@ if p.wait_for_data(timeout=30):
 >     p.zoom_limit_seconds = span
 > ```
 
+> [!note] Next release
+> `panel.settle(timeout=None)` waits until the panel shows its data: downloaded, drawn and rescaled. It raises
+> `TimeoutError` after `timeout` seconds. `wait_for_data` now waits for the same thing, so an export right
+> after it no longer shows the old axis range. To make images from a script with no window, see
+> [[Batch quick-looks]].
+
 `save_template("my_layout")` writes `my_layout.json` in the templates folder. A name with a `/` is used as a
 file path instead.
 
