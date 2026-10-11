@@ -29,6 +29,8 @@ Saved templates appear in the **Templates** section of the **welcome page**. Cli
 
 Templates are plain JSON files. To share one, right-click the panel and choose **Panel templates › Export template…**, which also writes YAML. Your colleague imports it with the **Import…** card of the welcome page. A panel opened from a template gets an **Update template** entry in the same menu, to save your changes back.
 
+The file format, and how templates relate to Speasy proxy share links, is described in [[Template format]].
+
 # Scripting a routine plot
 
 To obtain the following screenshot

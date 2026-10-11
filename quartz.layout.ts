@@ -22,6 +22,7 @@ const explorer = () =>
   Component.Explorer({
     sortFn: (a, b) => {
       const readingOrder = [
+        "tutorials",
         "Basic-Plotting-Workflow",
         "Catalogs",
         "Python-user-API",

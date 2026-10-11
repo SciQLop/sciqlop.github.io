@@ -4,6 +4,7 @@ import { QuartzPluginData } from "./quartz/plugins/vfile"
 
 // Same order as the Explorer sortFn in quartz.layout.ts, which can't import it (it runs in the browser).
 const readingOrder = [
+  "tutorials",
   "Basic-Plotting-Workflow",
   "Catalogs",
   "Python-user-API",
