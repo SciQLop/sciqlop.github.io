@@ -41,7 +41,7 @@ don't worry we will explain this in more details below. Essentially this will ad
 
 # Open a Jupyter notebook
 
-Jupyter notebooks are embedded in SciQLop to let you interact with the software. Open JupyterLab from **Tools › Open JupyterLab**, then click on "Python 3 (jupyqt)" under "Notebook" to open a new notebook. This notebook runs inside SciQLop, so it can drive it.
+Jupyter notebooks are embedded in SciQLop to let you interact with the software. Open JupyterLab from **Tools › Open JupyterLab**, then click on "Python 3 (ipykernel)" under "Notebook" to open a new notebook. This notebook runs inside SciQLop, so it can drive it.
 
 ![[jupyterlab.png]]
 
