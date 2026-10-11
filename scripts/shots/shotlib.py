@@ -56,9 +56,8 @@ def settle(panel, timeout: float = 300) -> None:
 
 
 def set_labels(panel, labels: list[tuple[str, str]]) -> None:
-    """(axis, text) per plot, in order. Call it right before saving: the product metadata
-    label comes back on later refreshes (reported 2026-10-11). Spectrograms carry their
-    data on "y2", the right-hand axis."""
+    """(axis, text) per plot, in order. Spectrograms carry their data on "y2", the
+    right-hand axis."""
     for plot, (axis, text) in zip(panel.plots, labels):
         plot.set_axis_label(axis, text)
     pump(0.3)
