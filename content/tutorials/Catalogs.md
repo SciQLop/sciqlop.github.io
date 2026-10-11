@@ -157,5 +157,7 @@ overlay.remove()  # or panel.remove_catalog_overlay(overlay)
 
 `override_color` takes a Qt colour string. A colour name or `#RRGGBB` is opaque, and the zones hide the data underneath. So give it an alpha with Qt's `#AARRGGBB` form. `#50` (80/255) is the palette's default transparency.
 
+![[catalog_from_data.png]]
+
 > [!note] Next release
 > A catalog can stay attached to a panel without drawing its zones: untick **Show spans** in its entry of the panel's **Catalogs** menu, or pass `show_spans=False` to `add_catalog_overlay`. `Jump` mode still works with it. Handy for a catalog you only navigate with, like a list of flybys.

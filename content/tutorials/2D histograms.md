@@ -67,6 +67,8 @@ _, static_hist = p2.histogram2d(x, y, x_bins=60, y_bins=60, name="noise")
 static_hist.set_data(x, y * 2)
 ```
 
+![[hist2d_static.png]]
+
 ## Bins, scales and gradient
 
 - `x_bins` / `y_bins` are integer bin counts, spread linearly over the data range by default. The example takes

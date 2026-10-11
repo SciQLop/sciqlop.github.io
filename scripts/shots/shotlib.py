@@ -20,6 +20,7 @@ from SciQLop.user_api import themes
 from SciQLop.user_api.gui import get_main_window
 
 OUT = Path(os.environ.get("SHOTS_OUT", "."))
+TUTORIALS = Path(__file__).resolve().parents[2] / "content" / "tutorials"
 WINDOW_SIZE = (1470, 923)  # logical px; 2940x1846 at scale 2, the size of the Mac shots
 ACCENT = QColor("#ff5a4e")
 
@@ -75,6 +76,25 @@ def lab_element_rect(lab_dock: QWidget, selector: str) -> QRect:
     x, y, w, h = map(float, found[0].split(","))  # a JS array would arrive empty
     origin = rect_in_window(lab_view(lab_dock)).topLeft()
     return QRect(origin.x() + int(x), origin.y() + int(y), int(w), int(h))
+
+
+def tutorial_code(page: str, replace: dict[str, str] | None = None) -> list[str]:
+    """The ```python blocks of content/tutorials/<page>.md, in order. Shots run these, so a
+    screenshot always shows what the tutorial's own code does. `replace` swaps placeholders
+    (an image path, a file name) for values that exist on this machine."""
+    import re
+    text = (TUTORIALS / f"{page}.md").read_text()
+    blocks = re.findall(r"^```python\n(.*?)^```", text, flags=re.S | re.M)
+    for old, new in (replace or {}).items():
+        blocks = [b.replace(old, new) for b in blocks]
+    return blocks
+
+
+def run_blocks(blocks: list[str], namespace: dict) -> dict:
+    for block in blocks:
+        exec(block, namespace)
+        pump(0.3)
+    return namespace
 
 
 def main_window(theme: str = "dark"):

@@ -60,9 +60,9 @@ DENSITY = "speasy//cda//MMS//MMS1//DIS//MMS1_FPI_FAST_L2_DIS_MOMS//mms1_dis_numb
 day = sys.argv[1]
 
 panel = create_plot_panel()
+panel.time_range = (f"{day}T00:00", f"{day}T23:59:59")
 panel.plot(FGM)
 panel.plot(DENSITY)
-panel.time_range = (f"{day}T00:00", f"{day}T23:59:59")
 panel.settle(timeout=300)
 panel.save(f"mms1_{day}.png")
 ```
@@ -73,11 +73,15 @@ Run it:
 uvx sciqlop --batch quicklook.py 2015-10-16
 ```
 
-You get `mms1_2015-10-16.png` in the folder you ran the command from.
+You get `mms1_2015-10-16.png` in the folder you ran the command from:
+
+![[mms1_2015-10-16.png]]
 
 Three things happen in that script:
 
-1. `panel.time_range = ...` asks for the data. The download starts in the background.
+1. `panel.plot(...)` asks for the data over the panel's time range. The download starts in the background.
+   Set the time range first: plotting first fetches a day you don't want, and that early fetch can leave
+   an axis badly scaled.
 2. `panel.settle(...)` waits until the panel shows that data: downloaded, drawn and rescaled.
 3. `panel.save(...)` writes the image. `.png`, `.pdf`, `.jpg` and `.bmp` work, picked from the extension.
 
@@ -105,6 +109,7 @@ first_day = datetime.fromisoformat(sys.argv[1])
 n_days = int(sys.argv[2])
 
 panel = create_plot_panel()
+panel.time_range = (first_day, first_day + timedelta(days=1))
 panel.plot(FGM)
 panel.plot(DENSITY)
 

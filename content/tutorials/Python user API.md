@@ -83,6 +83,8 @@ b_plot, b_graph = p.plot(FGM)       # new plot at the bottom of the panel
 n_plot, n_graph = p.plot(DENSITY)   # another new plot
 ```
 
+![[api_first_panel.png]]
+
 Each `plot` call returns two handles: the **plot** (one set of axes) and the **graph** drawn in it. Keep them to
 change the plot later.
 
@@ -295,6 +297,8 @@ flux = np.random.default_rng(0).random((t.size, energy.size))
 plot, cmap = p.plot_data(t, energy, flux, y_log_scale=True, z_log_scale=True)
 ```
 
+![[api_plot_data.png]]
+
 > [!warning] Colormap axes must be ascending
 > Both `x` and `y` of a colormap must be sorted ascending. A descending energy table gives an empty or scrambled
 > picture, not a flipped one. CDF energy tables are often stored high to low: flip `y` and the last axis of `z`.
@@ -322,10 +326,15 @@ def b_total(start, stop):
     if b is None:
         return np.array([]), np.array([])
     t = b.time.astype("datetime64[ns]").astype("int64") / 1e9
-    return t, b.values[:, 3]
+    return t, np.ascontiguousarray(b.values[:, 3])   # a column view is strided: SciQLop drops it
 
 plot, graph = p.plot_function(b_total, labels=["|B|"])
 ```
+
+![[api_plot_function.png]]
+
+Return contiguous arrays. A column slice such as `b.values[:, 3]` is a strided view, and SciQLop drops it with
+only a warning in the log, leaving the plot empty. Wrap it in `np.ascontiguousarray(...)`.
 
 If the function raises, the error shows as a red message over the plot. It goes away on the next successful call.
 
@@ -380,12 +389,14 @@ keyword.
 A waterfall stacks one line per row of a matrix.
 
 ```python
-x = np.linspace(0, 10, 200)
+x = np.linspace(p.time_range.start(), p.time_range.stop(), 200)   # epoch seconds, inside the panel's window
 y = np.linspace(0, 5, 12)
-z = np.sin(x) * np.exp(-y[:, None])          # shape (len(y), len(x))
+z = np.sin(np.linspace(0, 10, 200)) * np.exp(-y[:, None])         # shape (len(y), len(x))
 wf = p.waterfall(x, y, z, name="stack", offsets=1.0, gain=1.0, normalize=False, color="#1f77b4")
 wf.gain = 2.0
 ```
+
+![[api_waterfall.png]]
 
 `panel.waterfall(...)` (experimental) returns the `Waterfall` only. `XYPlot.waterfall(...)` and
 `TimeSeriesPlot.waterfall(...)` add one to an existing plot. A wrong `z` shape raises `ValueError`.
@@ -460,6 +471,8 @@ b_plot.set_axis_label("y", "B", "nT")
 b_plot.set_axis_label("y2", "n", "cm^-3")
 ```
 
+![[api_right_axis.png]]
+
 A plot has a single colour scale. Adding a second colormap, histogram or waterfall to the same plot raises
 `RuntimeError`. Colormaps cannot live on `y2`; `y_axis="y2"` is ignored for them.
 
@@ -506,6 +519,8 @@ proj.set_x_range(-500, 500)
 proj.set_y_range(-500, 500)
 ```
 
+![[api_projection.png]]
+
 | Member | What it does |
 |---|---|
 | `proj.plot(product)` | Adds a product. |
@@ -529,6 +544,8 @@ b_plot.overlay.show("Burst data only after 13:00", level=OverlayLevel.Warning,
 b_plot.overlay.collapsible = True
 b_plot.overlay.clear()
 ```
+
+![[api_overlay_message.png]]
 
 `show` and `clear` are experimental. `text`, `level`, `position` and `size_mode` read the current message.
 `collapsible`, `collapsed` and `opacity` are settable. Don't keep the overlay object: read `plot.overlay` again
@@ -616,6 +633,8 @@ builder = (fluent.new_panel()
 panel = builder.panel          # the underlying PlotPanel
 ```
 
+![[api_fluent.png]]
+
 | Method | What it does |
 |---|---|
 | `fluent.new_panel()` | Creates a panel and returns a builder. |
@@ -687,6 +706,8 @@ b_total_vp = create_virtual_product("my_products//mms1//b_total", b_total,
                                     VirtualProductType.Scalar, labels=["|B|"], cachable=True)
 p.plot(b_total_vp)
 ```
+
+![[api_virtual_product.png]]
 
 ## The callback contract
 

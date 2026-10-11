@@ -70,6 +70,8 @@ arrow = CurvedLine(n_plot, start=(t_cross - 15, 8), stop=(t_cross - 0.5, 4),
                    stop_termination=LineTermination.Arrow)
 ```
 
+![[primitives_marks.png]]
+
 `CurvedLine` is a Bézier curve. Its two control handles default to the straight segment, so the line is
 straight; move `start_direction` or `stop_direction` off that segment to bend it. Terminations:
 `LineTermination.NoneTermination`, `Arrow`, `LineArrow`, `SPikeArrow`, `Bar`, `HalfBar`, `SkewedBar`,
@@ -99,6 +101,8 @@ sheath_band = HorizontalSpan(n_plot, 8.0, 14.0, color="#403498db", read_only=Tru
 jump_box = RectangularSpan(n_plot, t_cross - 5, 0.0, t_cross + 5, 12.0,
                            color="#40e74c3c", read_only=True)
 ```
+
+![[primitives_bands.png]]
 
 # Ellipses and images
 

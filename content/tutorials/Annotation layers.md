@@ -78,6 +78,8 @@ def magnetosheath(
 layer = p.add_layer(magnetosheath, plot_index=0, scope="panel", threshold=8.0)
 ```
 
+![[layer_magnetosheath.png]]
+
 `plot_index` selects the subplot that provides the data and receives the markers and line. Extra keyword arguments set the initial knob values. The knobs show in the Properties panel, in a section named after the function: under the panel for a panel-scoped layer, under the plot otherwise. Move the `threshold` knob there and the spans, markers and line update live.
 
 About `scope`. By default a data-aware layer is *plot*-scoped: its spans stay on the plot it reads from. `scope="panel"` draws the spans across every plot of the panel, which is what we want here: the sheath intervals shade the B-field plot too. Note that `add_layer` has its own `scope` argument; the one given to `@register_layer` only applies to drag-and-drop. `HLine` and `Marker` always stay on the target plot, whatever the scope.
