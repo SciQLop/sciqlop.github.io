@@ -43,10 +43,11 @@ First import all plotting routines offered by SciQLop:
 from SciQLop.user_api.plot import *
 ```
 
-then create a plot panel (this is the Python equivalent of the button on the top of the SciQLop window) and use the returned plot panel handle (`p`) to make plots by calling the method `plot`:
+then create a plot panel (this is the Python equivalent of the button on the top of the SciQLop window), set its time range, and use the returned plot panel handle (`p`) to make plots by calling the method `plot`:
 
 ```python
 p = create_plot_panel()
+p.time_range = TimeRange("2020-12-19", "2020-12-20")
 p.plot("speasy//cda//MMS//MMS1//DIS//MMS1_FPI_FAST_L2_DIS_MOMS//mms1_dis_energyspectr_omni_fast")
 p.plot("speasy//cda//MMS//MMS1//DIS//MMS1_FPI_FAST_L2_DIS_MOMS//mms1_dis_numberdensity_fast")
 p.plot("speasy//cda//MMS//MMS1//DIS//MMS1_FPI_FAST_L2_DIS_MOMS//mms1_dis_bulkv_gse_fast")
@@ -63,10 +64,9 @@ Then grab the last plot (index `4` in the panel plots `p.plots` list) where the 
 p.plots[4].plot("speasy//cda//MMS//MMS1//DIS//MMS1_FPI_FAST_L2_DIS_MOMS//mms1_dis_temppara_fast")
 ```
 
-Finally, set the time range of the plot panel and set plots indexed 1 and 4 (density and temperatures) to have a log Y scale.
+Finally, set plots indexed 1 and 4 (density and temperatures) to have a log Y scale.
 
 ```python
-p.time_range = TimeRange("2020-12-19", "2020-12-20")
 p.plots[1].y_scale_type = ScaleType.Logarithmic
 p.plots[4].y_scale_type = ScaleType.Logarithmic
 ```
