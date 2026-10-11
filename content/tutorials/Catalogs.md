@@ -8,9 +8,6 @@ In this tutorial we are going to use SciQLop to create a catalog of events and u
 
 After [[Basic Plotting Workflow|plotting data]], here centered on a nice crossing of the Earth magnetopause by MMS, we start by opening the **Catalogs** tab, on the left side bar next to **Products** and **Properties**.
 
->[!note] Older screenshots
->The screenshots on this page come from an older SciQLop. Its catalog tab had a checkbox list, an **Add event** button on each catalog and a separate catalog explorer window. The steps below follow the current Catalogs tab. The ideas are the same.
-
 ![[catalog_noview_with_data.png]]
 
 ## The catalog tab
@@ -137,7 +134,7 @@ panel = create_plot_panel()
 panel.time_range = TimeRange(start, stop)
 panel.plot("speasy//cda//MMS//MMS1//DIS//MMS1_FPI_FAST_L2_DIS_MOMS//mms1_dis_numberdensity_fast")
 
-n = spz.get_data("cda/MMS1_FPI_FAST_L2_DIS_MOMS/mms1_dis_numberdensity_fast", start, stop)
+n = spz.get_data("cda/MMS1_FPI_FAST_L2_DIS-MOMS/mms1_dis_numberdensity_fast", start, stop)
 inside = n.values[:, 0] > 10
 edges = np.diff(inside.astype(np.int8), prepend=0, append=0)
 starts, stops = np.flatnonzero(edges == 1), np.flatnonzero(edges == -1) - 1

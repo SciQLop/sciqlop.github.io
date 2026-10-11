@@ -16,9 +16,6 @@ The screenshot below shows you an empty SciQLop interface from which you can plo
 
 ![[empty.png]]
 
->[!note] Older screenshots
->The screenshots on this page come from an older SciQLop. There, one pair of From/To fields in the toolbar set the time for every panel. Today each panel carries its own start time and duration, at its bottom. The rest of the workflow is the same.
-
 ## Drag and drop products to plot
 
 You are ready to see data?
@@ -59,7 +56,7 @@ Choosing between the two options simply consists in where you drop the product o
 ![[plot_2plots.png]]
 
 >[!tip] Hiding curves
->Sometimes it is useful to hide some of the curves displayed on a plot. Let's say here we don't want to see the Bz component. Just **double click on the legend** and it will hide the associated curve on the plot. Double click again, and the curve will reappear.
+>Sometimes it is useful to hide some of the curves displayed on a plot. Let's say here we don't want to see the Bz component. A vector shows one legend entry: click its **▸** marker to list the components. Then **double click a component** and it will hide the associated curve on the plot. Double click again, and the curve will reappear.
 >![[hide.png]]
 
 ## Browse data
@@ -70,7 +67,7 @@ The main advantage of SciQLop is that it allows you to browse data by just inter
 >A new panel will not zoom out beyond one day. This keeps an accidental zoom from downloading months of data. To see more, pick a larger value in the **Zoom limit** box, at the bottom of the panel. The default lives in **Settings**.
 
 ### Zooming in and out
-The following screenshot shows the result of zooming out. The data previously taking the whole window now only appear in the central zone, surrounded by white empty areas, because data is being downloaded.
+The following screenshot shows the result of zooming out. The data previously taking the whole window now only appear in the central zone, surrounded by empty areas, because data is being downloaded.
 
 ![[zoomingout.png]]
 
@@ -79,7 +76,7 @@ The following screenshot shows the result of zooming out. The data previously ta
 
 Ok data should arrive rapidly since in our example we are plotting low resolution vectors. It should even be almost instantaneous if you have data in cache. Once the download is finished data should appear
 
-We now see we were zoomed in a nice interplanetary coronal mass ejection!
+We now see the context: our day sat on an interplanetary shock, followed by a day of strong, turbulent field.
 
 ![[zoomedout.png]]
 
@@ -107,7 +104,7 @@ Sometimes we want to change the way the data is plotted. Click a plot or a curve
 
 ![[properties1.png]]
 
-This will show a hierarchical tree of all SciQLop objects currently displayed, from plot panels down to curves. Each level in the hierarchy has its own properties. For instance above we have selected the **plot 5** in **panel 2** which is visually represented by a dashed surrounding rectangle on the plot panel. At this level we can:
+This will show a hierarchical tree of all SciQLop objects currently displayed, from plot panels down to curves. Each level in the hierarchy has its own properties. For instance above we have selected **Plot0**, the second plot of **Panel0**, which is visually represented by a dashed surrounding rectangle on the plot panel. At this level we can:
 
 - hide/show the legend
 - switch the crosshair read-out on or off
@@ -118,7 +115,7 @@ At the level of the components Bx, By, Bz you will be able to change curve color
 
 
 >[!tip] panel and plot numbering
->you may wonder why in the **properties** the only panel is **panel 2** and the two plots are numbered 4 and 5. This is because panel and plots are numbered with increasing indexes regardless of previous ones possibly deleted. The screenshot above has been made after panel 1 was deleted, and after plots 1, 2, 3 were deleted on panel 2. Today, numbering starts at zero: the first panel is `Panel0`.
+>Panels and plots get their names in creation order, and a deleted one's number is not reused. So after a few deletions the names can skip numbers. The first panel is `Panel0`.
 
 >[!tip] Deleting a panel / plot
 >Deleting a plot or a curve from the currently displayed view is done by pressing the `Delete` key on the selected item in the **Properties** tree. Dragging a plot up or down in that tree reorders the panel.

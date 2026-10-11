@@ -23,7 +23,7 @@ from SciQLop.user_api import TimeRange
 from SciQLop.user_api.plot import create_plot_panel
 from SciQLopPlots import ColorGradient
 
-DIS = "cda/MMS1_FPI_FAST_L2_DIS_MOMS"
+DIS = "cda/MMS1_FPI_FAST_L2_DIS-MOMS"
 
 
 def density_vs_tperp(start, stop):

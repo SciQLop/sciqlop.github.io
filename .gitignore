@@ -9,3 +9,6 @@ tsconfig.tsbuildinfo
 private/
 .replit
 replit.nix
+scripts/shots/out/
+scripts/shots/.state/
+__pycache__/

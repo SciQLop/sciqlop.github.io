@@ -11,7 +11,7 @@ session; the products, intervals and features behind each one are listed in the
 ![[01-hero-mms-magnetopause-crossing.png]]
 
 MMS1 on the dayside magnetopause, the Burch et al. 2016 electron diffusion region event of 2015-10-16.
-FPI-DIS burst omni spectrum, ion density, bulk velocity, temperatures and FGM burst B GSM, stacked on a shared
+FPI-DIS burst omni spectrum, FGM burst B GSM, ion density, bulk velocity and temperatures, stacked on a shared
 time axis.
 
 ## Orbit projections with linked time markers
@@ -46,8 +46,8 @@ magnetosphere upper left, cold dense magnetosheath lower right, joined by the bo
 
 ![[06-annotation-layer-detector.png]]
 
-A `detectors/magnetosheath` layer: blue spans where ion density exceeds a threshold, orange markers at the
-crossings, and the threshold itself as a red line you can drag.
+A `detectors/magnetosheath` layer on the density plot: shaded spans where the ion density exceeds a threshold,
+orange markers at the crossings, and the threshold itself as a red line.
 
 ## Parameterised virtual products
 
@@ -60,8 +60,8 @@ labelled controls; the threshold knob is drawn on the plot as a movable line.
 
 ![[08-catalog-overlays-multi-plot.png]]
 
-Two colour-coded catalogs over three plots. MMS1 sits in the magnetosheath until about 13:40, then enters
-the magnetosphere. The events were derived from the data, not hand-drawn.
+Two colour-coded catalogs over three plots: magnetosheath intervals in blue, boundary crossings in orange.
+MMS1 sits in the magnetosheath until about 13:40, then enters the magnetosphere. The events were derived from the data, not hand-drawn.
 
 ## Publication-style annotations
 
