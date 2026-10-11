@@ -1,24 +1,38 @@
-"""09: publication-style annotation of the crossing with graphic primitives.
-10: the same panel in the four built-in palettes."""
+"""09: the Burch et al. (2016) crossing marked with graphic primitives: the magnetopause and the
+electron diffusion region. 10: the same panel in the four built-in palettes."""
 import os
 import sys
 from datetime import datetime, timezone
+
+import numpy as np
+import speasy as spz
 
 sys.path.insert(0, os.path.dirname(__file__))
 from mms import BURCH_EDR, DIS_BRST, FGM_BRST_GSM  # noqa: E402
 from shotlib import main_window, pump, save_panel, set_labels, settle  # noqa: E402
 
 from SciQLop.user_api import themes  # noqa: E402
-from SciQLop.user_api.plot import CurvedLine, LineTermination, Text, VerticalLine, create_plot_panel  # noqa: E402
+from SciQLop.user_api.plot import Text, VerticalLine, create_plot_panel  # noqa: E402
+from PySide6.QtCore import Qt  # noqa: E402
 
-YELLOW, BLUE = "#f1c40f", "#5dade2"
+ORANGE, YELLOW = "#e67e22", "#f1c40f"
+SHEATH_DENSITY = 5.0  # cm^-3
+LABEL_Y = 52.0  # nT, in the headroom above the field traces
 
 
-def utc(*hms) -> float:
-    return datetime(2015, 10, 16, *hms, tzinfo=timezone.utc).timestamp()
+def utc(h: int, m: int, s: float) -> float:
+    return datetime(2015, 10, 16, h, m, tzinfo=timezone.utc).timestamp() + s
 
 
-T_CROSS = utc(13, 5, 42)
+def magnetopause_time() -> float:
+    n = spz.get_data("cda/MMS1_FPI_BRST_L2_DIS-MOMS/mms1_dis_numberdensity_brst",
+                     BURCH_EDR.start(), BURCH_EDR.stop())
+    first = np.argmax(n.values[:, 0] > SHEATH_DENSITY)
+    return n.time[first].astype("datetime64[ns]").astype("int64") / 1e9
+
+
+T_MP = magnetopause_time()
+EDR = (utc(13, 7, 1.6), utc(13, 7, 2.8))
 
 main_window()
 panel = create_plot_panel()
@@ -26,22 +40,20 @@ panel.time_range = BURCH_EDR
 spectrum, _ = panel.plot(DIS_BRST + "mms1_dis_energyspectr_omni_brst")
 b_plot, _ = panel.plot(FGM_BRST_GSM)
 settle(panel)
-# Primitives use the left y axis, but a spectrogram draws on the right one ("y2"). Pinning the
-# unused left axis to 0..1 lets the spectrogram annotations sit at fractions of the plot height.
+# Primitives use the left y axis; a spectrogram draws on the right one ("y2"). Pinning the
+# unused left axis to 0..1 lets the spectrogram marks span the full plot height.
 spectrum.set_axis_range("y", 0.0, 1.0)
+b_plot.set_y_range(-40.0, 60.0)
 
 annotations = [
-    VerticalLine(spectrum, T_CROSS, color=YELLOW, line_width=1.5),
-    VerticalLine(b_plot, T_CROSS, color=YELLOW, line_width=1.5),
-    Text(spectrum, "magnetosphere", x=utc(13, 5, 31), y=0.14, color="white", font_size=11),
-    Text(spectrum, "magnetopause", x=utc(13, 6, 0), y=0.08, color="white", font_size=11),
-    Text(spectrum, "magnetosheath", x=utc(13, 6, 40), y=0.14, color="white", font_size=11),
-    CurvedLine(spectrum, start=(utc(13, 5, 58), 0.09), stop=(T_CROSS + 1, 0.09), color=YELLOW,
-               line_width=2.0, stop_termination=LineTermination.Arrow),
-    Text(b_plot, "B rotation across the current sheet", x=utc(13, 6, 15), y=31, color="white",
-         font_size=11),
-    CurvedLine(b_plot, start=(utc(13, 6, 13), 28), stop=(utc(13, 5, 47), 7), color=BLUE,
-               line_width=2.0, stop_termination=LineTermination.Arrow),
+    *(VerticalLine(p, T_MP, color=ORANGE, line_width=2.0, line_style=Qt.PenStyle.DashLine)
+      for p in (spectrum, b_plot)),
+    # A RectangularSpan would shade the EDR, but it doesn't draw yet (reported 2026-10-11).
+    *(VerticalLine(p, t, color=YELLOW, line_width=2.0) for p in (spectrum, b_plot) for t in EDR),
+    Text(b_plot, "magnetosphere", x=utc(13, 5, 34), y=LABEL_Y, font_size=11),
+    Text(b_plot, "magnetopause", x=T_MP + 8, y=-33.0, font_size=11),
+    Text(b_plot, "magnetosheath", x=utc(13, 6, 20), y=LABEL_Y, font_size=11),
+    Text(b_plot, "electron diffusion region", x=EDR[0] - 11, y=-35.0, font_size=11),
 ]
 pump(1)
 set_labels(panel, [("y2", "Ion energy [eV]"), ("y", "B GSM [nT]")])
@@ -49,7 +61,6 @@ save_panel(panel, "09-graphic-primitives-annotated-crossing.png")
 
 for theme in ["light", "dark", "neutral", "space"]:
     themes.apply_theme(theme)
-    pump(1.5)
-    set_labels(panel, [("y2", "Ion energy [eV]"), ("y", "B GSM [nT]")])
+    pump(4)
     save_panel(panel, f"10-theme-{theme}.png")
 themes.apply_theme("dark")

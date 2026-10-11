@@ -63,11 +63,13 @@ labelled controls; the threshold knob is drawn on the plot as a movable line.
 Two colour-coded catalogs over three plots: magnetosheath intervals in blue, boundary crossings in orange.
 MMS1 sits in the magnetosheath until about 13:40, then enters the magnetosphere. The events were derived from the data, not hand-drawn.
 
-## Publication-style annotations
+## Marking an event
 
 ![[09-graphic-primitives-annotated-crossing.png]]
 
-Curved arrows, text and vertical lines from the graphic-primitives API, on the same crossing.
+Lines and text from the graphic-primitives API mark the magnetopause crossing and the electron
+diffusion region found by Burch et al. (2016). The magnetopause time is read from the ion density,
+not placed by hand.
 
 ## Four palettes
 
