@@ -7,7 +7,7 @@ import sys
 from PySide6.QtCore import QUrl
 
 sys.path.insert(0, os.path.dirname(__file__))
-from shotlib import grab, lab_view, main_window, open_jupyterlab, pump, settle, toggle_lab_sidebar  # noqa: E402
+from shotlib import grab, web_view, main_window, open_jupyterlab, pump, settle, toggle_lab_sidebar  # noqa: E402
 
 from PySide6QtAds import RightDockWidgetArea  # noqa: E402
 
@@ -38,7 +38,7 @@ def write_notebook(path: str) -> None:
 
 
 def open_in_lab(lab_dock, path: str) -> None:
-    view = lab_view(lab_dock)
+    view = web_view(lab_dock)
     view.setUrl(QUrl(view.url().toString().replace("/lab", f"/lab/tree/{path}")))
 
 

@@ -52,29 +52,29 @@ def open_jupyterlab() -> QWidget:
     return mw.dock_manager.findDockWidget("SciQLop JupyterLab")
 
 
-def lab_view(lab_dock: QWidget):
+def web_view(dock: QWidget):
     from PySide6.QtWebEngineWidgets import QWebEngineView
-    return lab_dock.findChildren(QWebEngineView)[0]
+    return dock.findChildren(QWebEngineView)[0]
 
 
-def toggle_lab_sidebar(lab_dock: QWidget) -> None:
+def toggle_lab_sidebar(dock: QWidget) -> None:
     """Ctrl+B, Lab's "toggle left area" shortcut. Clicking the side-bar tab doesn't work:
     Lumino tabs listen for pointer events, not clicks."""
-    lab_view(lab_dock).page().runJavaScript(
+    web_view(dock).page().runJavaScript(
         "document.activeElement.dispatchEvent(new KeyboardEvent('keydown',"
         " {key: 'b', code: 'KeyB', keyCode: 66, ctrlKey: true, bubbles: true}))")
     pump(1)
 
 
-def lab_element_rect(lab_dock: QWidget, selector: str) -> QRect:
-    """Window rect of the first element matching `selector` in Lab's page."""
+def web_element_rect(dock: QWidget, selector: str) -> QRect:
+    """Window rect of the first element matching `selector` in the web page of `dock`."""
     found = []
-    lab_view(lab_dock).page().runJavaScript(
+    web_view(dock).page().runJavaScript(
         f"(r => [r.x, r.y, r.width, r.height].join(','))(document.querySelector({selector!r}).getBoundingClientRect())",
         0, found.append)
     wait_until(lambda: found, what=f"Lab element {selector}")
     x, y, w, h = map(float, found[0].split(","))  # a JS array would arrive empty
-    origin = rect_in_window(lab_view(lab_dock)).topLeft()
+    origin = rect_in_window(web_view(dock)).topLeft()
     return QRect(origin.x() + int(x), origin.y() + int(y), int(w), int(h))
 
 

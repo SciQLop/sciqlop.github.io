@@ -6,6 +6,23 @@ In this tutorial we will learn how to plot data with SciQLop and the basic GUI i
 
 The easiest way to plot data with SciQLop is via the graphical interface. A more advanced workflow will enable you to [[Python API|plot data from Python scripts]] but we are not there yet.
 
+## The welcome page
+
+SciQLop opens on its welcome page. The box at the top filters everything on the page as you type. Below it:
+
+1. **JupyterLab** opens a notebook environment inside SciQLop. See [Opening JupyterLab](#opening-jupyterlab) below.
+2. **New plot panel** adds an empty plotting area, the starting point of this tutorial.
+3. **Take a tour** offers guided walkthroughs of SciQLop's features, right in the interface.
+4. **Recent workspaces**: a workspace keeps your panels, notebooks and installed packages together. Click one
+   to switch to it, or **New workspace** to start a fresh one. The **Resume** bar above reopens the last one.
+5. **Examples**: ready-made notebooks and virtual products. Click to expand, then add one to your workspace.
+6. **Templates**: panels you saved as [[plot templates]]. Click one to open it on any time range.
+7. **Featured plugins**: a few plugins from the Plugin Store. **Browse all** opens the store.
+
+![[welcome.png]]
+
+The welcome page is a tab like the others. If you close it, reopen it from the **View** menu.
+
 ## Start window
 
 The screenshot below shows you an empty SciQLop interface from which you can plot data. Three items are important here:
@@ -120,3 +137,13 @@ At the level of the components Bx, By, Bz you will be able to change curve color
 >[!tip] Deleting a panel / plot
 >Deleting a plot or a curve from the currently displayed view is done by pressing the `Delete` key on the selected item in the **Properties** tree. Dragging a plot up or down in that tree reorders the panel.
 
+# Opening JupyterLab
+
+Everything in this tutorial works without code. When you want to script SciQLop, open JupyterLab: click the
+**JupyterLab** card on the welcome page, or use **Tools › Open JupyterLab**. It opens in a new tab, on its
+launcher. Click **Python 3 (ipykernel)** under **Notebook** to start a notebook.
+
+![[jupyterlab.png]]
+
+That notebook runs inside SciQLop: its cells can create panels, plot products and read the data on screen. The
+[[plot templates]] tutorial writes its first script there, and the [[Python API]] reference covers the rest.
