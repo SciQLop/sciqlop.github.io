@@ -4,7 +4,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(__file__))
 import callisto  # noqa: E402
-from shotlib import hide_empty_panel_overlays, main_window, pump, save_panel  # noqa: E402
+from shotlib import main_window, pump, save_panel  # noqa: E402
 
 from SciQLop.user_api import dsp  # noqa: E402
 from SciQLop.user_api.plot import Orientation, TimeRange, create_plot_panel  # noqa: E402
@@ -22,5 +22,4 @@ for data, name, unit in [(z, "raw dynamic spectrum", "Intensity [digits]"),
     plot.set_axis_label("z", unit)
 side_by_side.time_range = TimeRange(callisto.START, callisto.STOP)
 pump(3)
-hide_empty_panel_overlays()  # drawn over the sub-panel (reported 2026-10-11)
 save_panel(panel, "03-dsp-background-subtract-type-ii-burst.png")

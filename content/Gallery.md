@@ -67,7 +67,7 @@ MMS1 sits in the magnetosheath until about 13:40, then enters the magnetosphere.
 
 ![[09-graphic-primitives-annotated-crossing.png]]
 
-Lines and text from the graphic-primitives API mark the magnetopause crossing and the electron
+A line, a shaded span and text from the graphic-primitives API mark the magnetopause crossing and the electron
 diffusion region found by Burch et al. (2016). The magnetopause time is read from the ion density,
 not placed by hand.
 

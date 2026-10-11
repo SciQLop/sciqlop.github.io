@@ -112,13 +112,6 @@ def save_panel(panel, name: str) -> Path:
     return path
 
 
-def hide_empty_panel_overlays() -> None:
-    from SciQLop.components.plotting.ui.product_search_overlay import ProductSearchOverlay
-    for overlay in get_main_window().findChildren(ProductSearchOverlay):
-        overlay.hide()
-    pump(0.3)
-
-
 def select_in_inspector(text: str) -> None:
     """Select the Properties tree row showing `text`, as a click on it would."""
     from PySide6.QtCore import QItemSelectionModel

@@ -12,10 +12,10 @@ from mms import BURCH_EDR, DIS_BRST, FGM_BRST_GSM  # noqa: E402
 from shotlib import main_window, pump, save_panel, set_labels, settle  # noqa: E402
 
 from SciQLop.user_api import themes  # noqa: E402
-from SciQLop.user_api.plot import Text, VerticalLine, create_plot_panel  # noqa: E402
+from SciQLop.user_api.plot import RectangularSpan, Text, VerticalLine, create_plot_panel  # noqa: E402
 from PySide6.QtCore import Qt  # noqa: E402
 
-ORANGE, YELLOW = "#e67e22", "#f1c40f"
+ORANGE, EDR_FILL = "#e67e22", "#66f1c40f"
 SHEATH_DENSITY = 5.0  # cm^-3
 LABEL_Y = 52.0  # nT, in the headroom above the field traces
 
@@ -48,8 +48,8 @@ b_plot.set_y_range(-40.0, 60.0)
 annotations = [
     *(VerticalLine(p, T_MP, color=ORANGE, line_width=2.0, line_style=Qt.PenStyle.DashLine)
       for p in (spectrum, b_plot)),
-    # A RectangularSpan would shade the EDR, but it doesn't draw yet (reported 2026-10-11).
-    *(VerticalLine(p, t, color=YELLOW, line_width=2.0) for p in (spectrum, b_plot) for t in EDR),
+    RectangularSpan(spectrum, x1=EDR[0], y1=0.0, x2=EDR[1], y2=1.0, color=EDR_FILL, read_only=True),
+    RectangularSpan(b_plot, x1=EDR[0], y1=-40.0, x2=EDR[1], y2=60.0, color=EDR_FILL, read_only=True),
     Text(b_plot, "magnetosphere", x=utc(13, 5, 34), y=LABEL_Y, font_size=11),
     Text(b_plot, "magnetopause", x=T_MP + 8, y=-33.0, font_size=11),
     Text(b_plot, "magnetosheath", x=utc(13, 6, 20), y=LABEL_Y, font_size=11),
