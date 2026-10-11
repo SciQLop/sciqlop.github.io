@@ -1,8 +1,10 @@
 ---
 title: DSP toolbox
+aliases:
+  - tutorials/DSP-toolbox
 ---
 >[!info] Info to beginners:
->This tutorial builds on [[virtual products]]. Read that one first if you have never written a virtual product.
+>This guide builds on the [[virtual products]] tutorial. Read that one first if you have never written a virtual product.
 
 `SciQLop.user_api.dsp` is a small signal-processing layer that works directly on Speasy variables. Give it a `SpeasyVariable`, get a `SpeasyVariable` back, with the units and column names preserved. Every helper detects gaps and processes each continuous segment on its own, so a data hole never bleeds into the filtered signal. The gap-aware helpers mark each gap with one NaN row, so their output can be a few samples longer than the input.
 

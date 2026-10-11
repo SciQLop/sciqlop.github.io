@@ -1,5 +1,7 @@
 ---
 title: Graphic primitives
+aliases:
+  - tutorials/Graphic-primitives
 ---
 # Annotating plots with graphic primitives
 

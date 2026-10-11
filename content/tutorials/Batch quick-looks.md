@@ -16,7 +16,7 @@ container or from a cron job.
 > [!note] Next release
 > Batch mode ships with the next SciQLop release, after v0.14.1.
 
-The script uses the same [[Python user API]] as the notebooks. If you can make the plot in a notebook, you can
+The script uses the same [[Python API]] as the notebooks. If you can make the plot in a notebook, you can
 make it in batch.
 
 # Running SciQLop with uv
@@ -90,7 +90,7 @@ Three things happen in that script:
 > time range.
 
 The easiest way to get a product path is to drag the product from the product tree into a notebook cell.
-See [[Python user API#Product paths|Product paths]].
+See [[Python API#Product paths|Product paths]].
 
 # Many days in one run
 

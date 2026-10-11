@@ -4,7 +4,7 @@ title: Basic workflow
 In this tutorial we will learn how to plot data with SciQLop and the basic GUI interactions that will allow you to explore in situ measurements.
 # Plotting data
 
-The easiest way to plot data with SciQLop is via the graphical interface. A more advanced workflow will enable you to [[Python user API|plot data from Python scripts]] but we are not there yet.
+The easiest way to plot data with SciQLop is via the graphical interface. A more advanced workflow will enable you to [[Python API|plot data from Python scripts]] but we are not there yet.
 
 ## Start window
 

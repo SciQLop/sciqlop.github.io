@@ -23,9 +23,10 @@ const explorer = () =>
     sortFn: (a, b) => {
       const readingOrder = [
         "tutorials",
+        "guides",
+        "reference",
         "Basic-Plotting-Workflow",
         "Catalogs",
-        "Python-user-API",
         "plot-templates",
         "virtual-products",
         "Batch-quick-looks",
@@ -33,6 +34,16 @@ const explorer = () =>
         "Annotation-layers",
         "DSP-toolbox",
         "2D-histograms",
+        "Python-API",
+        "Panels",
+        "Plotting",
+        "Plots-and-graphs",
+        "Virtual-products-and-knobs",
+        "Analysis-tools",
+        "Magics-and-tracing",
+        "Threading-and-common-errors",
+        "Next-release-API-changes",
+        "Template-format",
       ]
       if (a.isFolder !== b.isFolder) return a.isFolder ? -1 : 1
       // No inner helper function: the bundler would wrap it in __name(), undefined in the browser.

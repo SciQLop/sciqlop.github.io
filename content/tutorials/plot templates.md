@@ -13,7 +13,7 @@ As you do your data exploration or analysis, you will very probably often want t
 SciQLop offers two complementary answers:
 
 1. **Panel templates** (since v0.12): save any panel as a named template and re-instantiate it in one click.
-2. **Scripting your routine plots** with the Python user API.
+2. **Scripting your routine plots** with the [[Python API]].
 
 # Panel templates
 

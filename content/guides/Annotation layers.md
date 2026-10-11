@@ -1,8 +1,10 @@
 ---
 title: Annotation layers
+aliases:
+  - tutorials/Annotation-layers
 ---
 >[!info] Info to beginners:
->This tutorial builds on [[Python user API]] and [[virtual products]]. Layers are an experimental API: signatures may still move.
+>This guide builds on the [[Python API]] and [[virtual products]]. Layers are an experimental API: signatures may still move.
 
 A plot shows data. Very often what you actually want to see is *your reading* of that data: where the spacecraft was in the magnetosheath, where the density crossed a threshold, what threshold you used. An **annotation layer** is a Python function that returns those readings as `Marker`, `Span` or `HLine` objects, and SciQLop draws them on top of an existing plot. The function is re-run whenever its input changes, so the overlay follows you as you pan and zoom.
 

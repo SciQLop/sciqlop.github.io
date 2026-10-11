@@ -5,9 +5,10 @@ import { QuartzPluginData } from "./quartz/plugins/vfile"
 // Same order as the Explorer sortFn in quartz.layout.ts, which can't import it (it runs in the browser).
 const readingOrder = [
   "tutorials",
+  "guides",
+  "reference",
   "Basic-Plotting-Workflow",
   "Catalogs",
-  "Python-user-API",
   "plot-templates",
   "virtual-products",
   "Batch-quick-looks",
@@ -15,6 +16,16 @@ const readingOrder = [
   "Annotation-layers",
   "DSP-toolbox",
   "2D-histograms",
+  "Python-API",
+  "Panels",
+  "Plotting",
+  "Plots-and-graphs",
+  "Virtual-products-and-knobs",
+  "Analysis-tools",
+  "Magics-and-tracing",
+  "Threading-and-common-errors",
+  "Next-release-API-changes",
+  "Template-format",
 ]
 
 const rank = (f: QuartzPluginData) => {

@@ -1,5 +1,7 @@
 ---
 title: 2D histograms
+aliases:
+  - tutorials/2D-histograms
 ---
 # 2D histograms
 

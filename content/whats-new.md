@@ -42,12 +42,12 @@ Released 2026-09-14. Binaries for each platform are on the [download cards](/#do
 - **Guided tours** — in-app coach-mark onboarding (Getting Started, Catalogs, Settings); replay from Tools.
 - **Background jobs** — the `%job` magic runs long computations off the kernel.
 - **DSP: `background_subtract`** — per-channel background removal for dynamic spectra (percentile, sliding
-  window, diff/ratio/dB). See the [[DSP toolbox]] tutorial.
+  window, diff/ratio/dB). See the [[guides/DSP toolbox|DSP toolbox]] tutorial.
 - **Catalogs from Python** — `panel.add_catalog_overlay(path, override_color=...)`, plus a colour swatch per
   catalog in the list. See [[Catalogs]].
 - **Graphic primitives** — `VerticalLine`, `StraightLine`, `HorizontalSpan`, `RectangularSpan`, `remove()` and
-  `visible` on every item. See [[Graphic primitives]].
-- **2D histograms** — `BinStrategy.Log` / `SymLog` bins. See [[2D histograms]].
+  `visible` on every item. See [[guides/Graphic primitives|Graphic primitives]].
+- **2D histograms** — `BinStrategy.Log` / `SymLog` bins. See [[guides/2D histograms|2D histograms]].
 - **Windows**: per-user install, no administrator rights needed. **HTTP proxy** support for every download
   path (uv, Speasy, Jupyter, Qt WebEngine), with a proxy page in the online installer.
 - **User API hardening** — a fuzzing campaign turned dozens of silent failures into clear `ValueError` /
