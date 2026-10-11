@@ -24,10 +24,9 @@ main_window()
 panel = create_plot_panel()
 panel.time_range = MMS_DAY
 proj, curve = panel.plot_data(t, xyz, plot_type=PlotType.Projection,
-                              labels=[ORBIT] * 3)  # name= is ignored on projections (reported 2026-10-11)
+                              name=ORBIT, labels=["X GSM [Re]", "Y GSM [Re]", "Z GSM [Re]"])
 settle(panel)
 impl = proj._get_impl_or_raise()
-impl.set_axis_labels(["X GSM [Re]", "Y GSM [Re]", "Z GSM [Re]"])
 impl.set_time_color_enabled(True)
 proj.set_x_range(-5.5, 10.2)
 proj.set_y_range(-5.5, 10.2)
