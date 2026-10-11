@@ -18,6 +18,6 @@ scripts/shots/run.sh gallery_01_hero ...   # some shots
 A shot that fails or looks wrong is a SciQLop bug until shown otherwise: report it with the script as the
 reproducer. Workarounds in the scripts are marked "reported 2026-10-11"; drop them once SciQLop is fixed.
 
-Not scriptable yet: `landing_jupyterlab.py` (JupyterLab won't start in batch mode), the projection in
-`gallery_02_projection.py` (draws nothing), `tutorial_plot_templates.py` (axes don't fit). Their old images
+Not scriptable yet: `landing_jupyterlab.py` (JupyterLab won't start in batch mode) and
+`tutorial_plot_templates.py` (the FGM plot's y axis stays at 0..5). Their old images
 stay on the site. The AI-assistant shot, the GIFs and the two old catalog-explorer shots are made by hand.
