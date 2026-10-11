@@ -1,5 +1,28 @@
 import {QuartzConfig} from "./quartz/cfg"
 import * as Plugin from "./quartz/plugins"
+import { QuartzPluginData } from "./quartz/plugins/vfile"
+
+// Same order as the Explorer sortFn in quartz.layout.ts, which can't import it (it runs in the browser).
+const readingOrder = [
+  "Basic-Plotting-Workflow",
+  "Catalogs",
+  "Python-user-API",
+  "plot-templates",
+  "virtual-products",
+  "Batch-quick-looks",
+  "Graphic-primitives",
+  "Annotation-layers",
+  "DSP-toolbox",
+  "2D-histograms",
+]
+
+const rank = (f: QuartzPluginData) => {
+  const i = readingOrder.indexOf(f.slug?.split("/").pop() ?? "")
+  return i < 0 ? readingOrder.length : i
+}
+
+const byReadingOrder = (a: QuartzPluginData, b: QuartzPluginData) =>
+  rank(a) - rank(b) || (a.frontmatter?.title ?? "").localeCompare(b.frontmatter?.title ?? "")
 
 /**
  * Quartz 4 Configuration
@@ -81,7 +104,7 @@ const config: QuartzConfig = {
       Plugin.AliasRedirects(),
       Plugin.ComponentResources(),
       Plugin.ContentPage(),
-      Plugin.FolderPage(),
+      Plugin.FolderPage({ sort: byReadingOrder }),
       Plugin.TagPage(),
       Plugin.ContentIndex({
         enableSiteMap : true,

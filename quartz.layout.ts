@@ -16,6 +16,35 @@ export const sharedPageComponents: SharedLayout = {
   }),
 }
 
+// Self-contained: Explorer serialises sortFn with toString() and runs it in the browser.
+// Keep readingOrder in sync with quartz.config.ts.
+const explorer = () =>
+  Component.Explorer({
+    sortFn: (a, b) => {
+      const readingOrder = [
+        "Basic-Plotting-Workflow",
+        "Catalogs",
+        "Python-user-API",
+        "plot-templates",
+        "virtual-products",
+        "Batch-quick-looks",
+        "Graphic-primitives",
+        "Annotation-layers",
+        "DSP-toolbox",
+        "2D-histograms",
+      ]
+      if (a.isFolder !== b.isFolder) return a.isFolder ? -1 : 1
+      // No inner helper function: the bundler would wrap it in __name(), undefined in the browser.
+      const last = readingOrder.length
+      const ra = readingOrder.indexOf(a.slugSegment)
+      const rb = readingOrder.indexOf(b.slugSegment)
+      return (
+        (ra < 0 ? last : ra) - (rb < 0 ? last : rb) ||
+        a.displayName.localeCompare(b.displayName, undefined, { numeric: true, sensitivity: "base" })
+      )
+    },
+  })
+
 // components for pages that display a single page (e.g. a single note)
 export const defaultContentPageLayout: PageLayout = {
   beforeBody: [
@@ -40,7 +69,7 @@ export const defaultContentPageLayout: PageLayout = {
         { Component: Component.ReaderMode() },
       ],
     }),
-    Component.Explorer(),
+    explorer(),
   ],
   right: [
     Component.DesktopOnly(Component.TableOfContents()),
@@ -62,7 +91,7 @@ export const defaultListPageLayout: PageLayout = {
         { Component: Component.Darkmode() },
       ],
     }),
-    Component.Explorer(),
+    explorer(),
   ],
   right: [],
 }
