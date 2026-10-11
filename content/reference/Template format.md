@@ -95,6 +95,7 @@ plots:
 | `products` | list, required | What the plot shows. The first product creates the plot; the others are drawn on top of it. |
 | `y_axis` | `{log, range}` | `log`: true for a log scale. `range`: `[min, max]`; left out, the axis fits the data. |
 | `z_axis` | `{log, range}` | The same, for a spectrogram's colour scale. Ignored for line plots. |
+| `y2_axis` | `{log, range}` | Next release: the right-hand axis, where a spectrogram draws its energies or frequencies. Older files without it still load. |
 
 ## Product
 
@@ -106,8 +107,9 @@ plots:
 | `speasy_id` | text | The Speasy identifier, `provider/dataset/parameter`, for `kind: speasy`. |
 | `graph_type` | text | The kind of graph SciQLop drew. |
 | `knobs` | mapping | The product's adjustable inputs: virtual-product knobs, AMDA template arguments, or the `coordinate_system` of a trajectory. |
+| `y_axis` | `y` or `y2` | Next release: the axis the product is drawn against. A spectrogram is always on `y2`; a line keeps the axis it was on. |
 
-Loading a template uses only `path` and `knobs`; `label`, `kind`, `speasy_id` and `graph_type` record what
+Loading a template uses only `path`, `knobs` and, from the next release, the product's `y_axis`; `label`, `kind`, `speasy_id` and `graph_type` record what
 was saved. To get a product's path, drag it from the product tree into a notebook cell.
 
 # Speasy proxy links
@@ -165,8 +167,8 @@ panel when you paste the link into the search box of an empty panel.
 |---|---|---|
 | `time_range` | `time_range` | `+00:00` and `Z` are converted. |
 | products with `kind: speasy` | `products` | `speasy_id` becomes `path`. On the way back, SciQLop finds the product in its tree from the Speasy identifier. |
-| `knobs` | `product_inputs` | Copied as is. |
-| `y_axis.log` | `y_axis.log` | |
+| `knobs` | `product_inputs` | Copied as is. Next release: a `coordinate_system` knob becomes the product's own `coordinate_system` field, and back. |
+| `y_axis.log` | `y_axis.log` | Next release: on a plot holding a spectrogram, the proxy's axis is the spectrogram's, `y2_axis`. |
 | `z_axis.log` | `log_z` | Only for plots holding a spectrogram. |
 
 Fields that exist on one side only are lost on the way across:
@@ -178,15 +180,17 @@ Fields that exist on one side only are lost on the way across:
 
 # Known problems
 
-These are reported and will be fixed; until then, work around them as below.
+These are fixed in SciQLop's next release, except the last one, which is in the Speasy proxy. Until then, work
+around them as below.
 
 - **YAML exports don't load back.** SciQLop writes axis ranges with a Python-only YAML tag
   (`!!python/tuple`), which its own loader refuses. Export templates as JSON.
 - **A spectrogram's energy axis isn't saved.** SciQLop draws it on the right-hand axis, but the template
   stores the hidden left one (`"log": false, "range": [0.0, 5.0]` above). The energy axis comes back with
-  its default scale, and a share link forces it to linear on the proxy.
+  its default scale, and a share link forces it to linear on the proxy. The next release saves both axes:
+  see `y2_axis` and the product's `y_axis` above.
 - **Coordinate frames don't cross.** SciQLop keeps a trajectory's frame among its knobs, so it travels as
   `product_inputs.coordinate_system`; the proxy reads a separate `coordinate_system` field.
 - **Labels must be plain ASCII in links.** The proxy decodes the config as Latin-1: it can't make a link
   when a label holds a character such as `⁻`, and it garbles UTF-8 labels from SciQLop (`cm⁻³` shows
-  as `cmâ»Â³`).
+  as `cmâ»Â³`). This one is the proxy's; it isn't fixed yet.
