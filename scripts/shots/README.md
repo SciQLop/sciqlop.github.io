@@ -18,5 +18,5 @@ scripts/shots/run.sh gallery_01_hero ...   # some shots
 A shot that fails or looks wrong is a SciQLop bug until shown otherwise: report it with the script as the
 reproducer. Workarounds in the scripts are marked "reported 2026-10-11"; drop them once SciQLop is fixed.
 
-Not scriptable yet: `landing_jupyterlab.py` (JupyterLab won't start in batch mode). Their old images
-stay on the site. The AI-assistant shot, the GIFs and the two old catalog-explorer shots are made by hand.
+Not scriptable yet: `landing_jupyterlab.py` (JupyterLab won't start in batch mode). Its old image
+stays on the site. The AI-assistant shot, the GIFs and the two old catalog-explorer shots are made by hand.
