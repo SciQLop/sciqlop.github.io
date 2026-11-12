@@ -31,6 +31,8 @@ Next, show the catalog on the plot panel. Drag the catalog from the tree and dro
 - right-click the catalog in the tree and choose **Add to panel '…'**
 - right-click the panel, open the **Catalogs** submenu and tick the catalog
 
+![[show-a-catalog.svg|Open the Catalogs pane and drag a catalog onto the panel: its events show on the plots]]
+
 ## Creating an event
 
 Each plot panel has its catalog controls at its bottom, next to the time controls:
@@ -47,6 +49,8 @@ Set **Catalog mode** to `Edit` and check that **Add to** shows your new catalog.
 2. Move the mouse to the other end of the event.
 3. Click again to finish it. **Esc** cancels.
 
+![[create-an-event.svg|Set Catalog mode to Edit, Shift+click, move, then click again]]
+
 The event appears as a coloured zone spanning all plots of the panel, and as a new row in the event table.
 
 >[!tip] Show the catalog first, then pick the mode
@@ -59,6 +63,13 @@ The **Add event** button above the event table is another way. It drops an event
 We want the event to define the first boundary layer encounter from the magnetosphere. To do that, click on the left (resp. right) border of the event, the light blue line should turn into a darker blue, indicating the border is now selected. Just select it and slide it to the right (resp. left). Notice the `start` and `stop` times in the event table dynamically change as you slide the borders.
 
 You can also press the left mouse button in the colored zone representing the event and slide the whole zone left/right to adjust the location of the event. This only works in `Edit` mode. In `View` and `Jump` modes the events are locked.
+
+![[edit-an-event.svg|In Edit mode, drag an edge to resize an event, its middle to move it, right-click then Delete to remove it]]
+
+> [!note] Next release
+> The animation ends with a right-click on the event. That menu ships in the next release: it deletes the
+> event, zooms to it, copies its start and stop, or shows it in the catalog browser. Until then, delete
+> events from the event table.
 
 One great advantage of SciQLop is that zooming in and out is super efficient therefore precisely defining the start and stop times of the events is super easy. Here is the event selected precisely on a zoom around it.
 
@@ -80,6 +91,8 @@ Now we have multiple events in our new catalog. Say we want to review them one b
 However, most of the times, your events will be far in time from one another, possibly months or even years apart. Scrolling in time would not be a smart option as it would trigger lots of useless downloads.
 
 SciQLop allows users to "jump" from one event to another. To do that, change the **Catalog mode** to `Jump`. In this new mode, you will not be authorized to edit the event position and boundaries as we did above. However, selecting an event in the event table will automatically set the time range of the panel around the selected event.
+
+![[jump-to-an-event.svg|Set Catalog mode to Jump, then pick an event in the list: the panel goes to it]]
 
 >[!tip] Zoom out
 >The **Zoom out** box, shown in `Jump` mode, sets how much context you get around an event. The visible range is that many times the event duration, centered on the event. The default `×2` leaves half an event of margin on each side. `×1` fills the panel with the event.

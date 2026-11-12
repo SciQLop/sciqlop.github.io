@@ -41,6 +41,14 @@ You are ready to see data?
 - click on **Products**
 - explore the product tree and drag and drop the product you want to see onto the plot panel
 
+The two animations below show these steps.
+
+![[new-panel-and-time-range.svg|Click + for a new panel, then type its start date and its duration]]
+
+![[plot-a-product.svg|Open the Products pane and drag a product onto the panel]]
+
+Here is the same drag in the real interface:
+
 ![[dragndrop.png]]
 
 >[!tip] No need to dig through the tree
@@ -68,7 +76,11 @@ Let's plot another product into the plot panel. We have two options:
 - plot **onto the previous plot**: this is typically what you want to do if you have the same units, like plotting burst and non-burst particle density, or perpendicular and parallel temperatures
 - plot in the same plot panel above or below another plot
 
-Choosing between the two options simply consists in where you drop the product once selected from the product tree. Drop it in the middle of a plot to overlay it. Drop it near the top or bottom edge of a plot, where a blue highlight appears, to stack it as a new plot. In the following, we have chosen to plot the magnetic field vector components in the GSM coordinate system, underneath the magnetic amplitude.
+Choosing between the two options simply consists in where you drop the product once selected from the product tree. Drop it in the middle of a plot to overlay it. Drop it near the top or bottom edge of a plot, where a blue highlight appears, to stack it as a new plot.
+
+![[drop-on-a-panel.svg|Middle of a plot: added to it. Top edge: new plot above. Bottom edge: new plot below]]
+
+ In the following, we have chosen to plot the magnetic field vector components in the GSM coordinate system, underneath the magnetic amplitude.
 
 ![[plot_2plots.png]]
 

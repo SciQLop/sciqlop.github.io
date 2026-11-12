@@ -28,6 +28,15 @@ These changes are on `main`. They will ship in the next release.
 - **Plugin Store** — an **Update all** button, and the welcome page tells you when plugins have updates.
 - **Crash help** — every launch keeps its own log. After a crash, an agent can read it and draft the bug
   report for you.
+- **Animated guides** — short looping animations that show one gesture each: add a panel, plot a product,
+  show a catalog, create, jump to and edit events. **Help › Guides** plays them, and the command palette
+  has a "Guide: …" entry for each. An empty panel offers **Show me how**, and a **?** next to the panel's
+  Catalog mode box shows the guide for the current mode. Plugins can add their own. The
+  [[Basic Plotting Workflow|Basic workflow]] and [[Catalogs]] tutorials already use them.
+- **Right-click an event on a plot** — delete it, zoom to it, copy its start and stop, or show it in the
+  catalog browser.
+- **File menu** — **New plot panel** (Ctrl+N), **Switch workspace…** and **Quit**. **Take a tour…** moved
+  from Tools to Help, and the tour asks before it starts.
 - **Interval timelines** (experimental) — lanes of named intervals, like a logic analyzer's wave view.
 
 ## v0.13 — September 2026: the assistant release
