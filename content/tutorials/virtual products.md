@@ -152,3 +152,7 @@ A few details:
 >- The `%%vp` cell magic lets you define a virtual product directly from a notebook cell, with hot reload when you re-run the cell. A return annotation such as `-> Scalar["Mirror mode threshold"]` or `-> Vector["Bx", "By", "Bz"]` sets the type and the labels.
 >- Since v0.12, keyword arguments with default values on your callback become interactive **knobs** (sliders, spinboxes, choices). They show in the **Adjustable inputs** section of the Properties panel — perfect for thresholds and tunable parameters.
 >- Both are demonstrated in the tutorial notebooks bundled with SciQLop (see the welcome page).
+
+![[write-a-virtual-product.svg|In a notebook, run a cell that starts with %%vp and defines a function of start and stop. The function becomes a product in the Products pane, under its own name: drag it onto a panel to plot it.]]
+
+![[tune-a-virtual-product.svg|Open the Properties pane with its icon on the left edge and pick the curve. Each keyword argument with a default is listed under Adjustable inputs: change one and the curve is computed again.]]

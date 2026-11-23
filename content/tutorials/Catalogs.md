@@ -22,6 +22,14 @@ The tree groups catalogs by where they come from:
 - **Remote** mirrors read-only catalogs from AMDA and other services.
 - **Shared** holds catalogs you edit live with collaborators.
 
+> [!note] Next release
+> The tree gets three sections: **My catalogues**, **Shared** and **Reference**. Shared projects get a
+> **Sharing…** dialog to invite people.
+>
+> ![[catalog-tree-sections.svg|The Catalogs pane has three sections. My catalogues holds your own catalogues, and new ones go there. Shared holds the projects shared with other people, yours or theirs. Reference holds read-only lists, such as the public catalogues.]]
+>
+> ![[share-a-catalog-project.svg|Signed in to CoCat, right-click a project under Shared in the Catalogs pane and choose Sharing…. Type the person's email, pick a role and click Invite: the invitation waits under Pending invitations.]]
+
 A colour swatch sits in front of each catalog name. It is the colour of that catalog's events on the plots. Double-click the swatch to pick another colour.
 
 Let's create our first catalog. Under **My Catalogs**, double-click the grey **New catalog…** row, type a name and press Enter. Right-clicking **My Catalogs** and choosing **New catalog…** does the same. Now select the new catalog. The table on the right lists its events: none for now. It has a `start` and a `stop` column, and every piece of metadata you add later gets its own column.
@@ -31,7 +39,7 @@ Next, show the catalog on the plot panel. Drag the catalog from the tree and dro
 - right-click the catalog in the tree and choose **Add to panel '…'**
 - right-click the panel, open the **Catalogs** submenu and tick the catalog
 
-![[show-a-catalog.svg|Open the Catalogs pane and drag a catalog onto the panel: its events show on the plots]]
+![[show-a-catalog.svg|Open the Catalogs pane with its icon on the left edge, then drag a catalog onto a panel. Its events are drawn as coloured spans on every plot.]]
 
 ## Creating an event
 
@@ -49,7 +57,7 @@ Set **Catalog mode** to `Edit` and check that **Add to** shows your new catalog.
 2. Move the mouse to the other end of the event.
 3. Click again to finish it. **Esc** cancels.
 
-![[create-an-event.svg|Set Catalog mode to Edit, Shift+click, move, then click again]]
+![[create-an-event.svg|Set the panel's Catalog mode to Edit. Hold Shift and click on a plot to start the event, move, then click again. It is added to the catalog named in "Add to".]]
 
 The event appears as a coloured zone spanning all plots of the panel, and as a new row in the event table.
 
@@ -64,7 +72,7 @@ We want the event to define the first boundary layer encounter from the magnetos
 
 You can also press the left mouse button in the colored zone representing the event and slide the whole zone left/right to adjust the location of the event. This only works in `Edit` mode. In `View` and `Jump` modes the events are locked.
 
-![[edit-an-event.svg|In Edit mode, drag an edge to resize an event, its middle to move it, right-click then Delete to remove it]]
+![[edit-an-event.svg|In Edit mode, drag an edge of an event to resize it or its middle to move it. Right-click it and choose Delete to remove it from its catalog.]]
 
 > [!note] Next release
 > The animation ends with a right-click on the event. That menu ships in the next release: it deletes the
@@ -92,7 +100,7 @@ However, most of the times, your events will be far in time from one another, po
 
 SciQLop allows users to "jump" from one event to another. To do that, change the **Catalog mode** to `Jump`. In this new mode, you will not be authorized to edit the event position and boundaries as we did above. However, selecting an event in the event table will automatically set the time range of the panel around the selected event.
 
-![[jump-to-an-event.svg|Set Catalog mode to Jump, then pick an event in the list: the panel goes to it]]
+![[jump-to-an-event.svg|Set the panel's Catalog mode to Jump. Each event picked in the Catalogs pane's list moves the panel to it; with Zoom out at 2, the event fills half the panel.]]
 
 >[!tip] Zoom out
 >The **Zoom out** box, shown in `Jump` mode, sets how much context you get around an event. The visible range is that many times the event duration, centered on the event. The default `×2` leaves half an event of margin on each side. `×1` fills the panel with the event.
@@ -127,6 +135,8 @@ So far we have worked with a single catalog, but nothing stops you from showing 
 SciQLop picks each catalog's colour from a palette of nine colourblind-safe colours, so two catalogs can occasionally end up with the same one. To change it, double-click the catalog's swatch, or right-click the catalog and choose **Set color…**. **Reset color** goes back to the automatic one.
 
 You can also colour the events *within* a catalog: right-click the catalog and open **Color by…**. `Uniform (default)` is one colour for the whole catalog. Choosing a metadata column instead colours each event by its value: one colour per distinct label for text columns (**Category colors…** lets you pick them), a colormap for numeric ones (**Configure colormap…** lets you pick the colormap and its min/max).
+
+![[color-events-by-attribute.svg|Right-click a catalog in the Catalogs pane, open Color by… and pick an attribute such as rating. Each event on the plots takes the colour of its value.]]
 
 You can also manage catalogs without leaving the plot. Right-click on the panel and open the **Catalogs** submenu. It lists every catalog with a checkbox. Each catalog already shown on the panel gets its own entry on top, with **Remove from panel**, the colour actions and **Color by…**. The **Mode** submenu there switches the catalog mode too.
 

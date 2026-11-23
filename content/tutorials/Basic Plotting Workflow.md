@@ -43,9 +43,9 @@ You are ready to see data?
 
 The two animations below show these steps.
 
-![[new-panel-and-time-range.svg|Click + for a new panel, then type its start date and its duration]]
+![[new-panel-and-time-range.svg|Click the + button next to the panel tabs (or File › New plot panel). Under the new panel, type a start date and press Enter, then type a duration such as 3h.]]
 
-![[plot-a-product.svg|Open the Products pane and drag a product onto the panel]]
+![[plot-a-product.svg|Open the Products pane with its icon on the left edge, then drag a product onto a panel. SciQLop downloads the data and plots it.]]
 
 Here is the same drag in the real interface:
 
@@ -78,7 +78,7 @@ Let's plot another product into the plot panel. We have two options:
 
 Choosing between the two options simply consists in where you drop the product once selected from the product tree. Drop it in the middle of a plot to overlay it. Drop it near the top or bottom edge of a plot, where a blue highlight appears, to stack it as a new plot.
 
-![[drop-on-a-panel.svg|Middle of a plot: added to it. Top edge: new plot above. Bottom edge: new plot below]]
+![[drop-on-a-panel.svg|The middle of a plot adds the product to it. Its top or bottom edge opens a blue placeholder; drop there for a new plot above or below.]]
 
  In the following, we have chosen to plot the magnetic field vector components in the GSM coordinate system, underneath the magnetic amplitude.
 
@@ -126,6 +126,8 @@ As for the zoom-out, data in the past and future times may not be in cache and i
 >- Press **M** over a plot to autoscale it.
 >- Right-click the panel for more: autoscale all plots, equalize plot heights, export as PNG or PDF, or copy the Python code that rebuilds the panel.
 
+![[plot-keys-and-wheel.svg|Over a plot, the wheel moves in time and Ctrl+wheel zooms in time; Shift+wheel zooms vertically. Over an axis, the wheel zooms that axis. Click a plot, then press M to fit it, or L over an axis for a log scale; H hides the selected curve.]]
+
 
 ## Plot properties
 
@@ -148,6 +150,12 @@ At the level of the components Bx, By, Bz you will be able to change curve color
 
 >[!tip] Deleting a panel / plot
 >Deleting a plot or a curve from the currently displayed view is done by pressing the `Delete` key on the selected item in the **Properties** tree. Dragging a plot up or down in that tree reorders the panel.
+
+## Run any command from the keyboard
+
+Press Ctrl+K (Cmd+K on macOS) to open the command palette. Type a few letters of what you want, such as "new pa" for New plot panel, and press Enter.
+
+![[command-palette.svg|Press Ctrl+K (Cmd+K on macOS) to open the command palette. Type a few letters of what you want, such as "new pa" for New plot panel, and press Enter.]]
 
 # Opening JupyterLab
 
